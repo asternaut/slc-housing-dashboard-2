@@ -1,7 +1,6 @@
 library(shiny)
 library(shinydashboard)
 library(ggplot2)
-# HI delete this comment later
 
 project_con<-read.xlsx("Housing Database Combined Data.xlsx",sheetName = "All Data")
 MSA_unemployment<-read.xlsx("MSA-unemployment.xlsx", sheetIndex = 1)
