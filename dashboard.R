@@ -1,9 +1,12 @@
 library(shiny)
 library(shinydashboard)
-library(ggplot2)
+library(tidyverse)
+library(readxl)
 
-project_con<-read.xlsx("Housing Database Combined Data.xlsx",sheetName = "All Data")
-MSA_unemployment<-read.xlsx("MSA-unemployment.xlsx", sheetIndex = 1)
+setwd("~/Google Drive File Stream/My Drive/SI/DataScience/Side projects/SLC Housing Dashboard/Data/for_dashboard/")
+
+project_con <- read_excel("Housing Database Combined Data.xlsx", sheet = "All Data")
+MSA_unemployment <- read_excel("MSA-unemployment.xlsx", sheet = 1)
 
 ui <- dashboardPage(
   dashboardHeader(title="SLC Housing Dashboard"),
@@ -12,6 +15,9 @@ ui <- dashboardPage(
     fluidRow(
       box(plotOutput("plot1", height = 250)),
       box(plotOutput("plot2", height=250))
+    ),
+    fluidRow(
+      tags$iframe(src = "http://slcgov.maps.arcgis.com/apps/PublicInformation/index.html?appid=f632417a8bd94d5eb04f1f4eea728ce6", seamless=NA, height = 400, width = "100%")
     )
   )
 )
