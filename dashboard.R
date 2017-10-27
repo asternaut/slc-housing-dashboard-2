@@ -24,7 +24,7 @@ ui <- dashboardPage(
 
 server <- function(input, output) {
   output$plot1<-renderPlot({
-    barchart<-barplot(table(project_con$Type..PSH..Affordable..or.Market), 
+    barchart<-barplot(table(project_con$`Type (PSH, Affordable, or Market`), 
                       main="Affordable vs Market in SLC's construction projects")
     print(barchart)
   })
