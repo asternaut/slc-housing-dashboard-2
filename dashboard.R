@@ -13,7 +13,7 @@ ui <- dashboardPage(
   dashboardSidebar(),
   dashboardBody(
     fluidRow(
-      box(plotOutput("plot1", height = 250)),
+      box(highchartOutput("plot1", height = 250)),
       box(plotOutput("plot2", height=250))
     ),
     fluidRow(
@@ -23,9 +23,9 @@ ui <- dashboardPage(
 )
 
 server <- function(input, output) {
-  output$plot1<-renderPlot({
-    barchart<-barplot(table(project_con$`Type (PSH, Affordable, or Market`), 
-                      main="Affordable vs Market in SLC's construction projects")
+  output$plot1<-renderHighchart({
+    barchart<-hchart(project_con$`Type (PSH, Affordable, or Market`, 
+                      colorByPoint=TRUE, name="Affordable vs Market in SLC's construction projects")
     print(barchart)
   })
   output$plot2<-renderPlot({
