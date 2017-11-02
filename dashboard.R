@@ -4,9 +4,9 @@ library(tidyverse)
 library(readxl)
 library(highcharter)
 
-#setwd("~/Google Drive File Stream/My Drive/SI/DataScience/Side projects/SLC Housing Dashboard/Data/for_dashboard/")
+setwd("~/Google Drive File Stream/My Drive/SI/DataScience/Side projects/SLC Housing Dashboard/Data/for_dashboard/")
 #for Hua's environment
-setwd("~/Google Sorenson Drive/SLC Housing Dashboard/Data/for_dashboard/")
+#setwd("~/Google Sorenson Drive/SLC Housing Dashboard/Data/for_dashboard/")
 
 project_con <- read_excel("Housing Database Combined Data.xlsx", sheet = "All Data 2")
 MSA_unemployment <- read_excel("MSA-unemployment.xlsx", sheet = "DataByYear")
@@ -45,7 +45,7 @@ body <- dashboardBody(
              br(),
              h4("SLC Housing is a ",a(href = 'http://shiny.rstudio.com', 'Shiny'),"web application built on top of R for housing-related data analytics"),
              br(),
-             h4(HTML('&copy'), ' 2017 by University of Utah Business School')
+             h4(HTML('&copy'), ' 2017 by Sorenson Impact Center at the University of Utah')
          ),
          uiOutput("projectBox"),
          uiOutput("companyBox"),
