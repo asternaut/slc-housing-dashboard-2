@@ -4,9 +4,9 @@ library(tidyverse)
 library(readxl)
 library(highcharter)
 
-setwd("~/Google Drive File Stream/My Drive/SI/DataScience/Side projects/SLC Housing Dashboard/Data/for_dashboard/")
-#for Hua's environment
-#setwd("~/Google Sorenson Drive/SLC Housing Dashboard/Data/for_dashboard/")
+#setwd("~/")
+
+setwd("/Users/suyash/Sorenson/SLC-Housing-Dashboard")
 
 
 project_con <- read_excel("Housing Database Combined Data.xlsx", sheet = "All Data 2")
@@ -17,6 +17,7 @@ sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Welcome", tabName = "welcome", icon = icon("home")),
     menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
+    menuItem("Goals of Growing SLC", tabName = "goals", icon = icon("road")),
     menuItem("Widgets", icon = icon("th"), tabName = "widgets",
              badgeLabel = "new", badgeColor = "green"),
     br(),
