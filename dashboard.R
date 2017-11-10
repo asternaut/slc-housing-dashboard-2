@@ -11,9 +11,9 @@ setwd("/Users/suyash/Sorenson/SLC-Housing-Dashboard")
 
 
 
-project_con <- read_excel("Housing Database Combined Data.xlsx", sheet = "All Data 2")
-MSA_unemployment <- read_excel("MSA-unemployment.xlsx", sheet = "DataByYear")
-Permit <- read_excel("Permit_adjusted.xlsx", sheet = "State Total")
+project_con <- read_excel("Data/Housing Database Combined Data.xlsx", sheet = "All Data 2")
+MSA_unemployment <- read_excel("Data/MSA-unemployment.xlsx", sheet = "DataByYear")
+Permit <- read_excel("Data/Permit_adjusted.xlsx", sheet = "State Total")
 
 #### UI ####
 sidebar <- dashboardSidebar(
