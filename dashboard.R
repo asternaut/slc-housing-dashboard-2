@@ -7,7 +7,7 @@ library(highcharter)
 
 #setwd("~/")
 
-setwd("/Users/suyash/Sorenson/SLC-Housing-Dashboard")
+#setwd("/Users/suyash/Sorenson/SLC-Housing-Dashboard")
 
 
 
@@ -61,10 +61,28 @@ body <- dashboardBody(
      ),
     tabItem(tabName = "dashboard",
             fluidRow(
-              box(highchartOutput("plot1", height = 250)),
-              box(plotOutput("plot2", height=250)),
-              box(highchartOutput("plot3", height = 400, width = 500)),
-              box(highchartOutput("plot4", height = 400, width = 500))
+              column(width=9,
+                     h2("Affordable vs Market"),   
+                     br(),
+                     h4("this is a description"),
+                  box(highchartOutput("plot1", height = 250), width=NULL)
+              ),
+              column(width=2,
+                     br(), br(), br(), br(), br(), br(), br(),
+                     p("more text description")
+              )
+            ),
+            br(),br(), br(),
+            fluidRow(
+              column(width=7,offset=5,
+                     h2("Unemployment Rate"),
+                     br(), br(),
+                  box(plotOutput("plot2", height=250), width=NULL)
+              )
+            ),
+            fluidRow(
+              box(highchartOutput("plot3", height = 400)),
+              box(highchartOutput("plot4", height = 400))
             ),
             fluidRow(
               tags$iframe(src = "http://slcgov.maps.arcgis.com/apps/PublicInformation/index.html?appid=f632417a8bd94d5eb04f1f4eea728ce6", seamless=NA, height = 400, width = "100%")
