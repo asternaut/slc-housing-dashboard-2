@@ -20,6 +20,7 @@ sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Welcome", tabName = "welcome", icon = icon("home")),
     menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
+    menuItem("How did we get here?", tabName = "how", icon = icon("bar-chart")),
     menuItem("Goals of Growing SLC", tabName = "goals", icon = icon("road")),
     menuItem("Widgets", icon = icon("th"), tabName = "widgets",
              badgeLabel = "new", badgeColor = "green"),
@@ -59,23 +60,20 @@ body <- dashboardBody(
          uiOutput("houseBox")
        )
      ),
+    
     tabItem(tabName = "dashboard",
             fluidRow(
-              column(width=9,
-                     h2("Affordable vs Market"),   
+              column(width=10,
+                     h2("SLC Multifamily: Affordable vs Market"),   
                      br(),
-                     h4("this is a description"),
+                     h4("Datasource from HAND"),
                   box(highchartOutput("plot1", height = 250), width=NULL)
-              ),
-              column(width=2,
-                     br(), br(), br(), br(), br(), br(), br(),
-                     p("more text description")
               )
             ),
             br(),br(), br(),
             fluidRow(
-              column(width=7,offset=5,
-                     h2("Unemployment Rate"),
+              column(width=10,
+                     h2("Unemployment Rate in August 2007-2017"),
                      br(), br(),
                   box(plotOutput("plot2", height=250), width=NULL)
               )
@@ -86,6 +84,24 @@ body <- dashboardBody(
             ),
             fluidRow(
               tags$iframe(src = "http://slcgov.maps.arcgis.com/apps/PublicInformation/index.html?appid=f632417a8bd94d5eb04f1f4eea728ce6", seamless=NA, height = 400, width = "100%")
+            )
+    ),
+    
+    tabItem(tabName = "how",
+            fluidRow(
+              column(width=10,
+                     h2("The growing disparity between wages and rental rates"),   
+                     br(),
+                     h4("A single person household in Salt Lake County has an 
+Area Median Income (AMI) of $51,690; the AMI for a family of four is $73,800. 
+The graph shows $470 average monthly affordable Affordable gap between affordable
+rent for one-person household and 1Br average rent plus utilities, and $610 
+average monthly affordable Affordable gap between affordable rent for four-person 
+household and 3Br average rent plus utilities."), 
+                        br(),
+                      h4("Salt Lake City Average Rents vs Affordability (80% AMI): Datasource from CBRE 2016"),
+                     box(highchartOutput("graph1", height = 500), width=NULL)
+              )
             )
     ),
     
@@ -196,6 +212,21 @@ server <- function(input, output) {
       ) %>%
       print(permit_plot2)
   })
+  ##"how did we get here" output graphs
+  output$graph1<-renderHighchart({
+    affordability1<-highchart() %>%
+      hc_chart(type="column") %>%
+      hc_title(text= "Salt Lake City Average Rents vs Affordability (80% AMI)") %>%
+      hc_xAxis(categories = c("one-person household and 1Br average rent + utilities", 
+                              "four-person household and 3Br average rent + utilities")) %>%
+      hc_series(list(name ="Affordable rent", 
+                     data=c(900, 1300)),
+                list(name = "Average rent",
+                     data=c(1370, 1910))
+      ) %>%
+      print(affordability1)
+  }
+  )
 }
 
 shinyApp(ui, server)
