@@ -14,7 +14,7 @@ utah_rent <- get_acs(state = "UT", county = "Salt Lake", geography = "tract",
 pal <- colorNumeric(palette = "magma", 
                     domain = utah_rent$estimate)
 
-utah_rent %>%
+rent_map <- utah_rent %>%
   st_transform(crs = "+init=epsg:4326") %>%
   leaflet(width = "100%") %>%
   addProviderTiles(provider = "CartoDB.Positron") %>%
@@ -31,11 +31,7 @@ utah_rent %>%
             opacity = 1)
 
 
-utah_rent <- get_acs(state = "UT", county = "Salt Lake", geography = "tract", 
-                     variables = "B25111_001E", geometry = TRUE)
 
-pal <- colorNumeric(palette = "magma", 
-                    domain = utah_rent$estimate)
 ###Code for Home Value
 utah_home <- get_acs(state = "UT", county = "Salt Lake", geography = "tract", 
                      variables = "B25077_001", geometry = TRUE)
@@ -43,7 +39,7 @@ utah_home <- get_acs(state = "UT", county = "Salt Lake", geography = "tract",
 pal <- colorNumeric(palette = "magma", 
                     domain = utah_home$estimate)
 
-utah_home %>%
+home_map <- utah_home %>%
   st_transform(crs = "+init=epsg:4326") %>%
   leaflet(width = "100%") %>%
   addProviderTiles(provider = "CartoDB.Positron") %>%
@@ -58,5 +54,5 @@ utah_home %>%
             title = "Median Home Value",
             labFormat = labelFormat(prefix = "$"),
             opacity = 1)
-#v15 <- load_variables(2015, "acs5", cache = TRUE)
-#View(v15)
+
+home_map

@@ -3,7 +3,13 @@ library(shinydashboard)
 library(tidyverse)
 library(readxl)
 library(highcharter)
-
+library("tidycensus")
+library("ggplot2")
+library("sf")
+library("viridis")
+library("leaflet")
+library("stringr")
+source("tidycensus.R")
 
 #setwd("~/")
 
@@ -16,6 +22,13 @@ MSA_unemployment <- read_excel("Data/MSA-unemployment.xlsx", sheet = "DataByYear
 Permit <- read_excel("Data/Permit_adjusted.xlsx", sheet = "State Total")
 
 #### UI ####
+
+
+tags$head(
+  tags$link(rel = "stylesheet", type = "text/css", href = "test.css")
+)
+
+
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Welcome", tabName = "welcome", icon = icon("home")),
@@ -64,13 +77,30 @@ body <- dashboardBody(
               box(highchartOutput("plot1", height = 250)),
               box(plotOutput("plot2", height=250)),
               box(highchartOutput("plot3", height = 400, width = 500)),
-              box(highchartOutput("plot4", height = 400, width = 500))
+              box(highchartOutput("plot4", height = 400, width = 500)),
+              h3("Median Home Value"),
+              h4("This map shows the variation in the median home value in the Salt Lake City area across census tracts. Data is collected from the recent Census"),
+              leafletOutput("home", height = 400, width = 1000),
+              h3("Median Rent"),
+              h4("This map shows the variation in the median gross rent in the Salt Lake City area across census trancts. Data is collected from the recent Census"),
+              leafletOutput("rent", height = 400, width = 1000)
             ),
             fluidRow(
               tags$iframe(src = "http://slcgov.maps.arcgis.com/apps/PublicInformation/index.html?appid=f632417a8bd94d5eb04f1f4eea728ce6", seamless=NA, height = 400, width = "100%")
             )
     ),
-    
+    tabItem(tabName = "goals",
+            fluidRow(
+             h4("Dynamic Web-based Analytics for Salt Lake City Housing"),
+             withTags({
+               div(class="header", checked=NA,
+                   p("Want to check out the plan?" , a("Click Here",target="_blank",href="plan.pdf"))
+                   
+               )
+             })
+            )
+            
+    ),
     tabItem(tabName = "widgets",
             fluidRow(
               # A static infoBox
@@ -80,6 +110,8 @@ body <- dashboardBody(
               infoBox("New Dashboards", 1, icon = icon("dashboard"))
             )
     )
+  
+    
   )
 )
 
@@ -178,6 +210,16 @@ server <- function(input, output) {
       ) %>%
       print(permit_plot2)
   })
+  
+  
+output$home <- renderLeaflet({
+    home_map
+  })
+
+output$rent <- renderLeaflet({
+  rent_map
+})
+
 }
 
 shinyApp(ui, server)
