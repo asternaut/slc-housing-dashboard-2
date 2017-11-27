@@ -3,7 +3,9 @@ library(shinydashboard)
 library(tidyverse)
 library(readxl)
 library(highcharter)
-
+library(leaflet)
+library(dplyr)
+library(data.table)
 
 #setwd("~/")
 
@@ -14,6 +16,11 @@ library(highcharter)
 project_con <- read_excel("Data/Housing Database Combined Data.xlsx", sheet = "All Data 2")
 MSA_unemployment <- read_excel("Data/MSA-unemployment.xlsx", sheet = "DataByYear")
 Permit <- read_excel("Data/Permit_adjusted.xlsx", sheet = "State Total")
+Multifamily<-fread("Data/new_multifamilywithgeo.csv")
+
+pal <- colorFactor(c("navy", "red", "orange"), domain = Multifamily$`Type:  Affordable, Mixed or Market`)
+Multifamily$`Type:  Affordable, Mixed or Market`<- factor(Multifamily$`Type:  Affordable, Mixed or Market`, 
+                                                          levels = c("Affordable", "Market", "Mixed"), ordered = TRUE)
 
 #### UI ####
 sidebar <- dashboardSidebar(
@@ -64,21 +71,43 @@ body <- dashboardBody(
     tabItem(tabName = "dashboard",
             fluidRow(
               column(width=10,
-                     h2("SLC Multifamily: Affordable vs Market"),   
+                     h2("SLC Multi-Family: Affordable, Market and Mixed Units"),   
                      br(),
                      h4("Datasource from HAND"),
-                  box(highchartOutput("plot1", height = 250), width=NULL)
+                  box(highchartOutput("plot1", height = 300), width=NULL)
               )
             ),
             br(),br(), br(),
             fluidRow(
-              column(width=10,
+              column(width=12,
+                     h2("Salt Lake City Multifamily Interative Map"),   
+                     br(),
+                     h4("This map shows the multi-family units in Salt Lake City in three categories:",
+                        br(),
+                        "Datasource from HAND"),
+              box(
+                collapsible = TRUE,
+                width = NULL,
+                height = NULL,
+                leafletOutput("multifamily_map")
+              )
+            )
+            ),
+            br(),br(), br(),
+            fluidRow(
+              column(width=12,
                      h2("Unemployment Rate in August 2007-2017"),
-                     br(), br(),
-                  box(plotOutput("plot2", height=250), width=NULL)
+                     br(),
+                     h4("Datasource from Bureau of Labor Statistics"),
+                  box(highchartOutput("plot2", height=350), width=NULL)
               )
             ),
+            br(),br(), br(),
             fluidRow(
+              h2("Salt Lake City's New Residential Units in 2017", br(),
+                 "Value of New Residential Buildings in 2017"),
+              br(),
+              h4("Datasource from Ivory Boyer database"),
               box(highchartOutput("plot3", height = 400)),
               box(highchartOutput("plot4", height = 400))
             ),
@@ -94,9 +123,9 @@ body <- dashboardBody(
                      br(),
                      h4("A single person household in Salt Lake County has an 
 Area Median Income (AMI) of $51,690; the AMI for a family of four is $73,800. 
-The graph shows $470 average monthly affordable Affordable gap between affordable
+The graph shows $470 average monthly affordable gap between affordable
 rent for one-person household and 1Br average rent plus utilities, and $610 
-average monthly affordable Affordable gap between affordable rent for four-person 
+average monthly affordable gap between affordable rent for four-person 
 household and 3Br average rent plus utilities."), 
                         br(),
                       h4("Salt Lake City Average Rents vs Affordability (80% AMI): Datasource from CBRE 2016"),
@@ -116,6 +145,7 @@ household and 3Br average rent plus utilities."),
     )
   )
 )
+
 
 # Put them together into a dashboardPage
 ui <- dashboardPage(
@@ -158,14 +188,32 @@ server <- function(input, output) {
   })
   
   output$plot1<-renderHighchart({
-    barchart<-hchart(project_con$`Type (PSH, Affordable, or Market`, 
-                      colorByPoint=TRUE, name="Affordable vs Market in SLC's construction projects")
+    barchart<-hchart(Multifamily$`Type:  Affordable, Mixed or Market`, 
+                      colorByPoint=TRUE, name="Affordable, Market, and Mixed in SLC's Multifamily Units")
     print(barchart)
   })
-  output$plot2<-renderPlot({
-    linechart<-plot(x=2007:2017,y=MSA_unemployment$Aug,
-                    xlab="Year", main="Unemployment rate in August 2007-2017")
-    print(linechart)
+  
+  output$multifamily_map<- renderLeaflet({
+    leaflet(Multifamily) %>%
+      addProviderTiles(provider = "CartoDB.Positron") %>%  
+      setView(-111.876183, 40.758701, zoom = 13) %>%
+      addCircleMarkers(Multifamily$lon, Multifamily$lat, popup=Multifamily$`Project Name`,
+                       weight = 4, radius=6,
+                       color = ~pal(`Type:  Affordable, Mixed or Market`),
+                       stroke = TRUE, fillOpacity = .6) %>%
+      addLegend("bottomright", colors=c("navy", "red", "orange"), 
+                labels= c("Affordable", "Market", "Mixed"), title="Multifamily Units in SLC")%>%
+      print(multifamily_map)
+  })
+  
+  output$plot2<-renderHighchart({
+    unemployment_plot<-highchart() %>%
+      hc_title(text = "MSA Unemployment rate in August 2007-2017") %>% 
+      hc_xAxis(categories = c("2007", "2008", "2009", "2010", "2011", "2012",
+                              "2013", "2014", "2015", "2016", "2017")) %>%
+      hc_yAxis(title = list(text = "unemployment rate")) %>%
+      hc_add_series_scatter(MSA_unemployment$Year, MSA_unemployment$Aug)%>%
+    print(unemployment_plot)
   })
   
   output$plot3<-renderHighchart({
@@ -219,10 +267,11 @@ server <- function(input, output) {
       hc_title(text= "Salt Lake City Average Rents vs Affordability (80% AMI)") %>%
       hc_xAxis(categories = c("one-person household and 1Br average rent + utilities", 
                               "four-person household and 3Br average rent + utilities")) %>%
+      hc_yAxis(labels=list(format= "${value}"))%>%
       hc_series(list(name ="Affordable rent", 
-                     data=c(900, 1300)),
+                     data=c(900, 1300), dataLabels=list(enabled=TRUE,format= "${point.y}")),
                 list(name = "Average rent",
-                     data=c(1370, 1910))
+                     data=c(1370, 1910),dataLabels=list(enabled=TRUE,format= "${point.y}"))
       ) %>%
       print(affordability1)
   }
