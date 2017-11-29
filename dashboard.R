@@ -6,9 +6,9 @@ library(highcharter)
 library(leaflet)
 library(dplyr)
 library(data.table)
+source("tidycensus.R")
 
 #setwd("~/")
-
 #setwd("/Users/suyash/Sorenson/SLC-Housing-Dashboard")
 
 
@@ -49,10 +49,10 @@ body <- dashboardBody(
        tabName="welcome",
        fluidRow(
          box(title = "", status = "primary", width = 8, 
-             img(src = "house.png",
-                 height = 64,
-                 width = 64
-              ),
+             fluidRow(img(src = "stock-photo.jpeg",
+                 height = 400,
+                 width = 600
+              )),
              h2("SLC Housing Dashboard"),
              h4("Dynamic Web-based Analytics for Salt Lake City Housing"),
              br(),
@@ -70,13 +70,14 @@ body <- dashboardBody(
     
     tabItem(tabName = "dashboard",
             fluidRow(
-              column(width=10,
-                     h2("SLC Multi-Family: Affordable, Market and Mixed Units"),   
-                     br(),
-                     h4("Datasource from HAND"),
-                  box(highchartOutput("plot1", height = 300), width=NULL)
-              )
+              h2("Salt Lake City's New Residential Units in 2017", br(),
+                 "Value of New Residential Buildings in 2017"),
+              br(),
+              h4("Datasource from Ivory Boyer database"),
+              box(highchartOutput("plot3", height = 400)),
+              box(highchartOutput("plot4", height = 400))
             ),
+           
             br(),br(), br(),
             fluidRow(
               column(width=12,
@@ -104,12 +105,12 @@ body <- dashboardBody(
             ),
             br(),br(), br(),
             fluidRow(
-              h2("Salt Lake City's New Residential Units in 2017", br(),
-                 "Value of New Residential Buildings in 2017"),
-              br(),
-              h4("Datasource from Ivory Boyer database"),
-              box(highchartOutput("plot3", height = 400)),
-              box(highchartOutput("plot4", height = 400))
+              column(width=10,
+                     h2("SLC Multi-Family: Affordable, Market and Mixed Units"),   
+                     br(),
+                     h4("Datasource from HAND"),
+                     box(highchartOutput("plot1", height = 300), width=NULL)
+              )
             ),
             fluidRow(
               tags$iframe(src = "http://slcgov.maps.arcgis.com/apps/PublicInformation/index.html?appid=f632417a8bd94d5eb04f1f4eea728ce6", seamless=NA, height = 400, width = "100%")
