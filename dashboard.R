@@ -6,7 +6,9 @@ library(highcharter)
 library(leaflet)
 library(dplyr)
 library(data.table)
-
+library("treemap")
+library("viridis") 
+#source("tidycensus.R")
 #setwd("~/")
 
 #setwd("/Users/suyash/Sorenson/SLC-Housing-Dashboard")
@@ -23,6 +25,16 @@ pal <- colorFactor(c("navy", "red", "orange"), domain = Multifamily$`Type:  Affo
 Multifamily$`Type:  Affordable, Mixed or Market`<- factor(Multifamily$`Type:  Affordable, Mixed or Market`, 
                                                           levels = c("Affordable", "Market", "Mixed"), ordered = TRUE)
 
+x=c("Health & Social Services", "Manufacturing", "Public Administration", "Professional Services",
+    "Hospitality", "Retail Trade", "Transportation & Warehousing", "Finance & Insurance",
+    "Admin & Waste Services", "Wholesale Trade")
+y=c(45240, 61074, 49764, 76908, 18096, 34684, 48256, 73138, 33930, 68614)
+z=c("60% AMI", "81% AMI", "66% AMI", "102% AMI", "24% AMI", "46% AMI", "64% AMI", "97% AMI", "45% AMI", "91% AMI")
+industry<-data.frame(x,y,z)
+tm <- treemap(industry, index =c("z","x"),
+              vSize = "y", vColor = "y",
+              type = "value", palette = rev(viridis(10)),
+              draw = FALSE)
 #### UI ####
 fluidPage(theme = "test.css",
 sidebar <- dashboardSidebar(
@@ -127,10 +139,35 @@ body <- dashboardBody(
     
     tabItem(tabName = "how",
             fluidRow(
+              column(width=12,
+                     h2("Salt Lake City AMI and Affodable Housing"),   
+                     br(),
+                     h4(" We use Area Median Income to help us understand how income is related to 
+                        housing affordability. Generally we focus on those who make less than 
+                        60% (about $45K) as those who struggle to make housing payments. 
+                        Affordable means spending no more than 30% of income towards housing costs."), 
+                     br(),
+                     h4("Salt Lake City MSA income levels: Datasource from HUD 2017"),
+                     box(highchartOutput("graph1", height = 600), width=NULL)
+                     )
+              ),
+            fluidRow(
+              column(width=12,
+                     h2("SLC's Average Annual Wages for the Top 10 Industries"),   
+                     br(),
+                     h4(" This treemap shows the Salt Lake City top 10 industries and the respective
+                        average annual wages as well as the AMI percentages for each industry."), 
+                     br(),
+                     h4("Datasource from HUD 2017"),
+                     box(highchartOutput("graph2", height = 600), width=NULL)
+                     )
+              ),
+            fluidRow(
               column(width=10,
                      h2("The growing disparity between wages and rental rates"),   
                      br(),
-                     h4("A single person household in Salt Lake County has an 
+                     h4("Are current Salt Lake City housing price/rent affordable? 
+                        A single person household in Salt Lake County has an 
                         Area Median Income (AMI) of $51,690; the AMI for a family of four is $73,800. 
                         The graph shows $470 average monthly affordable Affordable gap between affordable
                         rent for one-person household and 1Br average rent plus utilities, and $610 
@@ -138,7 +175,7 @@ body <- dashboardBody(
                         household and 3Br average rent plus utilities."), 
                      br(),
                      h4("Salt Lake City Average Rents vs Affordability (80% AMI): Datasource from CBRE 2016"),
-                     box(highchartOutput("graph1", height = 500), width=NULL)
+                     box(highchartOutput("graph3", height = 500), width=NULL)
                      )
               )
             ),
@@ -282,6 +319,37 @@ server <- function(input, output) {
   })
   ##"how did we get here" output graphs
   output$graph1<-renderHighchart({
+    AMI_plot<-highchart() %>%
+      hc_chart(type="bar") %>%
+      hc_title(text = "Salt Lake City MSA Income Levels in 2017") %>%
+      hc_yAxis(title = list(text = "Income in dollars")) %>%
+      hc_xAxis(categories = c("1 person", "2 people", "3 people", 
+                              "4 people", "5 people", "6 people",
+                              "7 people", "8 people"),
+               title = list(text = "Household sizes")) %>%
+      #hc_plotOptions(column=list(datalabels = list(enabled = FALSE),
+      # stacking = "normal", enableMouseTracking=TRUE)) %>%
+      hc_series(list(name="Extremely low income 30% AMI", data=c(15850, 18100, 20350, 22600, 24450, 26250, 28050, 29850)),
+                list(name="Very low income 50% AMI", data=c(26400, 30200, 33950, 37700, 40750, 43750, 46750, 49800)),
+                list(name="Moderately low income 60% AMI", data=c(31680, 36240, 40740, 45240, 48900, 52500, 56100, 59760)),
+                list(name="Low income 80% AMI", data=c(42250, 48250, 54300, 60300, 65150, 69950, 74800, 79600)),
+                list(name="100% AMI", data=c(52800, 60400, 67900, 75400, 81500, 87500, 93500, 99600))
+      )%>%
+      print(AMI_plot)
+  }
+  )
+  output$graph2<-renderHighchart({
+  Industry_hc<-highchart(height = 500) %>% 
+    hc_add_series_treemap(tm, allowDrillToNode = TRUE,
+                          layoutAlgorithm = "squarified",
+                          name = "AMIdata") %>%
+    hc_title(text = "AMI Percentage by Industry") %>% 
+    hc_tooltip(pointFormat = "Average annual wage: ${point.value:.0f}<br>
+               {point.name}")
+  print(Industry_hc)
+  }
+  )
+  output$graph3<-renderHighchart({
     affordability1<-highchart() %>%
       hc_chart(type="column") %>%
       hc_title(text= "Salt Lake City Average Rents vs Affordability (80% AMI)") %>%
