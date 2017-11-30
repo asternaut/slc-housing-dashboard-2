@@ -110,7 +110,7 @@ body <- dashboardBody(
             br(),br(), br(),
             fluidRow(
               column(width=12,
-                     h2("Unemployment Rate in August 2007-2017"),
+                     h2("Unemployment Rate in 2nd Quarter 2007-2017"),
                      br(),
                      h4("Datasource from Bureau of Labor Statistics"),
                   box(highchartOutput("plot2", height=350), width=NULL)
@@ -136,6 +136,17 @@ body <- dashboardBody(
               h3("Median Rent"),
               h4("This map shows the variation in the median gross rent in the Salt Lake City area across census trancts. Data is collected from the recent Census"),
               leafletOutput("rent", height = 400, width = 1000)
+              )
+            ),
+            fluidRow(
+              column(width = 12,
+                     h2("Salt Lake City Average Rent by Neighborhood"),
+                     br(),
+                     h4("The graph shows the most expensive Salt Lake City neighborhoods to rent apartments are Sugar House, Central City, and Central City-Liberty Welss.
+The cheapest Salt Lake City neignborhoods to rent apartments are Poplar Grove, Liberty Wells, and Rose Park.", br(), br(),
+                        "Datasource from Rent Jungle"),
+                     box(highchartOutput("plot5", height=500), width=NULL)
+                
               )
             )
             
@@ -269,12 +280,16 @@ server <- function(input, output) {
   
   output$plot2<-renderHighchart({
     unemployment_plot<-highchart() %>%
-      hc_title(text = "MSA Unemployment rate in August 2007-2017") %>% 
+      hc_chart(type="line")%>%
+      hc_title(text = "MSA Unemployment rate in 2nd Quarter 2007-2017") %>% 
       hc_xAxis(categories = c("2007", "2008", "2009", "2010", "2011", "2012",
                               "2013", "2014", "2015", "2016", "2017")) %>%
       hc_yAxis(title = list(text = "unemployment rate")) %>%
-      hc_add_series_scatter(MSA_unemployment$Year, MSA_unemployment$Aug)%>%
-    print(unemployment_plot)
+      hc_series(list(name="August", data=MSA_unemployment$Aug),
+                list(name="July", data=MSA_unemployment$Jul),
+                list(name="June", data=MSA_unemployment$Jun),
+                list(name="May", data=MSA_unemployment$May))%>%
+      print(unemployment_plot)
   })
   
   output$plot3<-renderHighchart({
@@ -320,7 +335,26 @@ server <- function(input, output) {
                      + subset(Permit, `Year of Date` == "2017")$`Apartments/ 5+ Families value`)
       ) %>%
       print(permit_plot2)
+      
   })
+  
+  output$plot5<-renderHighchart({
+    rent_plot<-highchart() %>%
+      hc_chart(type="bar") %>%
+      hc_title(text = "Salt Lake City Average Rent by Neighborhood") %>%
+      hc_yAxis(title = list(text = "Rent in dollars"),
+               labels=list(format= "${value}")) %>%
+      hc_xAxis(categories = c("Sugar House", "Central City", "Central City-Liberty Welss", 
+                              "Downtown", "Capitol Hill", "Fairpark", "Glendale", "East Central",
+                              "People's Freeway", "Westpointe", "Greater Avenues", "Rose Park",
+                              "Liberty Wells", "Poplar Grove")) %>%
+      hc_series(list(name="Average rent",
+                     data=c(1410, 1335, 1281, 1250, 1225, 1128, 1121, 1106, 1030, 978, 966, 847, 831, 789))
+                )%>%
+      print(rent_plot)
+  }
+  )
+    
   ##"how did we get here" output graphs
   output$graph1<-renderHighchart({
     AMI_plot<-highchart() %>%
@@ -331,8 +365,6 @@ server <- function(input, output) {
                               "4 people", "5 people", "6 people",
                               "7 people", "8 people"),
                title = list(text = "Household sizes")) %>%
-      #hc_plotOptions(column=list(datalabels = list(enabled = FALSE),
-      # stacking = "normal", enableMouseTracking=TRUE)) %>%
       hc_series(list(name="Extremely low income 30% AMI $", data=c(15850, 18100, 20350, 22600, 24450, 26250, 28050, 29850)),
                 list(name="Very low income 50% AMI $", data=c(26400, 30200, 33950, 37700, 40750, 43750, 46750, 49800)),
                 list(name="Moderately low income 60% AMI $", data=c(31680, 36240, 40740, 45240, 48900, 52500, 56100, 59760)),
