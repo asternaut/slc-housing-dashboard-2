@@ -6,7 +6,7 @@ library(highcharter)
 library(leaflet)
 library(dplyr)
 library(data.table)
-source("tidycensus.R")
+#source("tidycensus.R")
 
 library("treemap")
 library("viridis") 
@@ -131,16 +131,7 @@ body <- dashboardBody(
               h4("How land is zoned has a signifcant effect on how the city develops, and ultimately the supply and demand of housing."),
               tags$iframe(src = "http://slcgov.maps.arcgis.com/apps/PublicInformation/index.html?appid=f632417a8bd94d5eb04f1f4eea728ce6", seamless=NA, height = 400, width = "90%")
             )),
-            fluidRow(
-              column(width = 12,
-              h3("Median Home Value"),
-              h4("This map shows the variation in the median home value in the Salt Lake City area across census tracts. Data is collected from the recent Census"),
-              leafletOutput("home", height = 400, width = 1000),
-              h3("Median Rent"),
-              h4("This map shows the variation in the median gross rent in the Salt Lake City area across census trancts. Data is collected from the recent Census"),
-              leafletOutput("rent", height = 400, width = 1000)
-              )
-            ),
+    
             fluidRow(
               column(width = 12,
                      h2("Salt Lake City Average Rent by Neighborhood"),
