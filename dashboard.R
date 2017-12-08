@@ -126,8 +126,11 @@ body <- dashboardBody(
               )
             ),
             fluidRow(
-              tags$iframe(src = "http://slcgov.maps.arcgis.com/apps/PublicInformation/index.html?appid=f632417a8bd94d5eb04f1f4eea728ce6", seamless=NA, height = 400, width = "100%")
-            ),
+              column(width = 12,
+              h2("Zoning"),
+              h4("How land is zoned has a signifcant effect on how the city develops, and ultimately the supply and demand of housing."),
+              tags$iframe(src = "http://slcgov.maps.arcgis.com/apps/PublicInformation/index.html?appid=f632417a8bd94d5eb04f1f4eea728ce6", seamless=NA, height = 400, width = "90%")
+            )),
             fluidRow(
               column(width = 12,
               h3("Median Home Value"),
