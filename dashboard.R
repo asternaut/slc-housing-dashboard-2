@@ -127,14 +127,6 @@ body <- dashboardBody(
             ),
             fluidRow(
               column(width = 12,
-
-              h2("Zoning"),
-              h4("How land is zoned has a signifcant effect on how the city develops, and ultimately the supply and demand of housing."),
-              tags$iframe(src = "http://slcgov.maps.arcgis.com/apps/PublicInformation/index.html?appid=f632417a8bd94d5eb04f1f4eea728ce6", seamless=NA, height = 400, width = "90%")
-            )),
-    
-            fluidRow(
-              column(width = 12,
                      h2("Salt Lake City Average Rent by Neighborhood"),
                      br(),
                      h4("The graph shows the most expensive Salt Lake City neighborhoods to rent apartments are Sugar House, Central City, and Central City-Liberty Welss.
