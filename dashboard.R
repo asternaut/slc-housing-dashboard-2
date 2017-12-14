@@ -127,6 +127,7 @@ body <- dashboardBody(
             ),
             fluidRow(
               column(width = 12,
+
               h2("Zoning"),
               h4("How land is zoned has a signifcant effect on how the city develops, and ultimately the supply and demand of housing."),
               tags$iframe(src = "http://slcgov.maps.arcgis.com/apps/PublicInformation/index.html?appid=f632417a8bd94d5eb04f1f4eea728ce6", seamless=NA, height = 400, width = "90%")
@@ -140,10 +141,28 @@ body <- dashboardBody(
 The cheapest Salt Lake City neignborhoods to rent apartments are Poplar Grove, Liberty Wells, and Rose Park.", br(), br(),
                         "Datasource from Rent Jungle"),
                      box(highchartOutput("plot5", height=500), width=NULL)
-                
+              )
+            ),
+            fluidRow(
+              column(width = 12,
+                     h2("Salt Lake County Historical Vacancy Rate"),
+                     br(),
+                     h4("The graph shows the most recent three-year vacancy rate. Data shown here is based on rentals with square footage between around 800 and 1000.", 
+                        br(), br(),
+                        "Datasource from CBRE, inc"),
+                     box(highchartOutput("plot6", height=400), width=NULL)
+              )
+              ),
+            fluidRow(
+              column(width = 10,
+                     h2("Salt Lake City Vacancy Rate by Submarket"),
+                     br(),
+                     h4("Along with the vacancy rate, the line represents the total of buildings in submarket in Salt Lake City.", 
+                        br(), br(),
+                        "Datasource from Cushman & Wakefield"),
+                     box(highchartOutput("plot7", height=400), width=NULL)
               )
             )
-            
     ),
     
     tabItem(tabName = "how",
@@ -346,6 +365,38 @@ server <- function(input, output) {
                      data=c(1410, 1335, 1281, 1250, 1225, 1128, 1121, 1106, 1030, 978, 966, 847, 831, 789))
                 )%>%
       print(rent_plot)
+  }
+  )
+  
+  output$plot6<-renderHighchart({
+    historical_vacancy<-highchart() %>%
+      hc_title(text= "Salt Lake County Historical Vacancy Rate") %>%
+      hc_xAxis(categories = c("Cottonwood Heights", "Draper", "Midvale", "Murray", "Riverton",
+                              "Salt Lake City", "Sandy", "South Jordan", "South Salt Lake",
+                              "Taylorsville", "West Jordan", "West Valley City", "Downtown")) %>%
+      hc_yAxis(labels=list(format= "{value}%"))%>%
+      hc_series(list(name="2014 vacancy rates", type="column",
+                     data=c(4.5, 2.2, 4.8, 4.0, 7.2, 4.9, 5.5, 6.9, 6.0, 6.1, 4.9, 4.2, 5.4)),
+                list(name="2015 vacancy rates", type="column",
+                     data=c(4.0, 3.4, 3.6, 3.2, 4.7, 4.2, 4.5, 6.2, 4.3, 4.4, 3.9, 4.6, 4.2)),
+                list(name="2016 vacancy rates", type="column",
+                     data=c(3.5, 4.7, 2.5, 2.5, 2.2, 3.4, 3.4, 5.5, 2.6, 2.7, 2.8, 5.0, 2.2))
+      ) %>%
+      print(historical_vacancy)
+  }
+  )
+  
+  output$plot7<-renderHighchart({
+    vacancy_submarket<-highchart() %>%
+      hc_title(text = "Salt Lake City Vacancy Rate by Submarket") %>% 
+      hc_xAxis(categories = c("CBD", "Periphery", "Northeast", "Northwest", "Central East", 
+                              "Central West", "Southeast", "Southwest")) %>%
+      hc_series(list(name="submarket vacancy rate", type="area",
+                     data=c(14.5, 17.4, 9.5, 14.0, 16.7, 9.2, 13.9, 7.8)),
+                list(name="total buildings", type= "line",
+                     data=c(57, 46, 55, 69, 135, 24, 95, 18))
+      )%>%
+      print(vacancy_submarket)
   }
   )
     
