@@ -22,18 +22,14 @@ MSA_unemployment <- read_excel("Data/MSA-unemployment.xlsx", sheet = "DataByYear
 Permit <- read_excel("Data/Permit_adjusted.xlsx", sheet = "State Total")
 Multifamily<-fread("Data/new_multifamilywithgeo.csv")
 
+# multifamily address map 
 pal <- colorFactor(c("navy", "red", "orange"), domain = Multifamily$`Type:  Affordable, Mixed or Market`)
 Multifamily$`Type:  Affordable, Mixed or Market`<- factor(Multifamily$`Type:  Affordable, Mixed or Market`, 
                                                           levels = c("Affordable", "Market", "Mixed"), ordered = TRUE)
-
-x=c("Health & Social Services", "Manufacturing", "Public Administration", "Professional Services",
-    "Hospitality", "Retail Trade", "Transportation & Warehousing", "Finance & Insurance",
-    "Admin & Waste Services", "Wholesale Trade")
-y=c(45240, 61074, 49764, 76908, 18096, 34684, 48256, 73138, 33930, 68614)
-z=c("60% AMI", "81% AMI", "66% AMI", "102% AMI", "24% AMI", "46% AMI", "64% AMI", "97% AMI", "45% AMI", "91% AMI")
-industry<-data.frame(x,y,z)
-tm <- treemap(industry, index =c("z","x"),
-              vSize = "y", vColor = "y",
+# industry ami and median income in "How"
+industryChart<-read.csv("industryC.csv")
+tm <- treemap(industryChart, index =c("ami","profession"),
+              vSize = "income", vColor = "income",
               type = "value", palette = rev(viridis(10)),
               draw = FALSE)
 #### UI ####
