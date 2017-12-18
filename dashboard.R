@@ -6,6 +6,7 @@ library(highcharter)
 library(leaflet)
 library(dplyr)
 library(data.table)
+library(purrr)
 #source("tidycensus.R")
 
 library("treemap")
@@ -32,6 +33,11 @@ tm <- treemap(industryChart, index =c("ami","profession"),
               vSize = "income", vColor = "income",
               type = "value", palette = rev(viridis(10)),
               draw = FALSE)
+# SL County home sale median price csv file
+m<-read.csv("medianPrice2017_3rdQuarter.csv", stringsAsFactors = FALSE)
+mds<-list_parse(m)
+names(mds)<-NULL
+
 #### UI ####
 fluidPage(theme = "test.css",
 sidebar <- dashboardSidebar(
@@ -149,6 +155,17 @@ The cheapest Salt Lake City neignborhoods to rent apartments are Poplar Grove, L
                         br(), br(),
                         "Datasource from Cushman & Wakefield"),
                      box(highchartOutput("plot7", height=400), width=NULL)
+              )
+            ),
+            fluidRow(
+              column(width = 12,
+                     h2("Salt Lake County 2017 3rd Quarter Sale Median Price"),
+                     br(),
+                     h4("The graph shows the 3rd quarter home sale median price in Salt Lake County. Please click on the columns to
+                        get navigated to more median prices of the different zipcodes in the same city", 
+                        br(), br(),
+                        "Datasource from The Salt Lake Tribune"),
+                     box(highchartOutput("plot8", height=500), width=NULL)
               )
             )
     ),
@@ -385,6 +402,68 @@ server <- function(input, output) {
                      data=c(57, 46, 55, 69, 135, 24, 95, 18))
       )%>%
       print(vacancy_submarket)
+  }
+  )
+  
+  output$plot8<-renderHighchart({
+    median_sale<-highchart() %>%
+      hc_chart(type="column") %>%
+      hc_title(text="Salt Lake County 2017 3rd Quarter Sale Median Price") %>%
+      hc_yAxis(labels=list(format="${value}")) %>%
+      hc_xAxis(type="category") %>%
+      hc_plotOptions(series = list(boderWidth = 0,
+                                   dataLabels = list(enabled = TRUE))) %>%
+      hc_add_series(name="sale median price", data=mds,
+                    colorByPoint=TRUE)
+    
+    slc_drill<-read.csv("SLC2017.csv", stringsAsFactors = FALSE)
+    sandy_drill<-read.csv("Sandy2017.csv", stringsAsFactors = FALSE)
+    wjordan_drill<-read.csv("WJordan2017.csv", stringsAsFactors = FALSE)
+    holladay_drill<-read.csv("Holladay2017.csv", stringsAsFactors = FALSE)
+    wValleyCity_drill<-read.csv("WestValleyCity2017.csv", stringsAsFactors = FALSE)
+    
+    second_el_to_numeric <- function(ls){
+      map(ls, function(x){
+        x[[2]] <- as.numeric(x[[2]])
+        x
+      }) }
+    
+    dsSLC2017 <- second_el_to_numeric(list_parse2(slc_drill))
+    dsSandy2017<- second_el_to_numeric(list_parse2(sandy_drill))
+    dsWJordan2017<-second_el_to_numeric(list_parse2(wjordan_drill))
+    dsHolladay2017<-second_el_to_numeric(list_parse2(holladay_drill))
+    dsWValleyCity2017<-second_el_to_numeric(list_parse2(wValleyCity_drill))
+    
+    median_sale <- median_sale %>%
+      hc_drilldown(
+        allowPointDrilldown=TRUE, 
+        series=list(list(
+          id="salt lake city",
+          data= dsSLC2017,
+          name="Salt Lake City sale median price"
+        ),
+        list(
+          id="sandy",
+          data=dsSandy2017,
+          name="Sandy sale median price"
+        ),
+        list(
+          id="west jordan",
+          data=dsWJordan2017,
+          name="West Jordan sale median price"
+        ),
+        list(
+          id="holladay",
+          data=dsHolladay2017,
+          name="Holladay sale median price"
+        ),
+        list(
+          id="west valley city",
+          data=dsWValleyCity2017,
+          name="West Valley City sale median price"
+        ))
+      ) 
+    print(median_sale)
   }
   )
     
