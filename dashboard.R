@@ -38,6 +38,11 @@ m<-read.csv("medianPrice2017_3rdQuarter.csv", stringsAsFactors = FALSE)
 mds<-list_parse(m)
 names(mds)<-NULL
 
+# SL City historical sale median price csv file
+mh<-read.csv("historical_median_3rdQuarter.csv", stringsAsFactors = FALSE)
+mhds<-list_parse(mh)
+names(mhds)<-NULL
+
 #### UI ####
 fluidPage(theme = "test.css",
 sidebar <- dashboardSidebar(
@@ -167,7 +172,19 @@ The cheapest Salt Lake City neignborhoods to rent apartments are Poplar Grove, L
                         "Datasource from The Salt Lake Tribune"),
                      box(highchartOutput("plot8", height=500), width=NULL)
               )
-            )
+            ),
+            fluidRow(
+              column(width = 12,
+                     h2("Salt Lake City Sale Median Price 3rd Quarter 2003 - 2017"),
+                     br(),
+                     h4("The graph shows the historical trend of 3rd quarter home sale median price in Salt Lake City from 2003 to 2017. 
+                        You are welcome to click on the columns of specific years to get navigated to detailed median prices of
+                        different zipcodes areas in the same year", 
+                        br(), br(),
+                        "Datasource from The Salt Lake Tribune"),
+                     box(highchartOutput("plot9", height=500), width=NULL)
+              )
+            )      
     ),
     
     tabItem(tabName = "how",
@@ -464,6 +481,140 @@ server <- function(input, output) {
         ))
       ) 
     print(median_sale)
+  }
+  )
+  
+  output$plot9<-renderHighchart({
+    historical_median_sale<-highchart() %>%
+      hc_chart(type="column") %>%
+      hc_title(text="Salt Lake City Sale Median Price 3rd Quarter 2003 - 2017") %>%
+      hc_yAxis(labels=list(format="${value}")) %>%
+      hc_xAxis(type="category") %>%
+      hc_plotOptions(series = list(boderWidth = 0,
+                                   dataLabels = list(enabled = TRUE))) %>%
+      hc_add_series(name="SLC sale median price", data=mhds,
+                    colorByPoint=TRUE)
+    
+    drill03<-read.csv("SLC2003.csv", stringsAsFactors = FALSE)
+    drill04<-read.csv("SLC2004.csv", stringsAsFactors = FALSE)
+    drill05<-read.csv("SLC2005.csv", stringsAsFactors = FALSE)
+    drill06<-read.csv("SLC2006.csv", stringsAsFactors = FALSE)
+    drill07<-read.csv("SLC2007.csv", stringsAsFactors = FALSE)
+    drill08<-read.csv("SLC2008.csv", stringsAsFactors = FALSE)
+    drill09<-read.csv("SLC2009.csv", stringsAsFactors = FALSE)
+    drill10<-read.csv("SLC2010.csv", stringsAsFactors = FALSE)
+    drill11<-read.csv("SLC2011.csv", stringsAsFactors = FALSE)
+    drill12<-read.csv("SLC2012.csv", stringsAsFactors = FALSE)
+    drill13<-read.csv("SLC2013.csv", stringsAsFactors = FALSE)
+    drill14<-read.csv("SLC2014.csv", stringsAsFactors = FALSE)
+    drill15<-read.csv("SLC2015.csv", stringsAsFactors = FALSE)
+    drill16<-read.csv("SLC2016.csv", stringsAsFactors = FALSE)
+    drill17<-read.csv("SLC2017.csv", stringsAsFactors = FALSE)
+    
+    second_el_to_numeric <- function(ls){
+      map(ls, function(x){
+        x[[2]] <- as.numeric(x[[2]])
+        x
+      }) }
+    
+    dsSLC2003 <- second_el_to_numeric(list_parse2(drill03))
+    dsSLC2004 <- second_el_to_numeric(list_parse2(drill04))
+    dsSLC2005 <- second_el_to_numeric(list_parse2(drill05))
+    dsSLC2006 <- second_el_to_numeric(list_parse2(drill06))
+    dsSLC2007 <- second_el_to_numeric(list_parse2(drill07))
+    dsSLC2008 <- second_el_to_numeric(list_parse2(drill08))
+    dsSLC2009 <- second_el_to_numeric(list_parse2(drill09))
+    dsSLC2010 <- second_el_to_numeric(list_parse2(drill10))
+    dsSLC2011 <- second_el_to_numeric(list_parse2(drill11))
+    dsSLC2012 <- second_el_to_numeric(list_parse2(drill12))
+    dsSLC2013 <- second_el_to_numeric(list_parse2(drill13))
+    dsSLC2014 <- second_el_to_numeric(list_parse2(drill14))
+    dsSLC2015 <- second_el_to_numeric(list_parse2(drill15))
+    dsSLC2016 <- second_el_to_numeric(list_parse2(drill16))
+    dsSLC2017 <- second_el_to_numeric(list_parse2(drill17))
+    
+    historical_median_sale <- historical_median_sale %>%
+      hc_drilldown(
+        allowPointDrilldown=TRUE, 
+        series=list(list(
+          id="2003 year",
+          data= dsSLC2003,
+          name="sale median price 2003"
+        ),
+        list(
+          id="2004 year",
+          data= dsSLC2004,
+          name="sale median price 2004"
+        ),
+        list(
+          id="2005 year",
+          data= dsSLC2005,
+          name="sale median price 2005"
+        ),
+        list(
+          id="2006 year",
+          data= dsSLC2006,
+          name="sale median price 2006"
+        ),
+        list(
+          id="2007 year",
+          data= dsSLC2007,
+          name="sale median price 2007"
+        ),
+        list(
+          id="2008 year",
+          data= dsSLC2008,
+          name="sale median price 2008"
+        ),
+        list(
+          id="2009 year",
+          data= dsSLC2009,
+          name="sale median price 2009"
+        ),
+        list(
+          id="2010 year",
+          data= dsSLC2010,
+          name="sale median price 2010"
+        ),
+        list(
+          id="2011 year",
+          data= dsSLC2011,
+          name="sale median price 2011"
+        ),
+        list(
+          id="2012 year",
+          data= dsSLC2012,
+          name="sale median price 2012"
+        ),
+        list(
+          id="2013 year",
+          data= dsSLC2013,
+          name="sale median price 2013"
+        ),
+        list(
+          id="2014 year",
+          data= dsSLC2014,
+          name="sale median price 2014"
+        ),
+        list(
+          id="2015 year",
+          data= dsSLC2015,
+          name="sale median price 2015"
+        ),
+        list(
+          id="2016 year",
+          data= dsSLC2016,
+          name="sale median price 2016"
+        ),
+        list(
+          id="2017 year",
+          data= dsSLC2017,
+          name="sale median price 2017"
+        )
+        )
+      ) 
+    
+    print(historical_median_sale)
   }
   )
     
