@@ -7,6 +7,7 @@ library(leaflet)
 library(dplyr)
 library(data.table)
 library(purrr)
+library(scales)
 #source("tidycensus.R")
 
 library("treemap")
@@ -145,14 +146,21 @@ body <- dashboardBody(
             #),
             fluidRow(
               column(width = 12,
-                     h2("Salt Lake City Average Rent by Neighborhood"),
+                     h2("Average Rent by Neighborhood"),
                      br(),
-                     h4("The graph shows the most expensive Salt Lake City neighborhoods to rent apartments are Sugar House, Central City, and Central City-Liberty Welss.
-The lest expensive Salt Lake City neignborhoods to rent apartments are Poplar Grove, Liberty Wells, and Rose Park. Rent Jungle provides search engine to search for apartments and rental houses.
-                        It reflects the current rental market in Salt Lake City.", 
-                        br(), br(),
-                        "Datasource from Rent Jungle"),
+                     p("The graph shows the most expensive Salt Lake City neighborhoods to rent apartments are Sugar House, Central City, and Central City-Liberty Welss.The least expensive neignborhoods are Poplar Grove, Liberty Wells, and Rose Park. The data come from Rent Jungle, which uses X methodology to estimate local rents."
+                     )
+              )
+            ),
+            fluidRow(
+              column(width = 8,
                      box(highchartOutput("plot5", height=500), width=NULL)
+              ),
+              column(width = 4, wellPanel(
+                selectInput("neighborhood_type", "Rent Burden Calculator",
+                            neighborhoodRent$neighboarhood)
+              ),
+              textOutput('a_out')
               )
             ),
             br(),br(), br(),
@@ -738,6 +746,12 @@ server <- function(input, output) {
   
   output$rent <- renderLeaflet({
     rent_map
+  })
+  
+  output$a_out <- renderText({
+    paste0(" HUD defines cost-burdened families as those “who pay more than 30 percent of their income for housing” and “may have difficulty affording necessities such as food, clothing, transportation, and medical care.” Severe rent burden is defined as paying more than 50 percent of one’s income on rent. The median rent in ", as.character(input$neighborhood_type), " is ", 
+           dollar(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]), 
+           ". Therefore, a household with income below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .3), " would be considered cost-burdened. Below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .5), " would be severely rent burdened.")
   })
 
 }
