@@ -18,10 +18,13 @@ library("viridis")
 
 
 
-project_con <- read_excel("Data/Housing Database Combined Data.xlsx", sheet = "All Data 2")
+#project_con <- read_excel("Data/Housing Database Combined Data.xlsx", sheet = "All Data 2")
 MSA_unemployment <- read_excel("Data/MSA-unemployment.xlsx", sheet = "DataByYear")
 Permit <- read_excel("Data/Permit_adjusted.xlsx", sheet = "State Total")
 Multifamily<-fread("Data/new_multifamilywithgeo.csv")
+neighborhoodRent<-read.csv("rentAve.csv")
+historicalVacancy<-read.csv("vacancyHis.csv")
+multi<-read_excel("Data/Multifamily.xlsx", sheet = "Multi-Family Listings" )
 
 # multifamily address map 
 pal <- colorFactor(c("navy", "red", "orange"), domain = Multifamily$`Type:  Affordable, Mixed or Market`)
@@ -90,15 +93,23 @@ body <- dashboardBody(
     
     tabItem(tabName = "dashboard",
             fluidRow(
-              h2("Salt Lake City's New Residential Units in 2017", br(),
-                 "Value of New Residential Buildings in 2017"),
+              h2("Salt Lake City's Residential Housing Stock in 2017"),
               br(),
               h4("Datasource from Ivory Boyer database"),
-              box(highchartOutput("plot3", height = 400)),
-              box(highchartOutput("plot4", height = 400))
+              box(highchartOutput("plot3", height = 450), width=NULL)
             ),
-           
             br(),br(), br(),
+            fluidRow(
+              h2("Salt Lake City's Housing Stock: Single-Family vs Multi-Family",
+                 br(),"Salt Lake City's Multi-Family Units: Affordable, Market vs Mixed"),
+              br(),
+              h4("Datasource from Ivory Boyer database and HAND"),
+              box(highchartOutput("plot4", height = 400)),
+              box(highchartOutput("plot1", height = 400))
+            ),
+            
+            br(),br(), br(),
+            
             fluidRow(
               column(width=12,
                      h2("Salt Lake City Multifamily Interative Map"),   
@@ -115,64 +126,73 @@ body <- dashboardBody(
             )
             ),
             br(),br(), br(),
-            fluidRow(
-              column(width=12,
-                     h2("Unemployment Rate in 2nd Quarter 2007-2017"),
-                     br(),
-                     h4("Datasource from Bureau of Labor Statistics"),
-                  box(highchartOutput("plot2", height=350), width=NULL)
-              )
-            ),
-            br(),br(), br(),
-            fluidRow(
-              column(width=10,
-                     h2("SLC Multi-Family: Affordable, Market and Mixed Units"),   
-                     br(),
-                     h4("Datasource from HAND"),
-                     box(highchartOutput("plot1", height = 300), width=NULL)
-              )
-            ),
+            #fluidRow(
+              #column(width=12,
+                     #h2("Unemployment Rate in 2nd Quarter 2007-2017"),
+                     #br(),
+                    #h4("Datasource from Bureau of Labor Statistics"),
+                  #box(highchartOutput("plot2", height=350), width=NULL)
+              #)
+            #),
+            #br(),br(), br(),
+            #fluidRow(
+              #column(width=10,
+                     #h2("SLC Multi-Family: Affordable, Market and Mixed Units"),   
+                     #br(),
+                     #h4("Datasource from HAND"),
+                     #box(highchartOutput("plot1", height = 300), width=NULL)
+              #)
+            #),
             fluidRow(
               column(width = 12,
                      h2("Salt Lake City Average Rent by Neighborhood"),
                      br(),
                      h4("The graph shows the most expensive Salt Lake City neighborhoods to rent apartments are Sugar House, Central City, and Central City-Liberty Welss.
-The cheapest Salt Lake City neignborhoods to rent apartments are Poplar Grove, Liberty Wells, and Rose Park.", br(), br(),
+The lest expensive Salt Lake City neignborhoods to rent apartments are Poplar Grove, Liberty Wells, and Rose Park. Rent Jungle provides search engine to search for apartments and rental houses.
+                        It reflects the current rental market in Salt Lake City.", 
+                        br(), br(),
                         "Datasource from Rent Jungle"),
                      box(highchartOutput("plot5", height=500), width=NULL)
               )
             ),
+            br(),br(), br(),
             fluidRow(
               column(width = 12,
-                     h2("Salt Lake County Historical Vacancy Rate"),
+                     h2("Historical Vacancy Rates for Salt Lake City and Downtown"),
                      br(),
-                     h4("The graph shows the most recent three-year vacancy rate. Data shown here is based on rentals with square footage between around 800 and 1000.", 
+                     h4("The graph shows Salt Lake City's most recent three-year vacancy rates. 
+                        Data shown here is based on rentals with square footages between around 800 and 1000. 
+                        CBRE collects and interprets data to offer their perspective on the trends of real estate market.", 
                         br(), br(),
                         "Datasource from CBRE, inc"),
                      box(highchartOutput("plot6", height=400), width=NULL)
               )
               ),
+            br(),br(), br(),
             fluidRow(
-              column(width = 10,
+              column(width = 12,
                      h2("Salt Lake City Vacancy Rate by Submarket"),
                      br(),
-                     h4("Along with the vacancy rate, the line represents the total of buildings in submarket in Salt Lake City.", 
+                     h4("Along with the vacancy rate, the line represents the total of buildings in submarkets in Salt Lake City. 
+                        Data shown here reflects the vacancy rates of big office buildings and commercial real estate property.", 
                         br(), br(),
                         "Datasource from Cushman & Wakefield"),
                      box(highchartOutput("plot7", height=400), width=NULL)
               )
             ),
+            br(),br(), br(),
             fluidRow(
               column(width = 12,
-                     h2("Salt Lake County 2017 3rd Quarter Sale Median Price"),
+                     h2("Salt Lake City 2017 3rd Quarter Sale Median Price in Comparison with Other Cities in the County"),
                      br(),
-                     h4("The graph shows the 3rd quarter home sale median price in Salt Lake County. Please click on the columns to
-                        get navigated to more median prices of the different zipcodes in the same city", 
+                     h4("The graph shows the 3rd quarter home sale median price in Salt Lake County. Please click on the Salt Lake City column to
+                        get navigated to more details on median prices of different zipcodes in the city.", 
                         br(), br(),
                         "Datasource from The Salt Lake Tribune"),
                      box(highchartOutput("plot8", height=500), width=NULL)
               )
             ),
+            br(),br(), br(),
             fluidRow(
               column(width = 12,
                      h2("Salt Lake City Sale Median Price 3rd Quarter 2003 - 2017"),
@@ -294,17 +314,24 @@ server <- function(input, output) {
   })
   
   output$plot1<-renderHighchart({
-
-    barchart<-hchart(Multifamily$`Type:  Affordable, Mixed or Market`, 
-                      colorByPoint=TRUE, name="Affordable, Market, and Mixed in SLC's Multifamily Units")
-    print(barchart)
+    multifamily_plot<-highchart() %>%
+      hc_chart(type="column") %>%
+      hc_title(text = "Multi-Family Units: Affordable, Market vs Mixed") %>%
+      hc_xAxis(categories = c("Affordable", "Market", "Mixed")) %>%
+      hc_yAxis(title = list(text = "Number of Units")) %>%
+      hc_plotOptions(series = list(colorByPoint = TRUE)) %>%
+      hc_series(list(name="Multifamily Units", data=c(subset(multi, `Project Name` == "total")$`Affordable Units`, 
+                                                      subset(multi,`Project Name` == "total")$`Market Units`,
+                                                      subset(multi,`Project Name` == "total")$`Mixed Units`)
+      )) %>%
+      print(multifamily_plot)
   })
   
   output$multifamily_map<- renderLeaflet({
     leaflet(Multifamily) %>%
       addProviderTiles(provider = "CartoDB.Positron") %>%  
       setView(-111.876183, 40.758701, zoom = 13) %>%
-      addCircleMarkers(Multifamily$lon, Multifamily$lat, popup=Multifamily$`Project Name`,
+      addCircleMarkers(Multifamily$lon, Multifamily$lat, popup=Multifamily$`Type:  Affordable, Mixed or Market`,
                        weight = 4, radius=6,
                        color = ~pal(`Type:  Affordable, Mixed or Market`),
                        stroke = TRUE, fillOpacity = .6) %>%
@@ -313,19 +340,19 @@ server <- function(input, output) {
       print(multifamily_map)
   })
   
-  output$plot2<-renderHighchart({
-    unemployment_plot<-highchart() %>%
-      hc_chart(type="line")%>%
-      hc_title(text = "MSA Unemployment rate in 2nd Quarter 2007-2017") %>% 
-      hc_xAxis(categories = c("2007", "2008", "2009", "2010", "2011", "2012",
-                              "2013", "2014", "2015", "2016", "2017")) %>%
-      hc_yAxis(title = list(text = "unemployment rate")) %>%
-      hc_series(list(name="August", data=MSA_unemployment$Aug),
-                list(name="July", data=MSA_unemployment$Jul),
-                list(name="June", data=MSA_unemployment$Jun),
-                list(name="May", data=MSA_unemployment$May))%>%
-      print(unemployment_plot)
-  })
+#  output$plot2<-renderHighchart({
+#    unemployment_plot<-highchart() %>%
+#      hc_chart(type="line")%>%
+#      hc_title(text = "MSA Unemployment rate in 2nd Quarter 2007-2017") %>% 
+#      hc_xAxis(categories = c("2007", "2008", "2009", "2010", "2011", "2012",
+#                              "2013", "2014", "2015", "2016", "2017")) %>%
+#      hc_yAxis(title = list(text = "unemployment rate")) %>%
+#      hc_series(list(name="August", data=MSA_unemployment$Aug),
+#                list(name="July", data=MSA_unemployment$Jul),
+#                list(name="June", data=MSA_unemployment$Jun),
+#                list(name="May", data=MSA_unemployment$May))%>%
+#      print(unemployment_plot)
+#  })
   
   output$plot3<-renderHighchart({
     permit_plot1<-highchart() %>%
@@ -353,21 +380,14 @@ server <- function(input, output) {
   output$plot4<-renderHighchart({
     permit_plot2<-highchart() %>%
       hc_chart(type="column") %>%
-      hc_title(text = "Value of New Residential Buildings in 2017") %>%
-      hc_yAxis(title = list(text = "Value of New Residential Buildings")) %>%
+      hc_title(text = "New Residential Units in 2017: Single-Family vs Multi-Family Units") %>%
+      hc_yAxis(title = list(text = "Number of Units")) %>%
       hc_xAxis(categories = c("January", "February", "March", "April", "May", "June",
                               "July", "August", "September")) %>%
-      hc_plotOptions(column=list(datalabels = list(enabled = FALSE),
-                                 stacking = "normal", enableMouseTracking=TRUE)) %>%
       hc_series(list(name="Single-Family", data=subset(Permit,
-                                                       `Year of Date` == "2017")$`Single-Family Detached value`),
-                list(name="Condo/Townhome", data=subset(Permit,
-                                                        `Year of Date` == "2017")$`Condo/Townhome value`),
-                list(name="Duplex/Twin Home", data=subset(Permit,
-                                                          `Year of Date` == "2017")$`Duplex/Twin Home value`),
-                list(name="Apartments", data=subset(Permit,
-                                                    `Year of Date` == "2017")$`Apartments/ 3 or 4 Family value`
-                     + subset(Permit, `Year of Date` == "2017")$`Apartments/ 5+ Families value`)
+                                                       `Year of Date` == "17")$`Single-Family Detached units`),
+                list(name="Multi-Family", data=subset(Permit,
+                                                      `Year of Date` == "17")$`Condo/Townhome units`)
       ) %>%
       print(permit_plot2)
       
@@ -379,12 +399,9 @@ server <- function(input, output) {
       hc_title(text = "Salt Lake City Average Rent by Neighborhood") %>%
       hc_yAxis(title = list(text = "Rent in dollars"),
                labels=list(format= "${value}")) %>%
-      hc_xAxis(categories = c("Sugar House", "Central City", "Central City-Liberty Welss", 
-                              "Downtown", "Capitol Hill", "Fairpark", "Glendale", "East Central",
-                              "People's Freeway", "Westpointe", "Greater Avenues", "Rose Park",
-                              "Liberty Wells", "Poplar Grove")) %>%
+      hc_xAxis(categories=neighborhoodRent$neighboarhood) %>%
       hc_series(list(name="Average rent",
-                     data=c(1410, 1335, 1281, 1250, 1225, 1128, 1121, 1106, 1030, 978, 966, 847, 831, 789))
+                     data=neighborhoodRent$a_rent)
                 )%>%
       print(rent_plot)
   }
@@ -393,17 +410,18 @@ server <- function(input, output) {
   output$plot6<-renderHighchart({
     historical_vacancy<-highchart() %>%
       hc_title(text= "Salt Lake County Historical Vacancy Rate") %>%
-      hc_xAxis(categories = c("Cottonwood Heights", "Draper", "Midvale", "Murray", "Riverton",
-                              "Salt Lake City", "Sandy", "South Jordan", "South Salt Lake",
-                              "Taylorsville", "West Jordan", "West Valley City", "Downtown")) %>%
+      hc_xAxis(categories = c("Salt Lake City", "Downtown")) %>%
       hc_yAxis(labels=list(format= "{value}%"))%>%
       hc_series(list(name="2014 vacancy rates", type="column",
-                     data=c(4.5, 2.2, 4.8, 4.0, 7.2, 4.9, 5.5, 6.9, 6.0, 6.1, 4.9, 4.2, 5.4)),
+                     data=c(subset(historicalVacancy, county=="Salt Lake City")$vacancy2014, 
+                            subset(historicalVacancy,county=="Downtown")$vacancy2014)),
                 list(name="2015 vacancy rates", type="column",
-                     data=c(4.0, 3.4, 3.6, 3.2, 4.7, 4.2, 4.5, 6.2, 4.3, 4.4, 3.9, 4.6, 4.2)),
+                     data=c(subset(historicalVacancy, county=="Salt Lake City")$vacancy2015,
+                            subset(historicalVacancy, county=="Downtown")$vacancy2015)),
                 list(name="2016 vacancy rates", type="column",
-                     data=c(3.5, 4.7, 2.5, 2.5, 2.2, 3.4, 3.4, 5.5, 2.6, 2.7, 2.8, 5.0, 2.2))
-      ) %>%
+                     data=c(subset(historicalVacancy, county=="Salt Lake City")$vacancy2016,
+                            subset(historicalVacancy, county=="Downtown")$vacancy2016))
+      )%>%
       print(historical_vacancy)
   }
   )
@@ -429,15 +447,19 @@ server <- function(input, output) {
       hc_yAxis(labels=list(format="${value}")) %>%
       hc_xAxis(type="category") %>%
       hc_plotOptions(series = list(boderWidth = 0,
-                                   dataLabels = list(enabled = TRUE))) %>%
+                                   dataLabels = list(enabled = TRUE) )) %>%
+     # hc_colorAxis(color_classes(breaks = NULL,colors=c('#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000',
+    #                                     '#FF0000','#BF0B23','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000')
+     #                                            )) %>%
       hc_add_series(name="sale median price", data=mds,
-                    colorByPoint=TRUE)
+                    colorByPoint=TRUE, colors=c('#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec',
+                                                '#7cb5ec','#FF0000','#7cb5ec', '#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec'))
     
     slc_drill<-read.csv("SLC2017.csv", stringsAsFactors = FALSE)
-    sandy_drill<-read.csv("Sandy2017.csv", stringsAsFactors = FALSE)
-    wjordan_drill<-read.csv("WJordan2017.csv", stringsAsFactors = FALSE)
-    holladay_drill<-read.csv("Holladay2017.csv", stringsAsFactors = FALSE)
-    wValleyCity_drill<-read.csv("WestValleyCity2017.csv", stringsAsFactors = FALSE)
+   # sandy_drill<-read.csv("Sandy2017.csv", stringsAsFactors = FALSE)
+  #wjordan_drill<-read.csv("WJordan2017.csv", stringsAsFactors = FALSE)
+  # holladay_drill<-read.csv("Holladay2017.csv", stringsAsFactors = FALSE)
+  #  wValleyCity_drill<-read.csv("WestValleyCity2017.csv", stringsAsFactors = FALSE)
     
     second_el_to_numeric <- function(ls){
       map(ls, function(x){
@@ -446,10 +468,10 @@ server <- function(input, output) {
       }) }
     
     dsSLC2017 <- second_el_to_numeric(list_parse2(slc_drill))
-    dsSandy2017<- second_el_to_numeric(list_parse2(sandy_drill))
-    dsWJordan2017<-second_el_to_numeric(list_parse2(wjordan_drill))
-    dsHolladay2017<-second_el_to_numeric(list_parse2(holladay_drill))
-    dsWValleyCity2017<-second_el_to_numeric(list_parse2(wValleyCity_drill))
+  #  dsSandy2017<- second_el_to_numeric(list_parse2(sandy_drill))
+  #  dsWJordan2017<-second_el_to_numeric(list_parse2(wjordan_drill))
+  #  dsHolladay2017<-second_el_to_numeric(list_parse2(holladay_drill))
+  #  dsWValleyCity2017<-second_el_to_numeric(list_parse2(wValleyCity_drill))
     
     median_sale <- median_sale %>%
       hc_drilldown(
@@ -458,28 +480,29 @@ server <- function(input, output) {
           id="salt lake city",
           data= dsSLC2017,
           name="Salt Lake City sale median price"
-        ),
-        list(
-          id="sandy",
-          data=dsSandy2017,
-          name="Sandy sale median price"
-        ),
-        list(
-          id="west jordan",
-          data=dsWJordan2017,
-          name="West Jordan sale median price"
-        ),
-        list(
-          id="holladay",
-          data=dsHolladay2017,
-          name="Holladay sale median price"
-        ),
-        list(
-          id="west valley city",
-          data=dsWValleyCity2017,
-          name="West Valley City sale median price"
-        ))
-      ) 
+        )
+      #,
+      #  list(
+      #    id="sandy",
+      #    data=dsSandy2017,
+      #    name="Sandy sale median price"
+      # ),
+      #  list(
+      #    id="west jordan",
+      #    data=dsWJordan2017,
+      #    name="West Jordan sale median price"
+      #  ),
+      #  list(
+      #    id="holladay",
+      #    data=dsHolladay2017,
+      #    name="Holladay sale median price"
+      #  ),
+      #  list(
+      #    id="west valley city",
+      #    data=dsWValleyCity2017,
+      #    name="West Valley City sale median price"
+      # )
+      )) 
     print(median_sale)
   }
   )
