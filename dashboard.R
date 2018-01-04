@@ -221,6 +221,7 @@ The lest expensive Salt Lake City neignborhoods to rent apartments are Poplar Gr
                      box(highchartOutput("graph1", height = 600), width=NULL)
                      )
               ),
+            br(),br(), br(),
             fluidRow(
               column(width=12,
                      h2("SLC's Average Annual Wages for the Top 10 Industries"),   
@@ -232,6 +233,7 @@ The lest expensive Salt Lake City neignborhoods to rent apartments are Poplar Gr
                      box(highchartOutput("graph2", height = 600), width=NULL)
                      )
               ),
+            br(),br(), br(),
             fluidRow(
               column(width=10,
                      h2("The growing disparity between wages and rental rates"),   
@@ -247,8 +249,22 @@ The lest expensive Salt Lake City neignborhoods to rent apartments are Poplar Gr
                      h4("Salt Lake City Average Rents vs Affordability (80% AMI): Datasource from CBRE 2016"),
                      box(highchartOutput("graph3", height = 500), width=NULL)
                      )
-              )
             ),
+    br(),br(), br(),
+    fluidRow(
+             h2("Wage Increase vs Home Sale Price Increase: 2011-2014", br(),
+                "Wage Increase vs Rent Increase: 2011-2016"),   
+             br(),
+             h4("Home sale prices increased 33% between 2011 and 2014, while homeowner wages increased only 8%. 
+               This steep rise in prices has created a market in which most for-sale homes are only affordable 
+                for those in the high-income bracket. The rent increase of 26% is adding great pressure for 
+                renters who have only 4% wage increase."), 
+             br(),
+             h4("Datasource from BBC Housing Market Study 2016"),
+             box(highchartOutput("graph4", height = 400)),
+             box(highchartOutput("graph5", height = 400))
+    )
+    ),
     tabItem(tabName = "goals",
             fluidRow(
               column(width=10,
@@ -686,6 +702,34 @@ server <- function(input, output) {
 
       ) %>%
       print(affordability1)
+  }
+  )
+  output$graph4<-renderHighchart({
+    wageVsPrice<-highchart() %>%
+    hc_chart(type="column") %>%
+      hc_title(text = "Wage Increase vs Home Sale Price Increase: 2011-2014") %>%
+      hc_yAxis(title = list(text = "increase in percentage"),
+               labels=list(format= "{value}%")) %>%
+      hc_xAxis(categories = c("Increase in homeowner wages", "Increase in home sale prices")) %>%
+      hc_series(list(name="increase rate", data=c(8, 33),
+                     colorByPoint=TRUE)) %>%
+      hc_plotOptions(series = list(boderWidth = 0,
+                                   dataLabels = list(enabled = TRUE, format="{y}%") )) %>%
+      print(wageVsPrice)
+  }
+  )
+  output$graph5<-renderHighchart({
+    wageVsRent<-highchart() %>%
+      hc_chart(type="column") %>%
+      hc_title(text = "Wage Increase vs Rent Increase: 2011-2016") %>%
+      hc_yAxis(title = list(text = "increase in percentage"),
+               labels=list(format= "{value}%")) %>%
+      hc_xAxis(categories = c("Increase in renter wages", "Increase in rent prices")) %>%
+      hc_series(list(name="increase rate", data=c(4, 26),
+                     colorByPoint=TRUE)) %>%
+      hc_plotOptions(series = list(boderWidth = 0,
+                                   dataLabels = list(enabled = TRUE, format="{y}%") )) %>%
+      print(wageVsRent)
   }
   )
   output$home <- renderLeaflet({
