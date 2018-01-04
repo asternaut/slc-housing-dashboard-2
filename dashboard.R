@@ -44,7 +44,7 @@ mhds<-list_parse(mh)
 names(mhds)<-NULL
 
 #### UI ####
-fluidPage(theme = "test.css",
+fluidPage(
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Welcome", tabName = "welcome", icon = icon("home")),
@@ -57,10 +57,11 @@ sidebar <- dashboardSidebar(
   )
 ),
 
-body <- dashboardBody(
+body <- dashboardBody( 
   # Dashboard favicon and title
   tags$head(
     tags$link(rel = "icon", type = "image/png", href = "house.png"),
+    tags$link(href = "dashboard.css", rel = "stylesheet"),
     tags$title("SLC Housing")
   ),
   
@@ -68,20 +69,14 @@ body <- dashboardBody(
     tabItem(
        tabName="welcome",
        fluidRow(
-         box(title = "", status = "primary", width = 8, 
-             img(src = "house.png",
-                 height = 64,
-                 width = 64
-             ),
-             h2("SLC Housing Dashboard"),
+         
+             h1("SLC"),
+             h1("Housing"),
+             h1("Dashboard"),
              h4("Dynamic Web-based Analytics for Salt Lake City Housing"),
-             br(),
              h4("SLC Housing is a ",a(href = 'http://shiny.rstudio.com', 'Shiny'),"web application built on top of R for housing-related data analytics"),
              br(),
-
-             h4(HTML('&copy'), ' 2017 by Sorenson Impact Center at the University of Utah')
-
-         ),
+             h4(HTML('&copy'), ' 2017 by Sorenson Impact Center at the University of Utah'),
          uiOutput("projectBox"),
          uiOutput("companyBox"),
          uiOutput("houseBox")
@@ -268,30 +263,30 @@ server <- function(input, output) {
   company<-120
   house<-3000
   
-  output$projectBox <- renderUI({
-    valueBox(
-      project,
-      "Projects in SLC Housing",
-      icon = shiny::icon("database"),
-      color = "green"
-    )
-  })
-  
-  output$companyBox <-renderUI({
-    valueBox(company,
-             "Company Profiles",
-             icon = icon("users"),
-             color = "purple")
-  })
-  
-  output$houseBox <- renderUI({
-    valueBox(
-      house,
-      "Housing Profiles",
-      icon = icon("building"),
-      color = "yellow"
-    )
-  })
+  # output$projectBox <- renderUI({
+  #   valueBox(
+  #     project,
+  #     "Projects in SLC Housing",
+  #     icon = shiny::icon("database"),
+  #     color = "green"
+  #   )
+  # })
+  # 
+  # output$companyBox <-renderUI({
+  #   valueBox(company,
+  #            "Company Profiles",
+  #            icon = icon("users"),
+  #            color = "purple")
+  # })
+  # 
+  # output$houseBox <- renderUI({
+  #   valueBox(
+  #     house,
+  #     "Housing Profiles",
+  #     icon = icon("building"),
+  #     color = "yellow"
+  #   )
+  # })
   
   output$plot1<-renderHighchart({
 

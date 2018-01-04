@@ -1,0 +1,61 @@
+@import url("//fonts.googleapis.com/css?family=Roboto|Cabin:400,700");
+
+
+
+h1,h2,h3,h4,h6,h5,h7,a{
+  font-family: 'Roboto' ;
+  font-weight: 500;
+  line-height: 1.1;
+  color: #000000;
+}
+
+body {
+  background-color: #ffffff;
+}
+
+.main-header,.logo {
+  font-family: 'Roboto',"Georgia", Times, "Times New Roman", serif;
+  font-weight: bold;
+  font-size: 24px;
+  background-color: #ffffff;
+}
+
+.content-wrapper{
+  background-color: #ffffff;
+}
+
+.skin-blue .main-header .navbar .sidebar-toggle {
+    color: #000;
+}
+
+.skin-blue .main-header .navbar {
+    background-color: #ffffff;
+}
+
+.skin-blue .left-side, .skin-blue .main-sidebar, .skin-blue .wrapper {
+    background-color: #fff;
+}
+
+.skin-blue .main-header .logo {
+    background-color: #fff;
+    color: #000;
+    border-bottom: 0 solid transparent;
+}
+
+.skin-blue .sidebar-menu>active>a, .skin-blue .sidebar-menu>li:hover>a {
+    color: #000;
+    background: #fff;
+    border-left-color: #fff;
+}
+
+.skin-blue .sidebar-menu>.active>a, .skin-blue .sidebar-menu>li:hover>a {
+    color: #000;
+    background: #fff;
+    border-left-color: #fff;
+}
+
+.skin-blue .sidebar-menu>li.active>a, .skin-blue .sidebar-menu>li:hover>a {
+    color: #000;
+    background: #fff;
+    border-left-color: #fff;
+}
