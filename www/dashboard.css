@@ -59,3 +59,27 @@ body {
     background: #fff;
     border-left-color: #fff;
 }
+
+.welcomeText {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.welcomeBox {
+  width :100%;
+}
+.welcomeImage{
+  width :100%;
+}
+
+.getBox {
+  width :100%;
+}
+.getImage{
+  width :100%;
+}
+.headerText{
+  text-align: center;
+}

@@ -52,11 +52,10 @@ fluidPage(
 sidebar <- dashboardSidebar(
   sidebarMenu(
     menuItem("Welcome", tabName = "welcome", icon = icon("home")),
-    menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
     menuItem("How did we get here?", tabName = "how", icon = icon("bar-chart")),
+    menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
     menuItem("Goals of Growing SLC", tabName = "goals", icon = icon("road")),
-    br(),
-    menuItem("Help",icon = icon("info-circle"))
+    br()
     
   )
 ),
@@ -72,13 +71,17 @@ body <- dashboardBody(
   tabItems(
     tabItem(
        tabName="welcome",
+       fluidRow(class="welcomeBox",
+         fluidRow(class="welcomeText",
+         h1("SLC Housing Dashboard"),
+         h4("Dynamic Web-based Analytics for Salt Lake City Housing")
+         ),
+         img(src='welcome_image.jpg',class="welcomeImage") 
+       ),
+       fluidRow(class="headerText",
+                h4("SLC Housing is a ",a(href = 'http://shiny.rstudio.com', 'Shiny'),"web application built on top of R for housing-related data analytics")      
+                ),
        fluidRow(
-         
-             h1("SLC"),
-             h1("Housing"),
-             h1("Dashboard"),
-             h4("Dynamic Web-based Analytics for Salt Lake City Housing"),
-             h4("SLC Housing is a ",a(href = 'http://shiny.rstudio.com', 'Shiny'),"web application built on top of R for housing-related data analytics"),
              br(),
              h4(HTML('&copy'), ' 2017 by Sorenson Impact Center at the University of Utah'),
          uiOutput("projectBox"),
@@ -89,17 +92,21 @@ body <- dashboardBody(
     
     tabItem(tabName = "dashboard",
             fluidRow(
-              h2("Salt Lake City's Residential Housing Stock in 2017"),
+              fluidRow(class="headerText",
+              h2("Salt Lake City's Residential Housing Stock in 2017")
+              ),
               br(),
-              h4("Datasource from Ivory Boyer database"),
+              p("Datasource from Ivory Boyer database"),
               box(highchartOutput("plot3", height = 450), width=NULL)
             ),
             br(),br(), br(),
             fluidRow(
+              fluidRow(class="headerText",
               h2("Salt Lake City's Housing Stock: Single-Family vs Multi-Family",
-                 br(),"Salt Lake City's Multi-Family Units: Affordable, Market vs Mixed"),
+                 br(),"Salt Lake City's Multi-Family Units: Affordable, Market vs Mixed")
+              ),
               br(),
-              h4("Datasource from Ivory Boyer database and HAND"),
+              p("Datasource from Ivory Boyer database and HAND"),
               box(highchartOutput("plot4", height = 400)),
               box(highchartOutput("plot1", height = 400))
             ),
@@ -108,9 +115,11 @@ body <- dashboardBody(
             
             fluidRow(
               column(width=12,
-                     h2("Salt Lake City Multifamily Interative Map"),   
+                     fluidRow(class="headerText",
+                     h2("Salt Lake City Multifamily Interative Map")
+                     ),
                      br(),
-                     h4("This map shows the multi-family units in Salt Lake City in three categories:",
+                     p("This map shows the multi-family units in Salt Lake City in three categories:",
                         br(),
                         "Datasource from HAND"),
               box(
@@ -126,7 +135,7 @@ body <- dashboardBody(
               #column(width=12,
                      #h2("Unemployment Rate in 2nd Quarter 2007-2017"),
                      #br(),
-                    #h4("Datasource from Bureau of Labor Statistics"),
+                    #p("Datasource from Bureau of Labor Statistics"),
                   #box(highchartOutput("plot2", height=350), width=NULL)
               #)
             #),
@@ -135,13 +144,15 @@ body <- dashboardBody(
               #column(width=10,
                      #h2("SLC Multi-Family: Affordable, Market and Mixed Units"),   
                      #br(),
-                     #h4("Datasource from HAND"),
+                     #p("Datasource from HAND"),
                      #box(highchartOutput("plot1", height = 300), width=NULL)
               #)
             #),
             fluidRow(
               column(width = 12,
-                     h2("Average Rent by Neighborhood"),
+                     fluidRow(class="headerText",
+                     h2("Average Rent by Neighborhood")
+                     ),
                      br(),
                      p("The graph shows the most expensive Salt Lake City neighborhoods to rent apartments are Sugar House, Central City, and Central City-Liberty Welss.The least expensive neignborhoods are Poplar Grove, Liberty Wells, and Rose Park. The data come from Rent Jungle, which uses X methodology to estimate local rents."
                      )
@@ -161,9 +172,11 @@ body <- dashboardBody(
             br(),br(), br(),
             fluidRow(
               column(width = 12,
-                     h2("Historical Vacancy Rates for Salt Lake City and Downtown"),
+                     fluidRow(class="headerText",
+                     h2("Historical Vacancy Rates for Salt Lake City and Downtown")
+                     ),
                      br(),
-                     h4("The graph shows Salt Lake City's most recent three-year vacancy rates. 
+                     p("The graph shows Salt Lake City's most recent three-year vacancy rates. 
                         Data shown here is based on rentals with square footages between around 800 and 1000. 
                         CBRE collects and interprets data to offer their perspective on the trends of real estate market.", 
                         br(), br(),
@@ -174,9 +187,11 @@ body <- dashboardBody(
             br(),br(), br(),
             fluidRow(
               column(width = 12,
-                     h2("Salt Lake City Vacancy Rate by Submarket"),
+                     fluidRow(class="headerText",
+                     h2("Salt Lake City Vacancy Rate by Submarket")
+                     ),
                      br(),
-                     h4("Along with the vacancy rate, the line represents the total of buildings in submarkets in Salt Lake City. 
+                     p("Along with the vacancy rate, the line represents the total of buildings in submarkets in Salt Lake City. 
                         Data shown here reflects the vacancy rates of big office buildings and commercial real estate property.", 
                         br(), br(),
                         "Datasource from Cushman & Wakefield"),
@@ -186,9 +201,11 @@ body <- dashboardBody(
             br(),br(), br(),
             fluidRow(
               column(width = 12,
-                     h2("Salt Lake City 2017 3rd Quarter Sale Median Price in Comparison with Other Cities in the County"),
+                     fluidRow(class="headerText",
+                     h2("Salt Lake City 2017 3rd Quarter Sale Median Price in Comparison with Other Cities in the County")
+                     ),
                      br(),
-                     h4("The graph shows the 3rd quarter home sale median price in Salt Lake County. Please click on the Salt Lake City column to
+                     p("The graph shows the 3rd quarter home sale median price in Salt Lake County. Please click on the Salt Lake City column to
                         get navigated to more details on median prices of different zipcodes in the city.", 
                         br(), br(),
                         "Datasource from The Salt Lake Tribune"),
@@ -198,9 +215,11 @@ body <- dashboardBody(
             br(),br(), br(),
             fluidRow(
               column(width = 12,
-                     h2("Salt Lake City Sale Median Price 3rd Quarter 2003 - 2017"),
+                     fluidRow(class="headerText",
+                     h2("Salt Lake City Sale Median Price 3rd Quarter 2003 - 2017")
+                     ),
                      br(),
-                     h4("The graph shows the historical trend of 3rd quarter home sale median price in Salt Lake City from 2003 to 2017. 
+                     p("The graph shows the historical trend of 3rd quarter home sale median price in Salt Lake City from 2003 to 2017. 
                         You are welcome to click on the columns of specific years to get navigated to detailed median prices of
                         different zipcodes areas in the same year", 
                         br(), br(),
@@ -211,37 +230,47 @@ body <- dashboardBody(
     ),
     
     tabItem(tabName = "how",
+            fluidRow(class="getBox",
+                     img(src='gethere.png',class="getImage") 
+            ),
+            br(),br(),
             fluidRow(
               column(width=12,
-                     h2("Salt Lake City AMI and Affodable Housing"),   
+                     fluidRow(class="headerText",
+                     h2("Salt Lake City AMI and Affodable Housing")
+                     ),
                      br(),
-                     h4(" We use Area Median Income to help us understand how income is related to 
+                     p(" We use Area Median Income to help us understand how income is related to 
                         housing affordability. Generally we focus on those who make less than 
                         60% (about $45K) as those who struggle to make housing payments. 
                         Affordable means spending no more than 30% of income towards housing costs."), 
                      br(),
-                     h4("Salt Lake City MSA income levels: Datasource from HUD 2017"),
+                     p("Salt Lake City MSA income levels: Datasource from HUD 2017"),
                      box(highchartOutput("graph1", height = 600), width=NULL)
                      )
               ),
             br(),br(), br(),
             fluidRow(
               column(width=12,
-                     h2("SLC's Average Annual Wages for the Top 10 Industries"),   
+                     fluidRow(class="headerText",
+                     h2("SLC's Average Annual Wages for the Top 10 Industries")
+                     ),
                      br(),
-                     h4(" This treemap shows the Salt Lake City top 10 industries and the respective
+                     p(" This treemap shows the Salt Lake City top 10 industries and the respective
                         average annual wages as well as the AMI percentages for each industry."), 
                      br(),
-                     h4("Datasource from HUD 2017"),
+                     p("Datasource from HUD 2017"),
                      box(highchartOutput("graph2", height = 600), width=NULL)
                      )
               ),
             br(),br(), br(),
             fluidRow(
-              column(width=10,
-                     h2("The growing disparity between wages and rental rates"),   
+              column(width=12,
+                     fluidRow(class="headerText",
+                              h2("The growing disparity between wages and rental rates")
+                     ),
                      br(),
-                     h4("Are current Salt Lake City housing price/rent affordable? 
+                     p("Are current Salt Lake City housing price/rent affordable? 
                         A single person household in Salt Lake County has an 
                         Area Median Income (AMI) of $51,690; the AMI for a family of four is $73,800. 
                         The graph shows $470 average monthly affordable Affordable gap between affordable
@@ -249,21 +278,23 @@ body <- dashboardBody(
                         average monthly affordable Affordable gap between affordable rent for four-person 
                         household and 3Br average rent plus utilities."), 
                      br(),
-                     h4("Salt Lake City Average Rents vs Affordability (80% AMI): Datasource from CBRE 2016"),
+                     p("Salt Lake City Average Rents vs Affordability (80% AMI): Datasource from CBRE 2016"),
                      box(highchartOutput("graph3", height = 500), width=NULL)
                      )
             ),
     br(),br(), br(),
     fluidRow(
+            fluidRow(class="headerText",
              h2("Wage Increase vs Home Sale Price Increase: 2011-2014", br(),
-                "Wage Increase vs Rent Increase: 2011-2016"),   
+                "Wage Increase vs Rent Increase: 2011-2016")
+            ),
              br(),
-             h4("Home sale prices increased 33% between 2011 and 2014, while homeowner wages increased only 8%. 
+             p("Home sale prices increased 33% between 2011 and 2014, while homeowner wages increased only 8%. 
                This steep rise in prices has created a market in which most for-sale homes are only affordable 
                 for those in the high-income bracket. The rent increase of 26% is adding great pressure for 
                 renters who have only 4% wage increase."), 
              br(),
-             h4("Datasource from BBC Housing Market Study 2016"),
+             p("Datasource from BBC Housing Market Study 2016"),
              box(highchartOutput("graph4", height = 400)),
              box(highchartOutput("graph5", height = 400))
     )
@@ -274,9 +305,43 @@ body <- dashboardBody(
               
               tags$div(class = "header",
               h2("Goals of Growing Salt Lake City")),
-              h3("Goal 1: Reform City Practices"),
-              h3("Goal 2:Affordable Housing"),
-              h3("Goal 3:Equitable and fair Housing"),
+              fluidRow(class="headerText",
+                h3("Goal 1: Reform City Practices")
+              ),
+              p("Current housing regulations were established in the 90s in response to the population
+                decline that had started in previous decades. Since then, however, the population has grown
+                at its fastest rate in about a century. This in conjunction with the increasing diversity of the
+                population means that housing regulations are in real need of an update to accommodate
+                the changing demographics of Salt Lake City. “This goal focuses on the need to increase the
+                diversity of housing types and opportunities in the city by seeking policy reforms that can
+                
+                enhance the flexibility of the land-use code and create an efficient and predictable
+                development process for community growth.”"),
+              fluidRow(class="headerText",
+                       h3("Goal 2:Affordable Housing"),
+                       p("Salt Lake City is experiencing a housing boom. Many new residential units have been and
+continue to be built by developers. While the number of residential units has increased so
+have their prices but wages have not risen at the same rate. The result is that low and
+middle income families are now having to spend more of their incomes on housing or make
+tough decisions in order to find more affordable housing. This goal focuses on expanding
+policies and creating initiatives that encourage the development of affordable housing now
+and in the long run to aid low and middle income households.")
+              ),
+              fluidRow(class="headerText",
+                       h3("Goal 3:Equitable and fair Housing"),
+                       p("Despite the increase in residential units being built, the supply of houses in Salt Lake City is
+still not quite up to the demand so competition is very high amongst renters. Such
+                         competition gives rise to discriminatory housing practices against low income households
+                         and protected classes such as disabled people. “Actively rooting out discrimination in
+                         housing is not only a standard that Salt Lake City holds itself to, but it is also a requirement
+                         under the U.S. Department of Housing and Urban Development (HUD) administrative ruling
+                         of 2015, the Affirmatively Furthering Fair Housing rule (AFFH).” This goal focuses on
+                         measures that will be taken to improve access to high opportunity neighborhoods and
+                         eliminating housing discrimination, measures that will also be included in Salt Lake City’s
+                         AFFH plan due in 2019.")
+              ),
+              
+              
               
               withTags({
                 div(class="header", checked=NA,
