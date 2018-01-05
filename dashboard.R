@@ -37,12 +37,16 @@ tm <- treemap(industryChart, index =c("ami","profession"),
               vSize = "income", vColor = "income",
               type = "value", palette = rev(viridis(10)),
               draw = FALSE)
-# SL County home sale median price csv file
+# SL County home sale median price csv file:y value in "medianPrice2017_3rdQuarter.csv" is written from "weighedAve"
+#countyMedian<-read_excel("Data/countyMedian.xlsx", sheet = "Sheet1")
+#weighedAve <- sapply(split(countyMedian, countyMedian$`City `), function(x){weighted.mean(x$`2017 Median Price`, x$`Units Sold`)})
 m<-read.csv("medianPrice2017_3rdQuarter.csv", stringsAsFactors = FALSE)
 mds<-list_parse(m)
 names(mds)<-NULL
 
-# SL City historical sale median price csv file
+# SL City historical sale median price csv file: y value in "historical_median_3rdQuarter.csv" is written from "cityWAve"
+#cityMedian<-read_excel("cityHisMedian.xlsx", sheet = "Sheet1")
+#cityWAve <- sapply(split(cityMedian, cityMedian$year), function(x){weighted.mean(x$medianPrice, x$unitsSold)})
 mh<-read.csv("historical_median_3rdQuarter.csv", stringsAsFactors = FALSE)
 mhds<-list_parse(mh)
 names(mhds)<-NULL
@@ -186,9 +190,9 @@ body <- dashboardBody(
             br(),br(), br(),
             fluidRow(
               column(width = 12,
-                     h2("Salt Lake City 2017 3rd Quarter Sale Median Price in Comparison with Other Cities in the County"),
+                     h2("Salt Lake City 2017 3rd Quarter Weighted Average Sale Median Prices in Comparison with Other County Cities"),
                      br(),
-                     h4("The graph shows the 3rd quarter home sale median price in Salt Lake County. Please click on the Salt Lake City column to
+                     h4("The graph shows the 3rd quarter home sale weighted average median price in Salt Lake County. Please click on the Salt Lake City column to
                         get navigated to more details on median prices of different zipcodes in the city.", 
                         br(), br(),
                         "Datasource from The Salt Lake Tribune"),
@@ -198,9 +202,9 @@ body <- dashboardBody(
             br(),br(), br(),
             fluidRow(
               column(width = 12,
-                     h2("Salt Lake City Sale Median Price 3rd Quarter 2003 - 2017"),
+                     h2("Salt Lake City Sale Weighted Average Median Prices 3rd Quarter 2003 - 2017"),
                      br(),
-                     h4("The graph shows the historical trend of 3rd quarter home sale median price in Salt Lake City from 2003 to 2017. 
+                     h4("The graph shows the historical trend of 3rd quarter home sale weighted average median prices in Salt Lake City from 2003 to 2017. 
                         You are welcome to click on the columns of specific years to get navigated to detailed median prices of
                         different zipcodes areas in the same year", 
                         br(), br(),
@@ -462,15 +466,12 @@ server <- function(input, output) {
   output$plot8<-renderHighchart({
     median_sale<-highchart() %>%
       hc_chart(type="column") %>%
-      hc_title(text="Salt Lake County 2017 3rd Quarter Sale Median Price") %>%
+      hc_title(text="Salt Lake County 2017 3rd Quarter Sale Median Prices") %>%
       hc_yAxis(labels=list(format="${value}")) %>%
       hc_xAxis(type="category") %>%
       hc_plotOptions(series = list(boderWidth = 0,
                                    dataLabels = list(enabled = TRUE) )) %>%
-     # hc_colorAxis(color_classes(breaks = NULL,colors=c('#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000',
-    #                                     '#FF0000','#BF0B23','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000','#FF0000')
-     #                                            )) %>%
-      hc_add_series(name="sale median price", data=mds,
+      hc_add_series(name="Weighed average sale median price", data=mds,
                     colorByPoint=TRUE, colors=c('#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec',
                                                 '#7cb5ec','#FF0000','#7cb5ec', '#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec'))
     
@@ -498,7 +499,7 @@ server <- function(input, output) {
         series=list(list(
           id="salt lake city",
           data= dsSLC2017,
-          name="Salt Lake City sale median price"
+          name="Salt Lake City sale median prices"
         )
       #,
       #  list(
@@ -534,7 +535,7 @@ server <- function(input, output) {
       hc_xAxis(type="category") %>%
       hc_plotOptions(series = list(boderWidth = 0,
                                    dataLabels = list(enabled = TRUE))) %>%
-      hc_add_series(name="SLC sale median price", data=mhds,
+      hc_add_series(name="SLC weighted average sale median prices", data=mhds,
                     colorByPoint=TRUE)
     
     drill03<-read.csv("SLC2003.csv", stringsAsFactors = FALSE)
@@ -581,22 +582,22 @@ server <- function(input, output) {
         series=list(list(
           id="2003 year",
           data= dsSLC2003,
-          name="sale median price 2003"
+          name="sale median prices 2003"
         ),
         list(
           id="2004 year",
           data= dsSLC2004,
-          name="sale median price 2004"
+          name="sale median prices 2004"
         ),
         list(
           id="2005 year",
           data= dsSLC2005,
-          name="sale median price 2005"
+          name="sale median prices 2005"
         ),
         list(
           id="2006 year",
           data= dsSLC2006,
-          name="sale median price 2006"
+          name="sale median prices 2006"
         ),
         list(
           id="2007 year",
@@ -606,7 +607,7 @@ server <- function(input, output) {
         list(
           id="2008 year",
           data= dsSLC2008,
-          name="sale median price 2008"
+          name="sale median prices 2008"
         ),
         list(
           id="2009 year",
@@ -616,42 +617,42 @@ server <- function(input, output) {
         list(
           id="2010 year",
           data= dsSLC2010,
-          name="sale median price 2010"
+          name="sale median prices 2010"
         ),
         list(
           id="2011 year",
           data= dsSLC2011,
-          name="sale median price 2011"
+          name="sale median prices 2011"
         ),
         list(
           id="2012 year",
           data= dsSLC2012,
-          name="sale median price 2012"
+          name="sale median prices 2012"
         ),
         list(
           id="2013 year",
           data= dsSLC2013,
-          name="sale median price 2013"
+          name="sale median prices 2013"
         ),
         list(
           id="2014 year",
           data= dsSLC2014,
-          name="sale median price 2014"
+          name="sale median prices 2014"
         ),
         list(
           id="2015 year",
           data= dsSLC2015,
-          name="sale median price 2015"
+          name="sale median prices 2015"
         ),
         list(
           id="2016 year",
           data= dsSLC2016,
-          name="sale median price 2016"
+          name="sale median prices 2016"
         ),
         list(
           id="2017 year",
           data= dsSLC2017,
-          name="sale median price 2017"
+          name="sale median prices 2017"
         )
         )
       ) 
