@@ -101,6 +101,31 @@ body <- dashboardBody(
     
     tabItem(tabName = "dashboard",
             fluidRow(
+              h2("Salt Lake City Housing Stock by Owner vs Renter: 2014",
+                 br(),"Age of Housing Stock: Salt Lake City in comparison with Salt Lake County"),
+              br(),
+              h4("Datasource from 2014 ACS and BBC Research and Consulting"),
+              box(highchartOutput("plot10", height = 400)),
+              box(highchartOutput("plot14", height = 500))
+            ),
+            br(),br(), br(),
+            fluidRow(
+              h2("Salt Lake City Housing Type by Tenure: 2014"),
+              br(),
+              h4("Datasource from BBC Housing Market Study 2016"),
+              column(width=4, box(highchartOutput("plot11", height = 400), width=NULL)),
+              column(width=4,box(highchartOutput("plot12", height = 400), width=NULL)),
+              column(width=4,box(highchartOutput("plot13", height = 400), width=NULL))
+            ),
+            br(),br(), br(),
+            fluidRow(
+              h2("Salt Lake City's Multi-Family Units: Affordable, Market vs Mixed"),
+              br(),
+              h4("Datasource from HAND"),
+              box(highchartOutput("plot1", height = 400), width=NULL)
+            ),
+            br(),br(), br(),
+            fluidRow(
               fluidRow(class="headerText",
               h2("Salt Lake City's Residential Housing Stock in 2017")
               ),
@@ -111,13 +136,11 @@ body <- dashboardBody(
             br(),br(), br(),
             fluidRow(
               fluidRow(class="headerText",
-              h2("Salt Lake City's Housing Stock: Single-Family vs Multi-Family",
-                 br(),"Salt Lake City's Multi-Family Units: Affordable, Market vs Mixed")
+              h2("Salt Lake City's Housing Stock: Single-Family vs Multi-Family")
               ),
               br(),
               p("Datasource from Ivory Boyer database and HAND"),
-              box(highchartOutput("plot4", height = 400)),
-              box(highchartOutput("plot1", height = 400))
+              box(highchartOutput("plot4", height = 400), width=NULL)
             ),
             
             br(),br(), br(),
@@ -736,6 +759,64 @@ server <- function(input, output) {
       ) 
     
     print(historical_median_sale)
+  }
+  )
+  output$plot10<-renderHighchart({ 
+    ownerRenter4<-highchart()%>%
+      hc_chart(type="column")%>%
+      hc_title(text="Salt Lake City Housing Stock by Owner vs Renter: 2014")%>%
+      hc_xAxis(categories = c("All units", "Owners", "Renters")) %>%
+      hc_series(list(name ="Housing stock units", 
+                     data=c(81715, 34697, 41226), dataLabels=list(enabled=TRUE,format= "{point.y}")))%>%
+      print(ownerRenter4)
+  }
+  )
+  
+  output$plot11<-renderHighchart({ 
+    ownerRenter1<-highchart()%>%
+      hc_chart(type="pie") %>%
+      hc_title(text = "Salt Lake City: All Units") %>%
+      hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
+                                  values =c(28, 23, 49), size=150)%>%
+      hc_tooltip(pointFormat = paste('{point.y}%  of all units'))%>%
+      print(ownerRenter1)
+  }
+  )
+  
+  output$plot12<-renderHighchart({ 
+    ownerRenter2<-highchart()%>%
+      hc_chart(type="pie") %>%
+      hc_title(text = "Salt Lake City: Owners Units") %>%
+      hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
+                                  values =c(9, 8, 83), size=150)%>%
+      hc_tooltip(pointFormat = paste('{point.y}%  of owners'))%>%
+      print(ownerRenter2)
+  }
+  )
+  output$plot13<-renderHighchart({ 
+    ownerRenter3<-highchart()%>%
+      hc_chart(type="pie") %>%
+      hc_title(text = "Salt Lake City: Renters Units") %>%
+      hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
+                                  values =c(44, 36, 20), size=150)%>%
+      hc_tooltip(pointFormat = paste('{point.y}%  of renters'))%>%
+      print(ownerRenter3)
+  }
+  )
+  
+  output$plot14<-renderHighchart({ 
+    age<-highchart()%>%
+      hc_chart(type="bar")%>%
+      hc_title(text="Age of Housing Stock: Salt Lake City, 2014")%>%
+      hc_xAxis(categories = c("Built 2000 or later", "Built 1980 to 1999", 
+                              "Built 1960 to 1979", "Built 1940 to 1959", "Built 1939 or earlier")) %>%
+      hc_yAxis(labels=list(format= "{value}%")) %>%
+      hc_series(list(name ="Salt Lake City", 
+                     data=c(9, 13, 23, 24, 32), dataLabels=list(enabled=TRUE,format= "{point.y}%")),
+                list(name ="Salt Lake County", 
+                     data=c(19, 29, 29, 14, 9), dataLabels=list(enabled=TRUE,format= "{point.y}%")))
+    
+    print(age)
   }
   )
     
