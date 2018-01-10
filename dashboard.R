@@ -114,7 +114,7 @@ body <- dashboardBody(
               br(),
               h4("Datasource from BBC Housing Market Study 2016"),
               column(width=4, box(highchartOutput("plot11", height = 400), width=NULL)),
-              column(width=4,box(highchartOutput("plot12", height = 400), width=NULL)),
+              column(width=4,box(highchartOutput("plot12", height = 450), width=NULL)),
               column(width=4,box(highchartOutput("plot13", height = 400), width=NULL))
             ),
             br(),br(), br(),
@@ -455,8 +455,8 @@ server <- function(input, output) {
     leaflet(Multifamily) %>%
       addProviderTiles(provider = "CartoDB.Positron") %>%  
       setView(-111.876183, 40.758701, zoom = 13) %>%
-      addCircleMarkers(Multifamily$lon, Multifamily$lat, popup=Multifamily$`Type:  Affordable, Mixed or Market`,
-                       weight = 4, radius=6,
+      addCircleMarkers(Multifamily$lon, Multifamily$lat, popup=paste(Multifamily$`Type:  Affordable, Mixed or Market`, "<br>", Multifamily$`Total Units`),
+                       weight = 4, radius=~ifelse(`Total Units`<50, 5,(ifelse(`Total Units`<120, 9, 13))),
                        color = ~pal(`Type:  Affordable, Mixed or Market`),
                        stroke = TRUE, fillOpacity = .6) %>%
       addLegend("bottomright", colors=c("navy", "red", "orange"), 
@@ -574,7 +574,7 @@ server <- function(input, output) {
                                    dataLabels = list(enabled = TRUE) )) %>%
       hc_add_series(name="Weighed average sale median price", data=mds,
                     colorByPoint=TRUE, colors=c('#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec',
-                                                '#7cb5ec','#FF0000','#7cb5ec', '#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec'))
+                                                '#7cb5ec','#7cb5ec','#7cb5ec', '#7cb5ec','#7cb5ec','#FF0000','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec'))
     
     slc_drill<-read.csv("SLC2017.csv", stringsAsFactors = FALSE)
    # sandy_drill<-read.csv("Sandy2017.csv", stringsAsFactors = FALSE)
@@ -637,7 +637,7 @@ server <- function(input, output) {
       hc_plotOptions(series = list(boderWidth = 0,
                                    dataLabels = list(enabled = TRUE))) %>%
       hc_add_series(name="SLC weighted average sale median prices", data=mhds,
-                    colorByPoint=TRUE)
+                    colorByPoint=FALSE)
     
     drill03<-read.csv("SLC2003.csv", stringsAsFactors = FALSE)
     drill04<-read.csv("SLC2004.csv", stringsAsFactors = FALSE)
@@ -683,77 +683,92 @@ server <- function(input, output) {
         series=list(list(
           id="2003 year",
           data= dsSLC2003,
-          name="sale median prices 2003"
+          name="sale median prices 2003",
+          color='#8bbc21'
         ),
         list(
           id="2004 year",
           data= dsSLC2004,
-          name="sale median prices 2004"
+          name="sale median prices 2004",
+          color='#8bbc21'
         ),
         list(
           id="2005 year",
           data= dsSLC2005,
-          name="sale median prices 2005"
+          name="sale median prices 2005",
+          color='#8bbc21'
         ),
         list(
           id="2006 year",
           data= dsSLC2006,
-          name="sale median prices 2006"
+          name="sale median prices 2006",
+          color='#8bbc21'
         ),
         list(
           id="2007 year",
           data= dsSLC2007,
-          name="sale median price 2007"
+          name="sale median price 2007",
+          color='#8bbc21'
         ),
         list(
           id="2008 year",
           data= dsSLC2008,
-          name="sale median prices 2008"
+          name="sale median prices 2008",
+          color='#8bbc21'
         ),
         list(
           id="2009 year",
           data= dsSLC2009,
-          name="sale median price 2009"
+          name="sale median price 2009",
+          color='#8bbc21'
         ),
         list(
           id="2010 year",
           data= dsSLC2010,
-          name="sale median prices 2010"
+          name="sale median prices 2010",
+          color='#8bbc21'
         ),
         list(
           id="2011 year",
           data= dsSLC2011,
-          name="sale median prices 2011"
+          name="sale median prices 2011",
+          color='#8bbc21'
         ),
         list(
           id="2012 year",
           data= dsSLC2012,
-          name="sale median prices 2012"
+          name="sale median prices 2012",
+          color='#8bbc21'
         ),
         list(
           id="2013 year",
           data= dsSLC2013,
-          name="sale median prices 2013"
+          name="sale median prices 2013",
+          color='#8bbc21'
         ),
         list(
           id="2014 year",
           data= dsSLC2014,
-          name="sale median prices 2014"
+          name="sale median prices 2014",
+          color='#8bbc21'
         ),
         list(
           id="2015 year",
           data= dsSLC2015,
-          name="sale median prices 2015"
+          name="sale median prices 2015",
+          color='#8bbc21'
         ),
         list(
           id="2016 year",
           data= dsSLC2016,
-          name="sale median prices 2016"
+          name="sale median prices 2016",
+          color='#8bbc21'
         ),
         list(
           id="2017 year",
           data= dsSLC2017,
-          name="sale median prices 2017"
+          name="sale median prices 2017",
+          color='#8bbc21'
         )
         )
       ) 
@@ -777,7 +792,7 @@ server <- function(input, output) {
       hc_chart(type="pie") %>%
       hc_title(text = "Salt Lake City: All Units") %>%
       hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
-                                  values =c(28, 23, 49), size=150)%>%
+                                  values =c(28, 23, 49), size=150, dataLabels = list(enabled = FALSE))%>%
       hc_tooltip(pointFormat = paste('{point.y}%  of all units'))%>%
       print(ownerRenter1)
   }
@@ -787,8 +802,9 @@ server <- function(input, output) {
     ownerRenter2<-highchart()%>%
       hc_chart(type="pie") %>%
       hc_title(text = "Salt Lake City: Owners Units") %>%
+      hc_plotOptions(series = list(showInLegend = TRUE)) %>% 
       hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
-                                  values =c(9, 8, 83), size=150)%>%
+                                  values =c(9, 8, 83), size=150, dataLabels = list(enabled = FALSE))%>%
       hc_tooltip(pointFormat = paste('{point.y}%  of owners'))%>%
       print(ownerRenter2)
   }
@@ -798,7 +814,7 @@ server <- function(input, output) {
       hc_chart(type="pie") %>%
       hc_title(text = "Salt Lake City: Renters Units") %>%
       hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
-                                  values =c(44, 36, 20), size=150)%>%
+                                  values =c(44, 36, 20), size=150, dataLabels = list(enabled = FALSE))%>%
       hc_tooltip(pointFormat = paste('{point.y}%  of renters'))%>%
       print(ownerRenter3)
   }
