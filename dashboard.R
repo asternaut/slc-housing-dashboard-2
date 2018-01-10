@@ -26,11 +26,7 @@ Multifamily<-fread("Data/new_multifamilywithgeo.csv")
 neighborhoodRent<-read.csv("rentAve.csv")
 historicalVacancy<-read.csv("vacancyHis.csv")
 multi<-read_excel("Data/Multifamily.xlsx", sheet = "Multi-Family Listings" )
-ht <- read_csv("Data/htaindex_data_places_49.csv") %>% 
-  filter(population > 60000) %>% 
-  select(name, ht_ami) %>% 
-  arrange(ht_ami) %>% 
-  mutate(name = gsub("\"", "",name))
+
 
 # multifamily address map 
 pal <- colorFactor(c("navy", "red", "orange"), domain = Multifamily$`Type:  Affordable, Mixed or Market`)
@@ -216,14 +212,6 @@ body <- dashboardBody(
                      box(highchartOutput("plot6", height=400), width=NULL)
               )
               ),
-            br(),br(), br(),
-            fluidRow(
-              column(width = 12,
-                     h2("Transportation and Affordability"),
-                     p("While housing alone is traditionally deemed affordable when consuming no more than 30% of income, the H+T Index incorporates transportation costs—usually a household’s second-largest expense—to show that location-efficient places can be more livable and affordable."),
-                     box(highchartOutput("plotHandT", height=500), width=NULL)
-              )
-            ),
             br(),br(), br(),
             fluidRow(
               column(width = 12,
@@ -924,21 +912,6 @@ server <- function(input, output) {
            dollar(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]), 
            ". Therefore, a household with income below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .3), " would be considered cost-burdened. Below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .5), " would be severely rent burdened.")
   })
-  
-  output$plotHandT <- renderHighchart({
-    HandT <- highchart() %>%
-      hc_chart(type="column") %>%
-      hc_title(text="Housing + Transportation Costs For Utah's Largest Cities") %>%
-      hc_yAxis(labels=list(format="%{value}")) %>%
-      hc_xAxis(categories = ht$name) %>%
-      hc_plotOptions(series = list(boderWidth = 0,
-                                   dataLabels = list(enabled = TRUE) )) %>%
-      hc_add_series(name="Housing + Transportation Costs % Income for the Regional Typical Household", data=ht$ht_ami,
-                    colorByPoint=TRUE, colors=c('#7cb5ec','#7cb5ec','#FF0000','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec',
-                                                '#7cb5ec','#7cb5ec', '#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec'))
-    print(HandT)
-  }
-  )
 
 }
 
