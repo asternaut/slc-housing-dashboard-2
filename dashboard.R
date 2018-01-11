@@ -20,8 +20,8 @@ library("viridis")
 
 
 #project_con <- read_excel("Data/Housing Database Combined Data.xlsx", sheet = "All Data 2")
-MSA_unemployment <- read_excel("Data/MSA-unemployment.xlsx", sheet = "DataByYear")
-Permit <- read_excel("Data/Permit_adjusted.xlsx", sheet = "State Total")
+#MSA_unemployment <- read_excel("Data/MSA-unemployment.xlsx", sheet = "DataByYear")
+permit17 <- read_excel("Data/SLC_new_units.xlsx", sheet = "Sheet1")
 Multifamily<-fread("Data/new_multifamilywithgeo.csv")
 neighborhoodRent<-read.csv("rentAve.csv")
 historicalVacancy<-read.csv("vacancyHis.csv")
@@ -41,16 +41,18 @@ tm <- treemap(industryChart, index =c("ami","profession"),
 # SL County home sale median price csv file:y value in "medianPrice2017_3rdQuarter.csv" is written from "weighedAve"
 #countyMedian<-read_excel("Data/countyMedian.xlsx", sheet = "Sheet1")
 #weighedAve <- sapply(split(countyMedian, countyMedian$`City `), function(x){weighted.mean(x$`2017 Median Price`, x$`Units Sold`)})
-m<-read.csv("medianPrice2017_3rdQuarter.csv", stringsAsFactors = FALSE)
-mds<-list_parse(m)
-names(mds)<-NULL
+#m<-read.csv("medianPrice2017_3rdQuarter.csv", stringsAsFactors = FALSE)
+#mds<-list_parse(m)
+#names(mds)<-NULL
 
 # SL City historical sale median price csv file: y value in "historical_median_3rdQuarter.csv" is written from "cityWAve"
 #cityMedian<-read_excel("cityHisMedian.xlsx", sheet = "Sheet1")
 #cityWAve <- sapply(split(cityMedian, cityMedian$year), function(x){weighted.mean(x$medianPrice, x$unitsSold)})
 mh<-read.csv("historical_median_3rdQuarter.csv", stringsAsFactors = FALSE)
-mhds<-list_parse(mh)
-names(mhds)<-NULL
+mhShort<-mh %>%
+  filter (name!="2003"& name!="2004"& name!="2005"& name!="2006"& name!="2007") 
+  mhds<-list_parse(mhShort)
+  names(mhds)<-NULL
 
 #### UI ####
 fluidPage(
@@ -123,7 +125,7 @@ body <- dashboardBody(
             br(),br(), br(),
             fluidRow(
               fluidRow(class="headerText",
-              h2("Salt Lake City's Residential Housing Stock in 2017")
+              h2("Salt Lake City's New Residential Housing Stock in 2017")
               ),
               br(),
               p("Datasource from Ivory Boyer database"),
@@ -132,7 +134,7 @@ body <- dashboardBody(
             br(),br(), br(),
             fluidRow(
               fluidRow(class="headerText",
-              h2("Salt Lake City's Housing Stock: Single-Family vs Multi-Family")
+              h2("Salt Lake City's New Housing Stock: Single-Family vs Multi-Family")
               ),
               br(),
               p("Datasource from Ivory Boyer database and HAND"),
@@ -213,34 +215,34 @@ body <- dashboardBody(
               )
               ),
             br(),br(), br(),
-            fluidRow(
-              column(width = 12,
-                     fluidRow(class="headerText",
-                     h2("Salt Lake City Vacancy Rate by Submarket")
-                     ),
-                     br(),
-                     p("Along with the vacancy rate, the line represents the total of buildings in submarkets in Salt Lake City. 
-                        Data shown here reflects the vacancy rates of big office buildings and commercial real estate property.", 
-                        br(), br(),
-                        "Datasource from Cushman & Wakefield"),
-                     box(highchartOutput("plot7", height=400), width=NULL)
-              )
-            ),
-            br(),br(), br(),
-            fluidRow(
-              column(width = 12,
-                     fluidRow(class="headerText",
-                     h2("Salt Lake City 2017 3rd Quarter Sale Median Price in Comparison with Other Cities in the County")
-                     ),
-                     br(),
-                     p("The graph shows the 3rd quarter home sale median price in Salt Lake County. Please click on the Salt Lake City column to
-                        get navigated to more details on median prices of different zipcodes in the city.", 
-                        br(), br(),
-                        "Datasource from The Salt Lake Tribune"),
-                     box(highchartOutput("plot8", height=500), width=NULL)
-              )
-            ),
-            br(),br(), br(),
+      #      fluidRow(
+      #        column(width = 12,
+      #               fluidRow(class="headerText",
+      #               h2("Salt Lake City Vacancy Rate by Submarket")
+      #               ),
+      #               br(),
+      #               p("Along with the vacancy rate, the line represents the total of buildings in submarkets in Salt Lake City. 
+      #                  Data shown here reflects the vacancy rates of big office buildings and commercial real estate property.", 
+      #                  br(), br(),
+      #                  "Datasource from Cushman & Wakefield"),
+      #               box(highchartOutput("plot7", height=400), width=NULL)
+      #        )
+      #      ),
+      #      br(),br(), br(),
+      #      fluidRow(
+      #        column(width = 12,
+      #               fluidRow(class="headerText",
+      #               h2("Salt Lake City 2017 3rd Quarter Sale Median Price in Comparison with Other Cities in the County")
+      #               ),
+      #               br(),
+      #               p("The graph shows the 3rd quarter home sale median price in Salt Lake County. Please click on the Salt Lake City column to
+      #                  get navigated to more details on median prices of different zipcodes in the city.", 
+      #                  br(), br(),
+      #                  "Datasource from The Salt Lake Tribune"),
+      #               box(highchartOutput("plot8", height=500), width=NULL)
+      #        )
+      #      ),
+      #      br(),br(), br(),
             fluidRow(
               column(width = 12,
                      fluidRow(class="headerText",
@@ -467,26 +469,21 @@ server <- function(input, output) {
 #  })
   
   output$plot3<-renderHighchart({
-    permit_plot1<-highchart() %>%
+    permit_all<-highchart() %>%
       hc_chart(type="column") %>%
       hc_title(text = "New Residential Units in 2017") %>%
       hc_yAxis(title = list(text = "Number of Units")) %>%
-      hc_xAxis(categories = c("January", "February", "March", "April", "May", "June",
-                              "July", "August", "September")) %>%
+      hc_xAxis(categories = c("January-March", "April-June",
+                              "July-September", "October-December")) %>%
       hc_plotOptions(column=list(datalabels = list(enabled = FALSE),
                                  stacking = "normal", enableMouseTracking=TRUE)) %>%
       
-      hc_series(list(name="Single-Family", data=subset(Permit,
-                                                       `Year of Date` == "2017")$`Single-Family Detached units`),
-                list(name="Condo/Townhome", data=subset(Permit,
-                                                        `Year of Date` == "2017")$`Condo/Townhome units`),
-                list(name="Duplex/Twin Home", data=subset(Permit,
-                                                          `Year of Date` == "2017")$`Duplex/Twin Home units`),
-                list(name="Apartments", data=subset(Permit,
-                                                    `Year of Date` == "2017")$`Apartments/ 3 or 4 Family units`
-                     + subset(Permit, `Year of Date` == "2017")$`Apartments/ 5+ Families units`)
-      ) %>%
-      print(permit_plot1)
+      hc_series(list(name="Single-Family", data=permit17$`Single-family Units`),
+                list(name="Duplexes and Twin Homes", data=permit17$`Duplexes and Twin Homes`),
+                list(name="Condominiums / Townhomes", data=permit17$`Condominiums / Townhomes`),
+                list(name="Apartments", data=permit17$`Apartments (3 or more units)`)
+      )
+    print(permit_all)
   })
   
   output$plot4<-renderHighchart({
@@ -538,58 +535,57 @@ server <- function(input, output) {
   }
   )
   
-  output$plot7<-renderHighchart({
-    vacancy_submarket<-highchart() %>%
-      hc_title(text = "Salt Lake City Vacancy Rate by Submarket") %>% 
-      hc_xAxis(categories = c("CBD", "Periphery", "Northeast", "Northwest", "Central East", 
-                              "Central West", "Southeast", "Southwest")) %>%
-      hc_series(list(name="submarket vacancy rate", type="area",
-                     data=c(14.5, 17.4, 9.5, 14.0, 16.7, 9.2, 13.9, 7.8)),
-                list(name="total buildings", type= "line",
-                     data=c(57, 46, 55, 69, 135, 24, 95, 18))
-      )%>%
-      print(vacancy_submarket)
-  }
-  )
-  
-  output$plot8<-renderHighchart({
-    median_sale<-highchart() %>%
-      hc_chart(type="column") %>%
-      hc_title(text="Salt Lake County 2017 3rd Quarter Sale Median Prices") %>%
-      hc_yAxis(labels=list(format="${value}")) %>%
-      hc_xAxis(type="category") %>%
-      hc_plotOptions(series = list(boderWidth = 0,
-                                   dataLabels = list(enabled = TRUE) )) %>%
-      hc_add_series(name="Weighed average sale median price", data=mds,
-                    colorByPoint=TRUE, colors=c('#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec',
-                                                '#7cb5ec','#7cb5ec','#7cb5ec', '#7cb5ec','#7cb5ec','#FF0000','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec'))
-    
-    slc_drill<-read.csv("SLC2017.csv", stringsAsFactors = FALSE)
+#  output$plot7<-renderHighchart({
+#    vacancy_submarket<-highchart() %>%
+#      hc_title(text = "Salt Lake City Vacancy Rate by Submarket") %>% 
+#      hc_xAxis(categories = c("CBD", "Periphery", "Northeast", "Northwest", "Central East", 
+#                              "Central West", "Southeast", "Southwest")) %>%
+#      hc_series(list(name="submarket vacancy rate", type="area",
+#                     data=c(14.5, 17.4, 9.5, 14.0, 16.7, 9.2, 13.9, 7.8)),
+#                list(name="total buildings", type= "line",
+#                     data=c(57, 46, 55, 69, 135, 24, 95, 18))
+#      )%>%
+#      print(vacancy_submarket)
+#  }
+#  )
+#  output$plot8<-renderHighchart({
+#    median_sale<-highchart() %>%
+#      hc_chart(type="column") %>%
+#      hc_title(text="Salt Lake County 2017 3rd Quarter Sale Median Prices") %>%
+#      hc_yAxis(labels=list(format="${value}")) %>%
+#      hc_xAxis(type="category") %>%
+#      hc_plotOptions(series = list(boderWidth = 0,
+#                                   dataLabels = list(enabled = TRUE) )) %>%
+#      hc_add_series(name="Weighed average sale median price", data=mds,
+#                    colorByPoint=TRUE, colors=c('#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec',
+#                                                '#7cb5ec','#7cb5ec','#7cb5ec', '#7cb5ec','#7cb5ec','#FF0000','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec','#7cb5ec'))
+#    
+#    slc_drill<-read.csv("SLC2017.csv", stringsAsFactors = FALSE)
    # sandy_drill<-read.csv("Sandy2017.csv", stringsAsFactors = FALSE)
   #wjordan_drill<-read.csv("WJordan2017.csv", stringsAsFactors = FALSE)
   # holladay_drill<-read.csv("Holladay2017.csv", stringsAsFactors = FALSE)
   #  wValleyCity_drill<-read.csv("WestValleyCity2017.csv", stringsAsFactors = FALSE)
     
-    second_el_to_numeric <- function(ls){
-      map(ls, function(x){
-        x[[2]] <- as.numeric(x[[2]])
-        x
-      }) }
+#    second_el_to_numeric <- function(ls){
+#      map(ls, function(x){
+#        x[[2]] <- as.numeric(x[[2]])
+#        x
+#      }) }
     
-    dsSLC2017 <- second_el_to_numeric(list_parse2(slc_drill))
+#    dsSLC2017 <- second_el_to_numeric(list_parse2(slc_drill))
   #  dsSandy2017<- second_el_to_numeric(list_parse2(sandy_drill))
   #  dsWJordan2017<-second_el_to_numeric(list_parse2(wjordan_drill))
   #  dsHolladay2017<-second_el_to_numeric(list_parse2(holladay_drill))
   #  dsWValleyCity2017<-second_el_to_numeric(list_parse2(wValleyCity_drill))
     
-    median_sale <- median_sale %>%
-      hc_drilldown(
-        allowPointDrilldown=TRUE, 
-        series=list(list(
-          id="salt lake city",
-          data= dsSLC2017,
-          name="Salt Lake City sale median prices"
-        )
+#    median_sale <- median_sale %>%
+#      hc_drilldown(
+#        allowPointDrilldown=TRUE, 
+#        series=list(list(
+#          id="salt lake city",
+#          data= dsSLC2017,
+#          name="Salt Lake City sale median prices"
+#        )
       #,
       #  list(
       #    id="sandy",
@@ -611,10 +607,10 @@ server <- function(input, output) {
       #    data=dsWValleyCity2017,
       #    name="West Valley City sale median price"
       # )
-      )) 
-    print(median_sale)
-  }
-  )
+#      )) 
+#    print(median_sale)
+#  }
+#  )
   
   output$plot9<-renderHighchart({
     historical_median_sale<-highchart() %>%
@@ -627,11 +623,11 @@ server <- function(input, output) {
       hc_add_series(name="SLC weighted average sale median prices", data=mhds,
                     colorByPoint=FALSE)
     
-    drill03<-read.csv("SLC2003.csv", stringsAsFactors = FALSE)
-    drill04<-read.csv("SLC2004.csv", stringsAsFactors = FALSE)
-    drill05<-read.csv("SLC2005.csv", stringsAsFactors = FALSE)
-    drill06<-read.csv("SLC2006.csv", stringsAsFactors = FALSE)
-    drill07<-read.csv("SLC2007.csv", stringsAsFactors = FALSE)
+#    drill03<-read.csv("SLC2003.csv", stringsAsFactors = FALSE)
+#    drill04<-read.csv("SLC2004.csv", stringsAsFactors = FALSE)
+#    drill05<-read.csv("SLC2005.csv", stringsAsFactors = FALSE)
+#    drill06<-read.csv("SLC2006.csv", stringsAsFactors = FALSE)
+#    drill07<-read.csv("SLC2007.csv", stringsAsFactors = FALSE)
     drill08<-read.csv("SLC2008.csv", stringsAsFactors = FALSE)
     drill09<-read.csv("SLC2009.csv", stringsAsFactors = FALSE)
     drill10<-read.csv("SLC2010.csv", stringsAsFactors = FALSE)
@@ -649,11 +645,11 @@ server <- function(input, output) {
         x
       }) }
     
-    dsSLC2003 <- second_el_to_numeric(list_parse2(drill03))
-    dsSLC2004 <- second_el_to_numeric(list_parse2(drill04))
-    dsSLC2005 <- second_el_to_numeric(list_parse2(drill05))
-    dsSLC2006 <- second_el_to_numeric(list_parse2(drill06))
-    dsSLC2007 <- second_el_to_numeric(list_parse2(drill07))
+#    dsSLC2003 <- second_el_to_numeric(list_parse2(drill03))
+#    dsSLC2004 <- second_el_to_numeric(list_parse2(drill04))
+#    dsSLC2005 <- second_el_to_numeric(list_parse2(drill05))
+#    dsSLC2006 <- second_el_to_numeric(list_parse2(drill06))
+#    dsSLC2007 <- second_el_to_numeric(list_parse2(drill07))
     dsSLC2008 <- second_el_to_numeric(list_parse2(drill08))
     dsSLC2009 <- second_el_to_numeric(list_parse2(drill09))
     dsSLC2010 <- second_el_to_numeric(list_parse2(drill10))
@@ -668,36 +664,37 @@ server <- function(input, output) {
     historical_median_sale <- historical_median_sale %>%
       hc_drilldown(
         allowPointDrilldown=TRUE, 
-        series=list(list(
-          id="2003 year",
-          data= dsSLC2003,
-          name="sale median prices 2003",
-          color='#8bbc21'
-        ),
-        list(
-          id="2004 year",
-          data= dsSLC2004,
-          name="sale median prices 2004",
-          color='#8bbc21'
-        ),
-        list(
-          id="2005 year",
-          data= dsSLC2005,
-          name="sale median prices 2005",
-          color='#8bbc21'
-        ),
-        list(
-          id="2006 year",
-          data= dsSLC2006,
-          name="sale median prices 2006",
-          color='#8bbc21'
-        ),
-        list(
-          id="2007 year",
-          data= dsSLC2007,
-          name="sale median price 2007",
-          color='#8bbc21'
-        ),
+        series=list(
+#         list(
+#          id="2003 year",
+#          data= dsSLC2003,
+#          name="sale median prices 2003",
+#          color='#8bbc21'
+#        ),
+#        list(
+#          id="2004 year",
+#          data= dsSLC2004,
+#          name="sale median prices 2004",
+#          color='#8bbc21'
+#        ),
+#        list(
+#          id="2005 year",
+#          data= dsSLC2005,
+#          name="sale median prices 2005",
+#          color='#8bbc21'
+#        ),
+#        list(
+#          id="2006 year",
+#          data= dsSLC2006,
+#          name="sale median prices 2006",
+#          color='#8bbc21'
+#        ),
+#        list(
+#          id="2007 year",
+#          data= dsSLC2007,
+#          name="sale median price 2007",
+#          color='#8bbc21'
+#        ),
         list(
           id="2008 year",
           data= dsSLC2008,
