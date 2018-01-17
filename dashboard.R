@@ -201,7 +201,20 @@ body <- dashboardBody(
                         "Datasource from The Salt Lake Tribune"),
                      box(highchartOutput("plot9", height=500), width=NULL)
               )
-            )      
+            ),
+            br(),br(), br(),
+            fluidRow(
+              column(width = 12,
+                     fluidRow(class="headerText",
+                              h2("Salt Lake City Average Sale Median Price vs Median Income: 3rd Quarter 2008 - 2017")
+                     ),
+                     br(),
+                     p("The two lines in the graph represent the historical trend of 3rd quarter home sale median price in Salt Lake City from 2008 to 2017
+                        in comparison with the median household income within the same period of time.", 
+                       br(), br(),
+                       "Datasource from The Salt Lake Tribune & HUD"),
+                     box(highchartOutput("plot15", height=400), width=NULL) 
+              ))
     ),
     
     tabItem(tabName = "how",
@@ -449,12 +462,14 @@ server <- function(input, output) {
     historical_median_sale<-highchart() %>%
       hc_title(text="Salt Lake City Sale Median Price 3rd Quarter 2008 - 2017") %>%
       hc_yAxis(labels=list(format="${value}")) %>%
-      hc_xAxis(type="category") %>%
+      hc_xAxis(categories=incomeMed$year, labels=list(align="left")) %>%
       hc_plotOptions(series = list(pointFormat = "${point.y}", 
-                                   dataLabels = list(enabled = TRUE),color="#7cb5ec")
+                                   dataLabels = list(enabled = TRUE))
                      )%>%
+      hc_add_series(name="SLC median household income", data=incomeMed$median, type="spline",
+                    dataLabels=list(enabled=TRUE,format= "${point.y}"),color="#8bbc21")%>%
       hc_add_series(name="SLC weighted average sale median prices", type="column", data=mhds,
-                    colorByPoint=FALSE)
+                    dataLabels=list(enabled=TRUE,format= "${point.y}"), colorByPoint=FALSE, color="#7cb5ec")
 
     drill08<-read.csv("SLC2008.csv", stringsAsFactors = FALSE)
     drill09<-read.csv("SLC2009.csv", stringsAsFactors = FALSE)
@@ -620,6 +635,18 @@ server <- function(input, output) {
                 )
     
     print(age)
+  }
+  )
+  output$plot15<-renderHighchart({
+    historical_median_sale_income<-highchart() %>%
+      hc_chart(type="line") %>%
+      hc_title(text="Average Median Price vs Median Household Income: 3rd Quarter 2008 - 2017") %>%
+      hc_yAxis(labels=list(format="${value}")) %>%
+      hc_xAxis(categories=incomeMed$year)%>%
+      hc_add_series(name="SLC weighted average sale median prices", data=mhds, dataLabels=list(enabled=TRUE,format= "${point.y}"))%>%
+      hc_add_series(name="SLC median household income", data=incomeMed$median, dataLabels=list(enabled=TRUE,format= "${point.y}"))
+      
+    print(historical_median_sale_income)
   }
   )
     
