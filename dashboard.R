@@ -71,12 +71,14 @@ body <- dashboardBody(
        fluidRow(class="welcomeBox",
          img(src='SLC_housing_dashboard.png',class="welcomeImage") 
        ),
+       br(),
        fluidRow(class="headerText",
-                h4("SLC Housing is a ",a(href = 'http://shiny.rstudio.com', 'Shiny'),"web application built on top of R for housing-related data analytics")      
-                ),
+                h2("Salt Lake City is experiencing a systemic housing crisis that has implications for every resident and business.")
+       ),
+       p("Resolving the crisis will require a community wide effort. Salt Lake City’s Housing and Neighborhood Development Division worked collaboratively to draft a plan to address the root causes of affordability, create long-term solutions for increasing needed housing supply, and expand opportunities throughout the City. The 5 year plan is called Growing SLC and was unanimously adopted by City Council in December 2017. This site is a critical component that provides data on housing market performance and progress towards fulfilling the objectives of the plan."),
        fluidRow(
              br(),
-             h4(HTML('&copy'), ' 2017 by Sorenson Impact Center at the University of Utah'),
+             p(HTML('&copy'), ' 2017 by Sorenson Impact Center at the University of Utah'),
          uiOutput("projectBox"),
          uiOutput("companyBox"),
          uiOutput("houseBox")
@@ -85,14 +87,18 @@ body <- dashboardBody(
     
     tabItem(tabName = "dashboard",
             fluidRow(
-              h2("Growing Pains & Housing Gains: A look at long-term housing affordability"),
+              fluidRow(class="headerText",
+              h1("Growing Pains & Housing Gains: A look at long-term housing affordability")
+              ),
               p("Salt Lake City’s housing market has been experiencing a boom since the end of the Great Recession. However, even with outsized new construction rates, vacancy rates are at an all-time low (around 2%), driving up housing prices across the city.  The unprecedented growth in population supports a vibrant city in which many want to live and work, but it only currently serves those with high incomes."),
               p("The Growing SLC plan, unanimously adopted by the City Council in December 2017, aims to address the root causes of housing affordability, increase the much-needed housing supply, and expand opportunities for residents throughout the City."),
               p("The affordable housing crisis has implications for every Salt Lake City resident and business. Resolving this crisis requires considering different issues like high home prices and rental rates,the pace of wage increases, and the economic inequities in the market."),
               p("The following graphics illustrate the existing barriers to be addressed, and help inform solutions to Salt Lake City’s housing crisis.")
             ),
             fluidRow(
-              h2("Salt Lake City Housing Stock Makeup"),
+              fluidRow(class="headerText",
+              h2("Salt Lake City Housing Stock Makeup")
+              ),
               p("A majority of Salt Lake City’s housing stock was built before 1940, indicating greater chances that dilapidation, blight, and unsafe conditions may exist. In fact, nearly 1,000 units of the nearly 82,000 total units lack key facilities such as plumbing or complete kitchens.
 "),
               p("A key challenge that is unique to this market is the unusual age and type of existing housing stock. To meet the affordability needs of the city's low-income renters (those earning $20,000 and less per year), 7,500 additional rental units are needed."),
@@ -104,7 +110,9 @@ body <- dashboardBody(
             br(),br(), br(),
             
             fluidRow(
-              h2("Salt Lake City Housing Type by Tenure: 2014"),
+              fluidRow(class="headerText",
+              h2("Salt Lake City Housing Type by Tenure: 2014")
+              ),
               p("About half of the housing is single-family detached, which consumes large lots and is generally unaffordable for many low-income households. The other half consists primarily of apartments, duplexes, and condos."),
               p("However, the vast majority of rental units (80%) has only two bedrooms, thus amplifying both the need for new units, but also increased affordability for families that are renting."),
               p("This graph shows the type of housing units by type, attached (more than 10 units), attached (fewer than 10 units) and single family detached."),
@@ -117,7 +125,9 @@ body <- dashboardBody(
             br(),br(), br(),
             
             fluidRow(
-              h2("Salt Lake City's Multi-Family Units: Affordable vs. Market Rate vs. Mixed"),
+              fluidRow(class="headerText",
+              h2("Salt Lake City's Multi-Family Units: Affordable vs. Market Rate vs. Mixed")
+              ),
               p("Salt Lake City has seen a market rate multifamily boom with rents at all-time highs and vacancy rates at historic lows. However, while the market rate apartment inventory continues to grow, affordable multi-family units have lost ground, even with the addition of new units."),
               box(highchartOutput("plot1", height = 600), width=NULL),
               p("Datasource from HAND and ACS 2016")
@@ -138,9 +148,7 @@ body <- dashboardBody(
             br(),br(), br(),
             
             fluidRow(
-              fluidRow(class="headerText",
-              p("The following chart shows the breakdown of new housing between single- and multi-family.")
-              ),
+              p("The following chart shows the breakdown of new housing between single- and multi-family."),
               br(),
               box(highchartOutput("plot4", height = 400), width=NULL),
               p("Datasource from Ivory Boyer database and HAND")
@@ -225,31 +233,49 @@ body <- dashboardBody(
             fluidRow(class="getBox",
                      img(src='gethere.png',class="getImage") 
             ),
+            
             br(),br(),
+            
+            fluidRow(
+              column(width=12,
+                     fluidRow(class="headerText",
+                     h1("Salt Lake City Has a Unique Population, and It's Growing Quickly.")
+                     ),
+                     p("Salt Lake City is also experiencing a housing crisis where affordable housing is becoming more scarce. Challenges in housing residents will have widespread implications for every resident and business."),
+                     p("In the face of these challenges, Salt Lake City Housing and Neighborhood Development Division (HAND) sees the opportunity to find meaningful and lasting solutions that can bring stability to residents by providing housing that is safe, secure and affordable."),
+                     p("The Growing SLC Five Year Plan is a response to these challenges and proposes a fundamental shift to how housing is prioritized in the city. This site provides data on the housing market performance and progress towards fulfilling the objectives of the Growing SLC Plan."),
+                     fluidRow(class="headerText",
+                     h2("Snapshot Salt Lake: Summary")
+                     ),
+                     p("Data is the key to understanding how our city is growing and developing, what barriers and challenges exist when solving the affordable housing crisis, and how system design can create a more equitable place to live. This section will focus on the story the data shows about the city’s growth and development and how that affects the residents of the city. ")
+              )
+            ),
+            
+            br(),br(), br(),
+            
             fluidRow(
               column(width=12,
                      fluidRow(class="headerText",
                      h2("Salt Lake City AMI and Affodable Housing")
                      ),
                      br(),
-                     p(" We use Area Median Income to help us understand how income is related to 
-                        housing affordability. Generally we focus on those who make less than 
-                        60% (about $45K) as those who struggle to make housing payments. 
-                        Affordable means spending no more than 30% of income towards housing costs."), 
+                     p("Area Median Income (the midpoint of a region’s income distribution) was the metric used to understand the relation between income and housing affordability. Residents with household income that is less than 60% (about $45,000) are those who struggle to make housing payments. Affordability implies spending no more than 30% of the income on housing costs."), 
                      br(),
-                     p("Salt Lake City MSA income levels: Datasource from HUD 2017"),
-                     box(highchartOutput("graph1", height = 600), width=NULL)
+                     box(highchartOutput("graph1", height = 600), width=NULL),
+                     p("Datasource from HUD 2017")
                      )
               ),
+            
             br(),br(), br(),
+            
             fluidRow(
               column(width=12,
                      fluidRow(class="headerText",
                      h2("SLC's Average Annual Wages for the Top 10 Industries")
                      ),
                      br(),
-                     p(" This treemap shows the Salt Lake City top 10 industries and the respective
-                        average annual wages as well as the AMI percentages for each industry."), 
+                     p(" This tree map represents top 10 industries in Salt Lake City with respective average annual wages and the AMI percentages for each industry."),
+                     p("Income is one of the most significant barriers to meeting the housing needs of Salt Lake City’s residents. The area median income for residents in Salt Lake City is nearly $20,000 less than that of the County as a whole, at $46,711. In addition, only two of the five largest employment industries in Salt Lake City pay wages high enough to afford the city’s median home price of $271,000. Thus, affording a home on a single income may be difficult for those in other industries, requiring both adults in the household to work."), 
                      br(),
                      p("Datasource from HUD 2017"),
                      box(highchartOutput("graph2", height = 600), width=NULL)
@@ -262,33 +288,24 @@ body <- dashboardBody(
                               h2("The growing disparity between wages and rental rates")
                      ),
                      br(),
-                     p("Are current Salt Lake City housing price/rent affordable? 
-                        A single person household in Salt Lake County has an 
-                        Area Median Income (AMI) of $51,690; the AMI for a family of four is $73,800. 
-                        The graph shows $470 average monthly affordable Affordable gap between affordable
-                        rent for one-person household and 1Br average rent plus utilities, and $610 
-                        average monthly affordable Affordable gap between affordable rent for four-person 
-                        household and 3Br average rent plus utilities."), 
+                     p("Although Salt Lake City is amid an unprecedented building boom, it has yet to keep pace with the rising numbers of people who want to call the city home. "),
+                     p("Rising rents and vacancy rates of 2% are driving more and more city residents to either seek housing elsewhere or live burdened with housing costs that exceed 30%, and in some cases, more than 50%, of their household income."),
+                     p("As a comparison, a single person household in Salt Lake County has an Area Median Income (AMI) of $51,690; the AMI for a family of four is $73,800. The graph shows a $470 average monthly gap between affordable rent for a one-person household and a one-bedroom average rent plus utilities, and $610 average monthly affordable gap between affordable rent for a four-person household and three-bedroom average rent plus utilities."),
                      br(),
-                     p("Salt Lake City Average Rents vs Affordability (80% AMI): Datasource from CBRE 2016"),
-                     box(highchartOutput("graph3", height = 500), width=NULL)
+                     box(highchartOutput("graph3", height = 500), width=NULL),
+                     p("Datasource from CBRE 2016")
                      )
             ),
     br(),br(), br(),
     fluidRow(
-            fluidRow(class="headerText",
-             h2("Wage Increase vs Home Sale Price Increase: 2011-2014", br(),
-                "Wage Increase vs Rent Increase: 2011-2016")
-            ),
-             br(),
-             p("Home sale prices increased 33% between 2011 and 2014, while homeowner wages increased only 8%. 
-               This steep rise in prices has created a market in which most for-sale homes are only affordable 
-                for those in the high-income bracket. The rent increase of 26% is adding great pressure for 
-                renters who have only 4% wage increase."), 
-             br(),
-             p("Datasource from BBC Housing Market Study 2016"),
+             h2("Wage Increase vs Price Icreases"),
+             p("Homeownership is not exempt from the housing boom, nor are those who desire to purchase a home exempt from feeling excluded from the market."),
+             p("This steep rise in prices has created a market in which most homes for sale are only affordable for those in high-income brackets."),
+             p("Home sale prices increased 33% between 2011 and 2014, while homeowner wages increased only 8%. The rent increase of 26% is adding great pressure for renters who have only a 4% wage increase.
+"),
              box(highchartOutput("graph4", height = 400)),
-             box(highchartOutput("graph5", height = 400))
+             box(highchartOutput("graph5", height = 400)),
+             p("Datasource from BBC Housing Market Study 2016")
     )
     ),
     tabItem(tabName = "goals",
