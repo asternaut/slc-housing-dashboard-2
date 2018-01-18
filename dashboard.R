@@ -69,11 +69,7 @@ body <- dashboardBody(
     tabItem(
        tabName="welcome",
        fluidRow(class="welcomeBox",
-         fluidRow(class="welcomeText",
-         h1("SLC Housing Dashboard"),
-         h4("Dynamic Web-based Analytics for Salt Lake City Housing")
-         ),
-         img(src='welcome_image.jpg',class="welcomeImage") 
+         img(src='SLC_housing_dashboard.png',class="welcomeImage") 
        ),
        fluidRow(class="headerText",
                 h4("SLC Housing is a ",a(href = 'http://shiny.rstudio.com', 'Shiny'),"web application built on top of R for housing-related data analytics")      
@@ -89,46 +85,65 @@ body <- dashboardBody(
     
     tabItem(tabName = "dashboard",
             fluidRow(
-              h2("Salt Lake City Housing Stock by Owner vs Renter: 2014",
-                 br(),"Age of Housing Stock: Salt Lake City in comparison with Salt Lake County"),
-              br(),
-              h4("Datasource from 2014 ACS and BBC Research and Consulting"),
+              h2("Growing Pains & Housing Gains: A look at long-term housing affordability"),
+              p("Salt Lake City’s housing market has been experiencing a boom since the end of the Great Recession. However, even with outsized new construction rates, vacancy rates are at an all-time low (around 2%), driving up housing prices across the city.  The unprecedented growth in population supports a vibrant city in which many want to live and work, but it only currently serves those with high incomes."),
+              p("The Growing SLC plan, unanimously adopted by the City Council in December 2017, aims to address the root causes of housing affordability, increase the much-needed housing supply, and expand opportunities for residents throughout the City."),
+              p("The affordable housing crisis has implications for every Salt Lake City resident and business. Resolving this crisis requires considering different issues like high home prices and rental rates,the pace of wage increases, and the economic inequities in the market."),
+              p("The following graphics illustrate the existing barriers to be addressed, and help inform solutions to Salt Lake City’s housing crisis.")
+            ),
+            fluidRow(
+              h2("Salt Lake City Housing Stock Makeup"),
+              p("A majority of Salt Lake City’s housing stock was built before 1940, indicating greater chances that dilapidation, blight, and unsafe conditions may exist. In fact, nearly 1,000 units of the nearly 82,000 total units lack key facilities such as plumbing or complete kitchens.
+"),
+              p("A key challenge that is unique to this market is the unusual age and type of existing housing stock. To meet the affordability needs of the city's low-income renters (those earning $20,000 and less per year), 7,500 additional rental units are needed."),
+              p("The graph below on the left shows the number of Salt Lake City housing stock units in 2014 by owner vs. renter. The graph below on the right shows the number of housing stock units by age in Salt Lake City."),
               box(highchartOutput("plot10", height = 400)),
               box(highchartOutput("plot14", height = 500))
             ),
+            
             br(),br(), br(),
+            
             fluidRow(
               h2("Salt Lake City Housing Type by Tenure: 2014"),
-              br(),
-              h4("Datasource from BBC Housing Market Study 2016"),
+              p("About half of the housing is single-family detached, which consumes large lots and is generally unaffordable for many low-income households. The other half consists primarily of apartments, duplexes, and condos."),
+              p("However, the vast majority of rental units (80%) has only two bedrooms, thus amplifying both the need for new units, but also increased affordability for families that are renting."),
+              p("This graph shows the type of housing units by type, attached (more than 10 units), attached (fewer than 10 units) and single family detached."),
               column(width=4, box(highchartOutput("plot11", height = 400), width=NULL)),
               column(width=4,box(highchartOutput("plot12", height = 450), width=NULL)),
-              column(width=4,box(highchartOutput("plot13", height = 400), width=NULL))
+              column(width=4,box(highchartOutput("plot13", height = 400), width=NULL)),
+              p("Datasource from BBC Housing Market Study 2016")
             ),
+            
             br(),br(), br(),
+            
             fluidRow(
-              h2("Salt Lake City's Affordable Units in Total Multi-Family Units"),
-              br(),
-              h4("Datasource from HAND and ACS 2016"),
-              box(highchartOutput("plot1", height = 600), width=NULL)
+              h2("Salt Lake City's Multi-Family Units: Affordable vs. Market Rate vs. Mixed"),
+              p("Salt Lake City has seen a market rate multifamily boom with rents at all-time highs and vacancy rates at historic lows. However, while the market rate apartment inventory continues to grow, affordable multi-family units have lost ground, even with the addition of new units."),
+              box(highchartOutput("plot1", height = 600), width=NULL),
+              p("Datasource from HAND and ACS 2016")
             ),
+            
             br(),br(), br(),
+            
             fluidRow(
               fluidRow(class="headerText",
               h2("Salt Lake City's New Residential Housing Stock in 2017")
               ),
-              br(),
-              p("Datasource from Ivory Boyer database"),
-              box(highchartOutput("plot3", height = 450), width=NULL)
+              p("Salt Lake City is experiencing tremendous residential growth with new homes and apartment buildings being constructed in all communities. Due to low vacancy rates and all-time high rental rates, the increase in housing costs is far outpacing incomes."),
+              p("The graph shows the number and type of new residential units coming up in Salt Lake City in 2017."),
+              box(highchartOutput("plot3", height = 450), width=NULL),
+              p("Datasource from Ivory Boyer database")
             ),
+            
             br(),br(), br(),
+            
             fluidRow(
               fluidRow(class="headerText",
-              h2("Salt Lake City's New Housing Stock: Single-Family vs Multi-Family")
+              p("The following chart shows the breakdown of new housing between single- and multi-family.")
               ),
               br(),
-              p("Datasource from Ivory Boyer database and HAND"),
-              box(highchartOutput("plot4", height = 400), width=NULL)
+              box(highchartOutput("plot4", height = 400), width=NULL),
+              p("Datasource from Ivory Boyer database and HAND")
             ),
             
             br(),br(), br(),
@@ -139,26 +154,27 @@ body <- dashboardBody(
                      h2("Salt Lake City Multifamily Interative Map")
                      ),
                      br(),
-                     p("This map shows the multi-family units in Salt Lake City in three categories:",
-                        br(),
-                        "Datasource from HAND"),
+                     p("The interactive map below shows the number of multi-family units in Salt Lake City in three categories: affordable, market rate and mixed"),
               box(
                 collapsible = TRUE,
                 width = NULL,
                 height = NULL,
                 leafletOutput("multifamily_map")
-              )
+              ),
+              p("Datasource from HAND")
             )
             ),
+            
             br(),br(), br(),
+            
             fluidRow(
               column(width = 12,
                      fluidRow(class="headerText",
                      h2("Average Rent by Neighborhood")
                      ),
-                     br(),
-                     p("The graph shows the most expensive Salt Lake City neighborhoods to rent apartments are Sugar House, Central City, and Central City-Liberty Welss.The least expensive neignborhoods are Poplar Grove, Liberty Wells, and Rose Park. The data come from Rent Jungle, which uses X methodology to estimate local rents."
-                     )
+                     p("Many affordable units throughout the city are currently being leased at higher rental rates due to market demand. In the fastest growing areas of the city, such as Downtown and Sugarhouse, affordable units are being sold and converted to housing for residents with higher incomes."),
+                     p("In Salt Lake City, nearly one half of the renters are cost burdened, and nearly one quarter are extremely cost-burdened (spend more than 50% of their income on rent)."),
+                     p("The graph shows that the neighborhoods of Sugar House, Central City, and Central City-Liberty Wells are the most expensive apartment rentals. The least expensive neighborhoods are Poplar Grove, Liberty Wells, and Rose Park. The data comes from Rent Jungle, which uses data aggregation to estimate local rents.")
               )
             ),
             fluidRow(
@@ -172,49 +188,37 @@ body <- dashboardBody(
               textOutput('a_out')
               )
             ),
+            
             br(),br(), br(),
+            
             fluidRow(
               column(width = 12,
                      fluidRow(class="headerText",
-                     h2("Historical Vacancy Rates for Salt Lake City and Downtown")
+                     h2("Historical Vacancy Rates")
                      ),
-                     br(),
-                     p("The graph shows Salt Lake City's most recent three-year vacancy rates. 
-                        Data shown here is based on rentals with square footages between around 800 and 1000. 
-                        CBRE collects and interprets data to offer their perspective on the trends of real estate market.", 
-                        br(), br(),
-                        "Datasource from CBRE, inc"),
-                     box(highchartOutput("plot6", height=400), width=NULL)
+                     p("With rental vacancy rates at historic lows, the city requires a larger supply of rentals to not only accommodate demand, but to address the needs of lower income renters. For lower income renters, it is important that the rental stock priced below $500 increases (either through market production, subsidy or both)."),
+                     p("The graph below shows Salt Lake City's most recent three-year vacancy rates. Data shown here is based on rentals with square footages between approximately 800 SF and 1,000 SF. CBRE collects and interprets this data to offer their perspective on the trends of the real estate market."),
+                     box(highchartOutput("plot6", height=400), width=NULL),
+                     p("Datasource from CBRE, inc")
               )
               ),
+            
             br(),br(), br(),
+            
             fluidRow(
               column(width = 12,
                      fluidRow(class="headerText",
-                     h2("Salt Lake City Sale Median Price 3rd Quarter 2008 - 2017")
+                     h2("The Growing Affordability Gap: Home Prices Vs. Income")
                      ),
-                     br(),
-                     p("The graph shows the historical trend of 3rd quarter home sale median price in Salt Lake City from 2008 to 2017. 
-                        You are welcome to click on the columns of specific years to get navigated to detailed median prices of
-                        different zipcodes areas in the same year", 
-                        br(), br(),
-                        "Datasource from The Salt Lake Tribune"),
-                     box(highchartOutput("plot9", height=500), width=NULL)
+                     p("Like many housing markets across the country, Salt Lake City has experienced substantial increases in home values since early 2012. By the end of 2014, the median sale price of $235,000 exceeded the 2007 peak median sale price of $223,751."),
+                     p("Unfortunately, incomes have not risen at the same rate as housing prices."),
+                     p("The graph shows the historical trend of 3rd quarter median sale prices in Salt Lake City from 2003 to 2017. Click the columns of specific years to navigate to detailed median prices within different zip codes in the same year."),
+                     box(highchartOutput("plot9", height=500), width=NULL),
+                     p("To further illustrate the gap, this shows both trends as a line graph:"),
+                     box(highchartOutput("plot15", height=400), width=NULL),
+                     p("Datasource from The Salt Lake Tribune")
               )
-            ),
-            br(),br(), br(),
-            fluidRow(
-              column(width = 12,
-                     fluidRow(class="headerText",
-                              h2("Salt Lake City Average Sale Median Price vs Median Income: 3rd Quarter 2008 - 2017")
-                     ),
-                     br(),
-                     p("The two lines in the graph represent the historical trend of 3rd quarter home sale median price in Salt Lake City from 2008 to 2017
-                        in comparison with the median household income within the same period of time.", 
-                       br(), br(),
-                       "Datasource from The Salt Lake Tribune & HUD"),
-                     box(highchartOutput("plot15", height=400), width=NULL) 
-              ))
+            )
     ),
     
     tabItem(tabName = "how",
