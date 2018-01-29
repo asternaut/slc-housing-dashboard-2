@@ -17,6 +17,7 @@ neighborhoodRent<-read.csv("rentAve.csv")
 historicalVacancy<-read.csv("vacancyHis.csv")
 incomeMed<-read.csv("Data/incomeMedian.csv")
 multi<-read_excel("Data/Multifamily.xlsx", sheet = "Multi-Family Listings" )
+constructionTrend<-read_xlsx("Data/yearly_construction_permit_total.xlsx")
 
 # new housing units
 permit17 <- read_excel("Data/SLC_new_units.xlsx", sheet = "Sheet1")
@@ -147,14 +148,14 @@ body <- dashboardBody(
             
             br(),br(), br(),
             
-#            fluidRow(
-#              p("The following chart shows the breakdown of new housing between single- and multi-family."),
-#              br(),
-#              box(highchartOutput("plot4", height = 400), width=NULL),
-#              p("Datasource from Ivory Boyer database and HAND")
-#            ),
+            fluidRow(
+              p("The following chart shows the construction trend within most recent 5 years."),
+              br(),
+              box(highchartOutput("plot4", height = 400), width=NULL),
+              p("Datasource from Ivory Boyer database and HAND")
+            ),
             
-#            br(),br(), br(),
+            br(),br(), br(),
             
 #            fluidRow(
 #              column(width=12,
@@ -434,18 +435,21 @@ server <- function(input, output) {
     print(permit_all)
   })
   
-#  output$plot4<-renderHighchart({
-#    permit_singleVsMulti<-highchart() %>%
-#      hc_chart(type="column") %>%
-#      hc_title(text = "New Residential Units in 2017: Single-Family vs Multi-Family Units") %>%
-#      hc_yAxis(title = list(text = "Number of Units")) %>%
-#      hc_xAxis(categories = c("January-March", "April-June",
-#                              "July-September", "October-December")) %>%
-#      hc_series(list(name="Single-Family", data=permit17$`Single-family Units`),
-#                list(name="Multi-Family", data=permitSinVsMul$multifamily)
-#      ) %>%
-#      print(permit_singleVsMulti)   
-#  })
+  output$plot4<-renderHighchart({
+    yearly_construction_trend<-highchart() %>%
+    hc_chart(type="column") %>%
+      hc_title(text = "Salt Lake City's Yearly Construction Trend: 2013-2017") %>%
+      hc_yAxis(title = list(text = "Number of homes")) %>%
+      hc_xAxis(categories = constructionTrend$year) %>%
+      hc_series(list(name="Single-family", data=constructionTrend$`single family home numbers`),
+                list(name="Duplexes and twin homes", data=constructionTrend$`duplex and twin home numbers`),
+                list(name="Condominiums / Townhomes", data=constructionTrend$`condominium/townhouse numbers`),
+                list(name="Apartments (3 or 4 units)", data=constructionTrend$`apartment (3 or 4 units) numbers`),
+                list(name="Apartments (1-3 floors)", data=constructionTrend$`apartment (1-3 floor) numbers`),
+                list(name="Apartments (4+ floors)", data=constructionTrend$`apartment (4+ floor) numbers`)
+      )%>%
+      print(yearly_construction_trend)  
+  })
   
   output$plot5<-renderHighchart({
     rent_plot<-highchart() %>%
