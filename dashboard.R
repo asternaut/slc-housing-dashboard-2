@@ -499,10 +499,11 @@ server <- function(input, output) {
         column = list(dataLabels = list(enabled = TRUE),fillOpacity=1)
         )%>%
       hc_add_series(name="SLC weighted average sale median prices", type="column", data=mhds,
-                    dataLabels=list(enabled=TRUE,format= "${point.y}"), colorByPoint=FALSE, color="grey") %>%
-      hc_add_series(name="SLC median household income", data=round(incomeMed$median,0), type="line",
-                    dataLabels=list(enabled=TRUE,format= "${point.y}"),
-                    color="red", markerOptions=list(enabled=FALSE,lineWidth=20))
+                    dataLabels=list(enabled=TRUE,format= "${point.y:,.0f}"), colorByPoint=FALSE,
+                    color="#d3d3d3") %>%
+      hc_add_series(name="SLC median household income", data=round(incomeMed$median, -2), type="line",
+                    dataLabels=list(enabled=TRUE, format="${point.y:,.0f}"),
+                    color="red", markerOptions=list(enabled=FALSE,lineWidth=2))
 
     drill08<-read.csv("SLC2008.csv", stringsAsFactors = FALSE)
     drill09<-read.csv("SLC2009.csv", stringsAsFactors = FALSE)
