@@ -229,11 +229,26 @@ body <- dashboardBody(
                      p("Unfortunately, incomes have not risen at the same rate as housing prices."),
                      p("The graph shows the historical trend of 3rd quarter median sale prices in Salt Lake City from 2003 to 2017. Click the columns of specific years to navigate to detailed median prices within different zip codes in the same year."),
                      box(highchartOutput("plot9", height=500), width=NULL),
- #                    p("To further illustrate the gap, this shows both trends as a line graph:"),
-#                     box(highchartOutput("plot15", height=400), width=NULL),
                      p("Datasource from The Salt Lake Tribune")
               )
-            )
+            ),
+
+          br(),br(), br(),
+
+         fluidRow(
+           column(width = 12,
+                 fluidRow(class="headerText",
+                  h2("Cost Burden: Salt Lake City")
+                  ),
+                 p("In addition to income, it is important to consider residents' housing expenses relative to their income. Residents spending 30 percent or more of their income on housing are said to be 'cost burdened'
+                   and residents spending 50 percent or more of their income on housing are said to be 'severely cost burdened'."),
+                 p("Nearly half (49%) of all renters (18,672 households) in Salt Lake City are cost burdened. Twenty-three percent of renters are severely cost burdened. Owners are far less likely to be cost-burdened:
+                   in Salt Lake City 22 percent of owners (7,599 households) are cost burdened and 8 percent are severely cost burdened."),
+                 p("The graph displays housing costs as a percentage of monthly income for Salt Lake City households."),
+                 box(highchartOutput("plot15", height=400), width=NULL),
+                 p("Datasource from 2014 ACS and BBC Research & Consulting")
+           )
+         )
     ),
     
     tabItem(tabName = "how",
@@ -672,18 +687,22 @@ server <- function(input, output) {
     print(age)
   }
   )
-#  output$plot15<-renderHighchart({
-#    historical_median_sale_income<-highchart() %>%
-#      hc_chart(type="line") %>%
-#      hc_title(text="Average Median Price vs Median Household Income: 3rd Quarter 2008 - 2017") %>%
-#      hc_yAxis(labels=list(format="${value}")) %>%
-#      hc_xAxis(categories=incomeMed$year)%>%
-#      hc_add_series(name="SLC weighted average sale median prices", data=mhds, dataLabels=list(enabled=TRUE,format= "${point.y}"))%>%
-#      hc_add_series(name="SLC median household income", data=incomeMed$median, dataLabels=list(enabled=TRUE,format= "${point.y}"))
-      
-#    print(historical_median_sale_income)
-#  }
-#  )
+  output$plot15<-renderHighchart({
+    cost_burden<-highchart()%>%
+      hc_chart(type="bar")%>%
+      hc_title(text="Cost Burden: Salt Lake City")%>%
+      hc_xAxis(categories = c("Less than 15%", "15% to 29.9%", "30% to 49.9%", "50% and more")) %>%
+      hc_yAxis(labels=list(format= "{value}%")) %>%
+      hc_series(list(name ="Owners with a mortgage", 
+                     data=c(25, 47, 19, 9), dataLabels=list(enabled=TRUE,format= "{point.y}%")),
+                list(name ="Renters", 
+                     data=c(14, 37, 26, 23), dataLabels=list(enabled=TRUE,format= "{point.y}%")),
+                list(name ="Owners without a mortgage", 
+                     data=c(73, 19, 4, 4), dataLabels=list(enabled=TRUE,format= "{point.y}%"))
+      )
+    print(cost_burden)
+  }
+  )
     
   ##"how did we get here" output graphs
   output$graph1<-renderHighchart({
