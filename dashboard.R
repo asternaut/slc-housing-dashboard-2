@@ -8,7 +8,7 @@ library(dplyr)
 library(data.table)
 library(purrr)
 library(scales)
-
+source("tidycensus.R")
 library("treemap")
 library("viridis") 
 
@@ -109,7 +109,12 @@ body <- dashboardBody(
             ),
             
             br(),br(), br(),
-            
+            fluidRow(
+              fluidRow(class="headerText",
+                       h1("Salt Lake City Opportunity Index")
+              ),
+              box(opportunity_index_map,width = NULL)
+            ),
             fluidRow(
               fluidRow(class="headerText",
               h2("Salt Lake City Housing Type by Tenure: 2014")
