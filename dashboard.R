@@ -129,7 +129,7 @@ body <- dashboardBody(
                        p("(9) Percent of students eligible for free and reduced lunch. (Source: Utah State Board of
                         Education.)"),
                        p("Understanding how and where opportunity is will drive how alignment should be implemented."),
-                        p("Part of this process was developing an Opportunity Index  to quantify the number of important liabilities and assets that influence the ability of an individual, or family, to access and capitalize on opportunity.
+                        p("Part of this process was developing an Opportunity Index  to quantify the number of important liabilities and assets that influence the ability of an individual, or family, to access and capitalize on opportunity.”
                         An update will be necessary in order to track the impact of alignment efforts and
                          to help neighborhoods identify which primary asset opportunities are missing."),
                        
@@ -357,40 +357,40 @@ body <- dashboardBody(
               
               tags$div(class = "header",
               h2("Goals of Growing Salt Lake City")),
-              fluidRow(class="headerText",
-                h3("Goal 1: Reform City Practices")
-              ),
-              p("Current housing regulations were established in the 90s in response to the population
-                decline that had started in previous decades. Since then, however, the population has grown
-                at its fastest rate in about a century. This in conjunction with the increasing diversity of the
-                population means that housing regulations are in real need of an update to accommodate
-                the changing demographics of Salt Lake City. “This goal focuses on the need to increase the
-                diversity of housing types and opportunities in the city by seeking policy reforms that can
-                
-                enhance the flexibility of the land-use code and create an efficient and predictable
-                development process for community growth.”"),
-              fluidRow(class="headerText",
-                       h3("Goal 2:Affordable Housing"),
-                       p("Salt Lake City is experiencing a housing boom. Many new residential units have been and
-continue to be built by developers. While the number of residential units has increased so
-have their prices but wages have not risen at the same rate. The result is that low and
-middle income families are now having to spend more of their incomes on housing or make
-tough decisions in order to find more affordable housing. This goal focuses on expanding
-policies and creating initiatives that encourage the development of affordable housing now
-and in the long run to aid low and middle income households.")
-              ),
-              fluidRow(class="headerText",
-                       h3("Goal 3:Equitable and fair Housing"),
-                       p("Despite the increase in residential units being built, the supply of houses in Salt Lake City is
-still not quite up to the demand so competition is very high amongst renters. Such
-                         competition gives rise to discriminatory housing practices against low income households
-                         and protected classes such as disabled people. “Actively rooting out discrimination in
-                         housing is not only a standard that Salt Lake City holds itself to, but it is also a requirement
-                         under the U.S. Department of Housing and Urban Development (HUD) administrative ruling
-                         of 2015, the Affirmatively Furthering Fair Housing rule (AFFH).” This goal focuses on
-                         measures that will be taken to improve access to high opportunity neighborhoods and
-                         eliminating housing discrimination, measures that will also be included in Salt Lake City’s
-                         AFFH plan due in 2019.")
+             
+                h3("Goal 1: INCREASE HOUSING OPTIONS: REFORM CITY PRACTICES TO PROMOTE A RESPONSIVE, AFFORDABLE, HIGH-OPPORUNITY HOUSING MARKET"),
+             
+              p("In order to respond to Salt Lake City’s changing demographics and the housing needs of its diverse communities, it is critical to begin to look within the City for real and responsive change that will encourage the market to develop the housing and infrastructure needed to accommodate our growing community. This goal focuses on the need to increase the diversity of housing types and opportunities in the city by seeking policy reforms that can enhance the flexibility of the land-use code and create an efficient and predictable development process for community growth. Strategic policy decisions that integrate the transportation system, development related infrastructure, financial institutions, and data, as well as innovative design and construction methods,
+                can break down social and economic segregation, thus building a city for everyone."),
+              p("Objective 1: Review and modify land-use and zoning regulations to reflect the affordability needs of a growing, pioneering city"),
+              p("Objective 2: Remove impediments in City processes to encourage housing development."),
+              p("Objective 3: Lead in the construction of innovative housing solutions."),
+              p("Objective 4: Provide residents, community advocates, business leaders, and elected officials with high-quality data to drive decision-making."),
+              
+                       h3("Goal 2: AFFORDABLE HOUSING: INCREASE HOUSING OPPORTUNITIES AND STABILITY FOR COST-BURDENED HOUSEHOLDS"),
+              
+                       p("This goal is dedicated to serving and addressing the needs of those most vulnerable in our community. It is driven by a strong belief that housing stability is good for the entire city, adding income to small businesses, creating food stability for children, and allowing residents to enrich their neighborhoods. Salt Lake City needs to pursue a combination of strategies outlined in the objectives below to achieve this goal.
+                        There is no singular initiative that will resolve this crisis, 
+                         it must be addressed with a range of strategies to best fit the diverse needs of our entire community."),
+                       p("Objective 1: Prioritize the development of new affordable housing with an emphasis on households earning 40% AMI and below."),
+                       p("Objective 2: Pursue funding for affordable housing opportunities."),
+                       p("Objective 3: Stabilize very low-income renters."),
+                       p("Objective 4: Secure and preserve long-term affordability."),
+                       p("Objective 5: Work with landlords to improve their housing stock and rent to very low-income households earning 40% AMI and below."),
+                       p("Objective 6: Increase home ownership opportunities."),
+            
+                       h3("Goal 3: EQUITABLE & FAIR HOUSING: BUILD A MORE EQUITABLE CITY"),
+              
+                       p("Equity is not only about eliminating discrimination, 
+                         it is also about increasing access to opportunity. 
+                         One of the guiding principles of Plan Salt Lake is to create an equitable city by ensuring 
+                         “access to all city amenities for all citizens while treating everyone equitably with fairness, 
+                         justice, and respect.” The City will accomplish this by working to eliminate housing discrimination, 
+                         strategically investing in neighborhoods that stand the most to gain, and building a city that meets needs of a 
+                         diverse population."),
+                       p("Objective 1: Eliminate incidences of housing discrimination in Salt Lake City."),
+                       p("Objective 2: Align resources and invest in strategic expansion of opportunity throughout all neighborhoods of the city and access to existing areas of opportunity."),
+                       p("Objective 3: Implement life cycle housing principles in neighborhoods throughout the city.")
               ),
               
               
@@ -407,7 +407,7 @@ still not quite up to the demand so competition is very high amongst renters. Su
     )
     )
     )
-)
+
 
 # Put them together into a dashboardPage
 ui <- dashboardPage(
