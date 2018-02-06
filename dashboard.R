@@ -113,25 +113,15 @@ body <- dashboardBody(
               fluidRow(class="headerText",
                        h1("Salt Lake City Opportunity Index")
               ),
-                       p("This map shows the Oppotunity Index of Salt Lake City based on the following 9 variables"),
-                       p("(1) Percent of owner occupied households with severe housing cost burden (50% of income
-                      required for housing and utilities). (Source: HUD Comprehensive Housing
-                         Affordability Strategy)."),
-                       p("(2) Percent of renter households with severe housing cost burden. (Source: HUD
-                          Comprehensive Housing Affordability Strategy.)"),
-                       p("(3) Percent of homeowners. (Source: American Community Survey.)"),
-                       p("(4) Percent of individuals with at least B.S. degree. (Source: HUD AFFH database.)"),
-                       p("(5) Percent of individuals (non-student) in poverty. (Source: HUD Affirmatively Furthering
-                          Fair Housing (AFFH) database.)"),
-                       p("(6) Labor force participation rate. (Source: HUD AFFH database.)"),
-                       p("(7) Percent unemployed. (Source: HUD AFFH database.)"),
-                       p("(8) Percent of individuals receiving public assistance. (Source: HUD AFFH database.)"),
-                       p("(9) Percent of students eligible for free and reduced lunch. (Source: Utah State Board of
-                        Education.)"),
-                       p("Understanding how and where opportunity is will drive how alignment should be implemented."),
-                        p("Part of this process was developing an Opportunity Index  to quantify the number of important liabilities and assets that influence the ability of an individual, or family, to access and capitalize on opportunity.”
-                        An update will be necessary in order to track the impact of alignment efforts and
-                         to help neighborhoods identify which primary asset opportunities are missing."),
+                       p("Neighborhood-level data help define the need for services as well as measure access to
+                        opportunity for the local population. Measuring and mapping the access to
+                        various opportunities, we can begin to understand some of the empirical differences 
+                        between neighborhoods. Once we have grasp on this, the City can begin making strategic 
+                        investments to help expand the opportunities throughout the city."),
+                        p("This map displays a 
+                        variety of indicators that are important in guiding these investments, including employment rate, 
+                         income level, household cost burden, rate of homeownership, and educational attainment."),
+                     
                        
               
               box(opportunity_index_map,width = NULL)
