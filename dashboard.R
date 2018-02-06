@@ -69,10 +69,13 @@ body <- dashboardBody(
   tabItems(
     tabItem(
        tabName="welcome",
+       
        fluidRow(class="welcomeBox",
          img(src='SLC_housing_dashboard.png',class="welcomeImage") 
        ),
+       
        br(),
+       
        fluidRow(class="headerText",
                 h2("Salt Lake City is experiencing a systemic housing crisis that has implications for every resident and business.")
        ),
@@ -87,6 +90,13 @@ body <- dashboardBody(
      ),
     
     tabItem(tabName = "dashboard",
+            
+            fluidRow(class="getBox",
+                     img(src='dashboard.png',class="getImage") 
+            ),
+            
+            br(),br(),
+            
             fluidRow(
               fluidRow(class="headerText",
               h1("Growing Pains & Housing Gains: A look at long-term housing affordability")
@@ -263,8 +273,9 @@ body <- dashboardBody(
     ),
     
     tabItem(tabName = "how",
+            
             fluidRow(class="getBox",
-                     img(src='gethere.png',class="getImage") 
+                     img(src='how.png',class="getImage") 
             ),
             
             br(),br(),
@@ -342,11 +353,13 @@ body <- dashboardBody(
     )
     ),
     tabItem(tabName = "goals",
+            
+            fluidRow(class="getBox",
+                     img(src='goals.png',class="getImage") 
+            ),
+            
             fluidRow(
               column(width=10,
-              
-              tags$div(class = "header",
-              h2("Goals of Growing Salt Lake City")),
              
                 h3("Goal 1: INCREASE HOUSING OPTIONS: REFORM CITY PRACTICES TO PROMOTE A RESPONSIVE, AFFORDABLE, HIGH-OPPORUNITY HOUSING MARKET"),
              
