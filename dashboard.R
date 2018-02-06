@@ -400,7 +400,7 @@ body <- dashboardBody(
               
               withTags({
                 div(class="header", checked=NA,
-                    p("Want to check out the plan?" , a("Click Here",target="_blank",href="plan.pdf"))
+                    p("Want to check out the plan?" , a("Click Here",target="_blank",href="Growing SLC.pdf"))
                     
                 )
               })
