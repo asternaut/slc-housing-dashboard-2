@@ -37,13 +37,9 @@ tm <- treemap(industryChart, index =c("ami","profession"),
               draw = FALSE)
 
 # SL City historical sale median price csv file: y value in "historical_median_3rdQuarter.csv" is written from "cityWAve"
-#cityMedian<-read_excel("cityHisMedian.xlsx", sheet = "Sheet1")
-#cityWAve <- sapply(split(cityMedian, cityMedian$year), function(x){weighted.mean(x$medianPrice, x$unitsSold)})
-mh<-read.csv("historical_median_3rdQuarter.csv", stringsAsFactors = FALSE)
-mhShort<-mh %>%
-  filter (name!="2003"& name!="2004"& name!="2005"& name!="2006"& name!="2007") 
-  mhds<-list_parse(mhShort)
-  names(mhds)<-NULL
+cityMedian<-read_xlsx("Data/cityHisMedian.xlsx")
+cityWAve <- sapply(split(cityMedian, cityMedian$year), function(x){weighted.mean(x$medianPrice, x$unitsSold)})
+WAve <-data.frame(keyName=names(cityWAve), value=cityWAve, row.names=NULL)
 
 #### UI ####
 fluidPage(
@@ -535,120 +531,14 @@ server <- function(input, output) {
       hc_xAxis(categories=incomeMed$year, labels=list(align="left")) %>%
       hc_plotOptions(
         line = list(dataLabels = list(enabled = TRUE)),
-        column = list(dataLabels = list(enabled = TRUE),fillOpacity=1)
-        )%>%
-      hc_add_series(name="SLC weighted average sale median prices", type="column", data=mhds,
+        column = list(dataLabels = list(enabled = TRUE))
+      )%>%
+      hc_add_series(name="SLC weighted average sale median prices", type="column", data=round(WAve$value, -2),
                     dataLabels=list(enabled=TRUE,format= "${point.y:,.0f}"), colorByPoint=FALSE,
                     color="#d3d3d3") %>%
       hc_add_series(name="SLC median household income", data=round(incomeMed$median, -2), type="line",
                     dataLabels=list(enabled=TRUE, format="${point.y:,.0f}"),
                     color="red", markerOptions=list(enabled=FALSE,lineWidth=2))
-
-    drill08<-read.csv("SLC2008.csv", stringsAsFactors = FALSE)
-    drill09<-read.csv("SLC2009.csv", stringsAsFactors = FALSE)
-    drill10<-read.csv("SLC2010.csv", stringsAsFactors = FALSE)
-    drill11<-read.csv("SLC2011.csv", stringsAsFactors = FALSE)
-    drill12<-read.csv("SLC2012.csv", stringsAsFactors = FALSE)
-    drill13<-read.csv("SLC2013.csv", stringsAsFactors = FALSE)
-    drill14<-read.csv("SLC2014.csv", stringsAsFactors = FALSE)
-    drill15<-read.csv("SLC2015.csv", stringsAsFactors = FALSE)
-    drill16<-read.csv("SLC2016.csv", stringsAsFactors = FALSE)
-    drill17<-read.csv("SLC2017.csv", stringsAsFactors = FALSE)
-    
-    second_el_to_numeric <- function(ls){
-      map(ls, function(x){
-        x[[2]] <- as.numeric(x[[2]])
-        x
-      }) }
-    
-    dsSLC2008 <- second_el_to_numeric(list_parse2(drill08))
-    dsSLC2009 <- second_el_to_numeric(list_parse2(drill09))
-    dsSLC2010 <- second_el_to_numeric(list_parse2(drill10))
-    dsSLC2011 <- second_el_to_numeric(list_parse2(drill11))
-    dsSLC2012 <- second_el_to_numeric(list_parse2(drill12))
-    dsSLC2013 <- second_el_to_numeric(list_parse2(drill13))
-    dsSLC2014 <- second_el_to_numeric(list_parse2(drill14))
-    dsSLC2015 <- second_el_to_numeric(list_parse2(drill15))
-    dsSLC2016 <- second_el_to_numeric(list_parse2(drill16))
-    dsSLC2017 <- second_el_to_numeric(list_parse2(drill17))
-    
-    historical_median_sale <- historical_median_sale %>%
-      hc_drilldown(
-        allowPointDrilldown=TRUE, 
-        series=list(
-        list(
-          id="2008 year",
-          type="column",
-          data= dsSLC2008,
-          name="sale median prices 2008",
-          color='#8bbc21'
-        ),
-        list(
-          id="2009 year",
-          type="column",
-          data= dsSLC2009,
-          name="sale median price 2009",
-          color='#8bbc21'
-        ),
-        list(
-          id="2010 year",
-          type="column",
-          data= dsSLC2010,
-          name="sale median prices 2010",
-          color='#8bbc21'
-        ),
-        list(
-          id="2011 year",
-          type="column",
-          data= dsSLC2011,
-          name="sale median prices 2011",
-          color='#8bbc21'
-        ),
-        list(
-          id="2012 year",
-          type="column",
-          data= dsSLC2012,
-          name="sale median prices 2012",
-          color='#8bbc21'
-        ),
-        list(
-          id="2013 year",
-          type="column",
-          data= dsSLC2013,
-          name="sale median prices 2013",
-          color='#8bbc21'
-        ),
-        list(
-          id="2014 year",
-          type="column",
-          data= dsSLC2014,
-          name="sale median prices 2014",
-          color='#8bbc21'
-        ),
-        list(
-          id="2015 year",
-          type="column",
-          data= dsSLC2015,
-          name="sale median prices 2015",
-          color='#8bbc21'
-        ),
-        list(
-          id="2016 year",
-          type="column",
-          data= dsSLC2016,
-          name="sale median prices 2016",
-          color='#8bbc21'
-        ),
-        list(
-          id="2017 year",
-          type="column",
-          data= dsSLC2017,
-          name="sale median prices 2017",
-          color='#8bbc21'
-        )
-        )
-      ) 
-    
     print(historical_median_sale)
   }
   )
