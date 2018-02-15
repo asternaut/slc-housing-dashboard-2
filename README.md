@@ -4,10 +4,10 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 
 ## TODO
 * ~~Opportunity map~~
-* Put all data into .csv files in the data folder
-* Delete all unused resources
+* ~~Put all data into .csv files in the data folder~~
+* ~~Delete all unused resources~~
 * Hardcode the shapefile
-* Refactor, clean, and comment code
+* ~~Refactor, clean, and comment code~~
 * Ask Sean about the way to calculate affordability given AMI
 * Make chart based on the graph Sean sent
 * Get a high-res log
