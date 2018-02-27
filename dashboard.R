@@ -383,7 +383,8 @@ body <- dashboardBody(
 
 # Put items together into a dashboardPage ####
 ui <- dashboardPage(
-  dashboardHeader(title = "SLC Housing"),
+  dashboardHeader(title = tags$a(href='http://www.slcgov.com/hand',
+                                 tags$img(src='handlogo.png', class="logoImage"))),
   sidebar,
   body
 )
