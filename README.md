@@ -9,8 +9,8 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * Modify CSS to match Brian's font and color guidelines
 * ~Hardcode the shapefile~
 * Use Goals Table (to be sent by Lily) to create Goals page
-* Add HAND logo to header : Need Logo as a raw file for better resolution
-* Add footer with logos and names : Need Logo as a raw file for better resolution
+* Add HAND logo to header 
+* Add footer with logos and names 
 
 ### Hua
 * Update the housing price data with data that Lily sent
