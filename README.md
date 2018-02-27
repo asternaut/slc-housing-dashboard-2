@@ -9,7 +9,6 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * Modify CSS to match Brian's font and color guidelines
 * ~Hardcode the shapefile~
 * Use Goals Table (to be sent by Lily) to create Goals page
-* Add footer with logos and names 
 
 ### Hua
 * Update the housing price data with data that Lily sent
@@ -24,6 +23,7 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * ~~Create a blank CSV with the Goals Table - send it to HAND~~
 * ~~Ask Sean about the way to calculate affordability given AMI~~
 * ~~Add HAND logo to header~~ 
+* Add footer with logos and names 
 
 
 ### All
