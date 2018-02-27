@@ -12,6 +12,7 @@ source("tidycensus.R")
 library("treemap")
 library("viridis") 
 
+
 #Multifamily<-fread("Data/new_multifamilywithgeo.csv")
 neighborhoodRent<-read.csv("rentAve.csv")
 historicalVacancy<-read.csv("vacancyHis.csv")
@@ -114,6 +115,7 @@ body <- dashboardBody(
 "),
               p("A key challenge that is unique to this market is the unusual age and type of existing housing stock. To meet the affordability needs of the city's low-income renters (those earning $20,000 and less per year), 7,500 additional rental units are needed."),
               p("The graph below on the left shows the number of Salt Lake City housing stock units in 2014 by owner vs. renter. The graph below on the right shows the number of housing stock units by age in Salt Lake City."),
+              #tableOutput(incomeMed),
               box(highchartOutput("plot10", height = 500)),
               box(highchartOutput("plot14", height = 500))
             ),
@@ -226,7 +228,7 @@ body <- dashboardBody(
             ),
             
             br(),br(), br(),
-            
+
             fluidRow(
               column(width = 12,
                      fluidRow(class="headerText",
@@ -816,6 +818,8 @@ server <- function(input, output) {
            dollar(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]), 
            ". Therefore, a household with income below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .3), " would be considered cost-burdened. Below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .5), " would be severely rent burdened.")
   })
+  
+  
 
 }
 
