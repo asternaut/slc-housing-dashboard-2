@@ -9,7 +9,6 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * Modify CSS to match Brian's font and color guidelines
 * ~Hardcode the shapefile~
 * Use Goals Table (to be sent by Lily) to create Goals page
-* Add HAND logo to header 
 * Add footer with logos and names 
 
 ### Hua
@@ -19,11 +18,13 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * ~~Pull text out of dashboard and into the Google Docs~~
 
 ### Daniel
-* Work with Comms to update images
+* ~~Work with Comms to update images~~
 * ~~Email them links to all Google Docs~~
 * At the end, replace HTML with text from Google Docs
 * ~~Create a blank CSV with the Goals Table - send it to HAND~~
 * ~~Ask Sean about the way to calculate affordability given AMI~~
+* ~~Add HAND logo to header~~ 
+
 
 ### All
 * ~~Put all data into .csv files in the data folder~~
