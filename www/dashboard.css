@@ -1,14 +1,17 @@
-@import url("//fonts.googleapis.com/css?family=Roboto|Cabin:400,700");
+@import url("//fonts.googleapis.com/css?family=Roboto+Condensed:400,700");
 
 
 
 h1,h2,h3,h4,h6,h5,h7,a{
-  font-family: 'Roboto' ;
+  font-family: 'Roboto Condensed' ;
   font-weight: 500;
   line-height: 1.1;
   color: #000000;
 }
 
+p{
+  font-family: 'Roboto Condensed' ;
+}
 body {
   background-color: #ffffff;
 }
