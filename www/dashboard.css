@@ -1,7 +1,5 @@
 @import url("//fonts.googleapis.com/css?family=Roboto+Condensed:400,700");
 
-
-
 h1,h2,h3,h4,h6,h5,h7,a{
   font-family: 'Roboto Condensed' ;
   font-weight: 500;
@@ -85,4 +83,16 @@ body {
 }
 .headerText{
   text-align: center;
+}
+
+.logoImage{
+  height :100%;
+}
+
+.footerBox{
+  text-align: center;
+  font-size: 10px;
+  background-color: #F5F5F5;
+  padding-left: 10px;
+  padding-right: 10px;
 }

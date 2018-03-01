@@ -80,12 +80,12 @@ body <- dashboardBody(
                 h2("Salt Lake City is experiencing a systemic housing crisis that has implications for every resident and business.")
        ),
        p("Resolving the crisis will require a community wide effort. Salt Lake City’s Housing and Neighborhood Development Division worked collaboratively to draft a plan to address the root causes of affordability, create long-term solutions for increasing needed housing supply, and expand opportunities throughout the City. The 5 year plan is called Growing SLC and was unanimously adopted by City Council in December 2017. This site is a critical component that provides data on housing market performance and progress towards fulfilling the objectives of the plan."),
-       fluidRow(
-             br(),
-             p(HTML('&copy'), ' 2017 by Sorenson Impact Center at the University of Utah'),
-         uiOutput("projectBox"),
-         uiOutput("companyBox"),
-         uiOutput("houseBox")
+       br(),
+       fluidRow(class="footerBox",
+                p(HTML(paste0(
+                  'Daniel Hadley, Hua Jiang, & Suyash Thite | ', a(href = 'https://github.com/Sorenson-Impact/SLC-Housing-Dashboard', 'Code'),'!'))),
+                img(src='si_desb_hand_logo.png',class="getImage"),
+                br()
        )
      ),
     # create dashboard boxes ####
@@ -386,7 +386,8 @@ body <- dashboardBody(
 
 # Put items together into a dashboardPage ####
 ui <- dashboardPage(
-  dashboardHeader(title = "SLC Housing"),
+  dashboardHeader(title = tags$a(href='http://www.slcgov.com/hand',
+                                 tags$img(src='handlogo.png', class="logoImage"))),
   sidebar,
   body
 )
