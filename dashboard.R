@@ -13,40 +13,39 @@ library("treemap")
 library("viridis") 
 
 
-#Multifamily<-fread("Data/new_multifamilywithgeo.csv")
-neighborhoodRent<-read.csv("rentAve.csv")
-historicalVacancy<-read.csv("vacancyHis.csv")
+# read and prepare datasources for visulization ####
+neighborhoodRent<-read.csv("Data/rentAve.csv")
+historicalVacancy<-read.csv("Data/vacancyHis.csv")
 incomeMed<-read.csv("Data/incomeMedian.csv")
 multi<-read_excel("Data/Multifamily.xlsx", sheet = "Multi-Family Listings" )
 constructionTrend<-read_xlsx("Data/yearly_construction_permit_total.xlsx")
-
+# ownerVsRenter<-read.csv("Data/housingStock_ownerVsRenter.csv")
+allUnitsRatio<-read.csv("Data/allUnits.csv")
+ownersUnitsRatio<-read.csv("Data/ownersUnits.csv")
+rentersUnitsRatio<-read.csv("Data/rentersUnits.csv")
+houseAge <- read.csv("Data/houseAge.csv")
+costBurden <- read.csv("Data/costBurden.csv")
+incomeLevels <- read.csv("Data/incomeLevels.csv")
+averageRentsVsAffordability <- read.csv("Data/averageRentsVsAffordability.csv")
+wageIncreaseVsHomeSalePrice <- read.csv("Data/wageIncreaseVsHomeSalePrice.csv")
+wageIncreaseVsRent <- read.csv("Data/wageIncreaseVsRent.csv")
 # new housing units
 permit17 <- read_excel("Data/SLC_new_units.xlsx", sheet = "Sheet1")
 permitSinVsMul<- permit17 %>%
   select(`Duplexes and Twin Homes`, `Condominiums / Townhomes`, `Apartments (3 or more units)`) %>%
   mutate(multifamily=`Duplexes and Twin Homes`+`Condominiums / Townhomes`+`Apartments (3 or more units)`)
-
-# multifamily address map 
-#pal <- colorFactor(c("navy", "red", "orange"), domain = Multifamily$`Type:  Affordable, Mixed or Market`)
-#Multifamily$`Type:  Affordable, Mixed or Market`<- factor(Multifamily$`Type:  Affordable, Mixed or Market`, 
-#                                                          levels = c("Affordable", "Market", "Mixed"), ordered = TRUE)
 # industry ami and median income in "How"
-industryChart<-read.csv("industryC.csv")
+industryChart<-read.csv("Data/industryC.csv")
 tm <- treemap(industryChart, index =c("ami","profession"),
               vSize = "income", vColor = "income",
               type = "value", palette = rev(viridis(10)),
               draw = FALSE)
-
 # SL City historical sale median price csv file: y value in "historical_median_3rdQuarter.csv" is written from "cityWAve"
-#cityMedian<-read_excel("cityHisMedian.xlsx", sheet = "Sheet1")
-#cityWAve <- sapply(split(cityMedian, cityMedian$year), function(x){weighted.mean(x$medianPrice, x$unitsSold)})
-mh<-read.csv("historical_median_3rdQuarter.csv", stringsAsFactors = FALSE)
-mhShort<-mh %>%
-  filter (name!="2003"& name!="2004"& name!="2005"& name!="2006"& name!="2007") 
-  mhds<-list_parse(mhShort)
-  names(mhds)<-NULL
+cityMedian<-read_xlsx("Data/cityHisMedian.xlsx")
+cityWAve <- sapply(split(cityMedian, cityMedian$year), function(x){weighted.mean(x$medianPrice, x$unitsSold)})
+WAve <-data.frame(keyName=names(cityWAve), value=cityWAve, row.names=NULL)
 
-#### UI ####
+# design webpage sidebar menuitems ####
 fluidPage(
 sidebar <- dashboardSidebar(
   sidebarMenu(
@@ -58,7 +57,7 @@ sidebar <- dashboardSidebar(
     
   )
 ),
-
+# welcome page design ####
 body <- dashboardBody( 
   # Dashboard favicon and title
   tags$head(
@@ -89,15 +88,15 @@ body <- dashboardBody(
          uiOutput("houseBox")
        )
      ),
-    
+    # create dashboard boxes ####
     tabItem(tabName = "dashboard",
-            
+            # dashboard header image ####
             fluidRow(class="getBox",
                      img(src='dashboard.png',class="getImage") 
             ),
             
             br(),br(),
-            
+            # insert texts for "growing pains" ####
             fluidRow(
               fluidRow(class="headerText",
               h1("Growing Pains & Housing Gains: A look at long-term housing affordability")
@@ -107,6 +106,7 @@ body <- dashboardBody(
               p("The affordable housing crisis has implications for every Salt Lake City resident and business. Resolving this crisis requires considering different issues like high home prices and rental rates,the pace of wage increases, and the economic inequities in the market."),
               p("The following graphics illustrate the existing barriers to be addressed, and help inform solutions to Salt Lake City’s housing crisis.")
             ),
+            # create 2 boxes for SLC housing stock makeup ####
             fluidRow(
               fluidRow(class="headerText",
               h2("Salt Lake City Housing Stock Makeup")
@@ -119,8 +119,8 @@ body <- dashboardBody(
               box(highchartOutput("plot10", height = 500)),
               box(highchartOutput("plot14", height = 500))
             ),
-            
             br(),br(), br(),
+            # Opportunity chart and texts ####
             fluidRow(
               fluidRow(class="headerText",
                        h1("Salt Lake City Opportunity Index")
@@ -133,11 +133,9 @@ body <- dashboardBody(
                         p("This map displays a 
                         variety of indicators that are important in guiding these investments, including employment rate, 
                          income level, household cost burden, rate of homeownership, and educational attainment."),
-                     
-                       
-              
               box(opportunity_index_map,width = NULL)
             ),
+            # 3 boxes for housing type by tenure charts ####
             fluidRow(
               fluidRow(class="headerText",
               h2("Salt Lake City Housing Type by Tenure: 2014")
@@ -150,9 +148,8 @@ body <- dashboardBody(
               column(width=4,box(highchartOutput("plot13", height = 400), width=NULL)),
               p("Datasource from BBC Housing Market Study 2016")
             ),
-            
             br(),br(), br(),
-            
+            # create a box for Affordable ratio in comparison with all multifamily units ####
             fluidRow(
               fluidRow(class="headerText",
               h2("Salt Lake City's Multi-Family Units: Affordable vs. Market Rate vs. Mixed")
@@ -161,9 +158,8 @@ body <- dashboardBody(
               box(highchartOutput("plot1", height = 600), width=NULL),
               p("Datasource from HAND and ACS 2016")
             ),
-            
             br(),br(), br(),
-            
+            # create a box for SLC new residential housing stock ####
             fluidRow(
               fluidRow(class="headerText",
               h2("Salt Lake City's New Residential Housing Stock in 2017")
@@ -173,38 +169,16 @@ body <- dashboardBody(
               box(highchartOutput("plot3", height = 450), width=NULL),
               p("Datasource from Ivory Boyer database")
             ),
-            
             br(),br(), br(),
-            
+            # create a box for yearly construction trend ####
             fluidRow(
               p("The following chart shows the construction trend within most recent 5 years."),
               br(),
               box(highchartOutput("plot4", height = 400), width=NULL),
               p("Datasource from Ivory Boyer database and HAND")
             ),
-            
             br(),br(), br(),
-            
-#            fluidRow(
-#              column(width=12,
-#                     fluidRow(class="headerText",
-#                     h2("Salt Lake City Multifamily Interative Map")
-#                     ),
-#                     br(),
-#                     p("The interactive map below shows the number of multi-family units in Salt Lake City in three categories: affordable, market rate and mixed"),
-#              box(
-#                collapsible = TRUE,
-#                width = NULL,
-#                height = NULL,
-#                leafletOutput("multifamily_map")
-#              ),
-#              p("Datasource from HAND")
-#            )
-#            ),
-            
-
-#            br(),br(), br(),
-            
+            # average rent chart box and affordability calculator box ####
             fluidRow(
               column(width = 12,
                      fluidRow(class="headerText",
@@ -226,9 +200,9 @@ body <- dashboardBody(
               textOutput('a_out')
               )
             ),
-            
             br(),br(), br(),
 
+            # create a box for historical vacancy rates ####
             fluidRow(
               column(width = 12,
                      fluidRow(class="headerText",
@@ -240,9 +214,8 @@ body <- dashboardBody(
                      p("Datasource from CBRE, inc")
               )
               ),
-            
             br(),br(), br(),
-            
+            # create a box for the comparison of home prices and median income ####
             fluidRow(
               column(width = 12,
                      fluidRow(class="headerText",
@@ -250,16 +223,15 @@ body <- dashboardBody(
                      ),
                      p("Like many housing markets across the country, Salt Lake City has experienced substantial increases in home values since early 2012. By the end of 2014, the median sale price of $235,000 exceeded the 2007 peak median sale price of $223,751."),
                      p("Unfortunately, incomes have not risen at the same rate as housing prices."),
-                     p("The graph shows the historical trend of 3rd quarter median sale prices in Salt Lake City from 2003 to 2017. Click the columns of specific years to navigate to detailed median prices within different zip codes in the same year."),
+                     p("The graph shows the historical trend of 3rd quarter median sale prices in Salt Lake City from 2003 to 2017."),
                      box(highchartOutput("plot9", height=500), width=NULL),
                      p("Datasource from The Salt Lake Tribune")
               )
             ),
-
           br(),br(), br(),
-
-         fluidRow(
-           column(width = 12,
+          # create a box for cost burden chart ####
+          fluidRow(
+            column(width = 12,
                  fluidRow(class="headerText",
                   h2("Cost Burden: Salt Lake City")
                   ),
@@ -273,16 +245,15 @@ body <- dashboardBody(
            )
          )
     ),
-    
+    # design "how did we get here" page boxes ####
     tabItem(tabName = "how",
-            
-            fluidRow(class="getBox",
+          # get header for "how" webpage ####  
+          fluidRow(class="getBox",
                      img(src='how.png',class="getImage") 
             ),
-            
             br(),br(),
-            
-            fluidRow(
+          # insert introductory texts and snapshot ####  
+          fluidRow(
               column(width=12,
                      fluidRow(class="headerText",
                      h1("Salt Lake City Has a Unique Population, and It's Growing Quickly.")
@@ -296,9 +267,8 @@ body <- dashboardBody(
                      p("Data is the key to understanding how our city is growing and developing, what barriers and challenges exist when solving the affordable housing crisis, and how system design can create a more equitable place to live. This section will focus on the story the data shows about the city’s growth and development and how that affects the residents of the city. ")
               )
             ),
-            
             br(),br(), br(),
-            
+            # create a box for SLC AMI chart ####
             fluidRow(
               column(width=12,
                      fluidRow(class="headerText",
@@ -311,9 +281,8 @@ body <- dashboardBody(
                      p("Datasource from HUD 2017")
                      )
               ),
-            
             br(),br(), br(),
-            
+            # create a box for wages for industries chart #### 
             fluidRow(
               column(width=12,
                      fluidRow(class="headerText",
@@ -328,6 +297,7 @@ body <- dashboardBody(
                      )
               ),
             br(),br(), br(),
+            # create a box for comparison between wages and rents chart ####
             fluidRow(
               column(width=12,
                      fluidRow(class="headerText",
@@ -342,24 +312,25 @@ body <- dashboardBody(
                      p("Datasource from CBRE 2016")
                      )
             ),
-    br(),br(), br(),
-    fluidRow(
+           br(),br(), br(),
+           # 2 boxes for wage increases in comparison to home prices increases and rent increases ####
+           fluidRow(
              h2("Wage Increase vs Price Icreases"),
              p("Homeownership is not exempt from the housing boom, nor are those who desire to purchase a home exempt from feeling excluded from the market."),
              p("This steep rise in prices has created a market in which most homes for sale are only affordable for those in high-income brackets."),
              p("Home sale prices increased 33% between 2011 and 2014, while homeowner wages increased only 8%. The rent increase of 26% is adding great pressure for renters who have only a 4% wage increase.
-"),
+             "),
              box(highchartOutput("graph4", height = 400)),
              box(highchartOutput("graph5", height = 400)),
              p("Datasource from BBC Housing Market Study 2016")
-    )
+   )
     ),
+   # design "goals" page ####
     tabItem(tabName = "goals",
             
             fluidRow(class="getBox",
                      img(src='goals.png',class="getImage") 
             ),
-            
             fluidRow(
               column(width=10,
              
@@ -413,22 +384,19 @@ body <- dashboardBody(
     )
     )
 
-
-# Put them together into a dashboardPage
+# Put items together into a dashboardPage ####
 ui <- dashboardPage(
   dashboardHeader(title = "SLC Housing"),
   sidebar,
   body
 )
 
-
-
-#### Server ####
+# Server ####
 server <- function(input, output) {
   project<- 200
   company<-120
   house<-3000
- 
+  # create a bar chart and a column chart in combination to show affordable units in multifamily units ####
   output$plot1<-renderHighchart({
     multifamily_plot<-highchart() %>%
       hc_title(text = "Affordable Units in Total Multi-Family Units") %>%
@@ -449,20 +417,7 @@ server <- function(input, output) {
       
       print(multifamily_plot)
   })
-  
-# output$multifamily_map<- renderLeaflet({
-#    leaflet(Multifamily) %>%
-#      addProviderTiles(provider = "CartoDB.Positron") %>%  
-#      setView(-111.876183, 40.758701, zoom = 13) %>%
-#      addCircleMarkers(Multifamily$lon, Multifamily$lat, popup=paste(Multifamily$`Type:  Affordable, Mixed or Market`, "<br>", Multifamily$`Total Units`),
-#                       weight = 4, radius=~ifelse(`Total Units`<50, 5,(ifelse(`Total Units`<120, 9, 13))),
-#                       color = ~pal(`Type:  Affordable, Mixed or Market`),
-#                       stroke = TRUE, fillOpacity = .6) %>%
-#      addLegend("bottomright", colors=c("navy", "red", "orange"), 
-#                labels= c("Affordable", "Market", "Mixed"), title="Multifamily Units in SLC")%>%
-#      print(multifamily_map)
-#  })
-  
+  # create a column chart for new residential units ####
   output$plot3<-renderHighchart({
     permit_all<-highchart() %>%
       hc_chart(type="column") %>%
@@ -480,7 +435,7 @@ server <- function(input, output) {
       )
     print(permit_all)
   })
-  
+  # create a column chart for yearly constructioin trend ####
   output$plot4<-renderHighchart({
     yearly_construction_trend<-highchart() %>%
     hc_chart(type="column") %>%
@@ -496,7 +451,7 @@ server <- function(input, output) {
       )%>%
       print(yearly_construction_trend)  
   })
-  
+  # create a bar chart for rent by neighborhood ####
   output$plot5<-renderHighchart({
     rent_plot<-highchart() %>%
       hc_chart(type="bar") %>%
@@ -510,7 +465,7 @@ server <- function(input, output) {
       print(rent_plot)
   }
   )
-  
+  # create a column chart for vacancy rate ####
   output$plot6<-renderHighchart({
     historical_vacancy<-highchart() %>%
       hc_title(text= "Salt Lake County Historical Vacancy Rate") %>%
@@ -529,7 +484,7 @@ server <- function(input, output) {
       print(historical_vacancy)
   }
   )
-  
+  # create column chart of median sale price with a line cross that shows median income ####
   output$plot9<-renderHighchart({
     historical_median_sale<-highchart() %>%
       hc_title(text="Salt Lake City Sale Median Price vs Median Income: 3rd Quarter 2008 - 2017") %>%
@@ -537,123 +492,18 @@ server <- function(input, output) {
       hc_xAxis(categories=incomeMed$year, labels=list(align="left")) %>%
       hc_plotOptions(
         line = list(dataLabels = list(enabled = TRUE)),
-        column = list(dataLabels = list(enabled = TRUE),fillOpacity=1)
-        )%>%
-      hc_add_series(name="SLC weighted average sale median prices", type="column", data=mhds,
+        column = list(dataLabels = list(enabled = TRUE))
+      )%>%
+      hc_add_series(name="SLC weighted average sale median prices", type="column", data=round(WAve$value, -2),
                     dataLabels=list(enabled=TRUE,format= "${point.y:,.0f}"), colorByPoint=FALSE,
                     color="#d3d3d3") %>%
       hc_add_series(name="SLC median household income", data=round(incomeMed$median, -2), type="line",
                     dataLabels=list(enabled=TRUE, format="${point.y:,.0f}"),
                     color="red", markerOptions=list(enabled=FALSE,lineWidth=2))
-
-    drill08<-read.csv("SLC2008.csv", stringsAsFactors = FALSE)
-    drill09<-read.csv("SLC2009.csv", stringsAsFactors = FALSE)
-    drill10<-read.csv("SLC2010.csv", stringsAsFactors = FALSE)
-    drill11<-read.csv("SLC2011.csv", stringsAsFactors = FALSE)
-    drill12<-read.csv("SLC2012.csv", stringsAsFactors = FALSE)
-    drill13<-read.csv("SLC2013.csv", stringsAsFactors = FALSE)
-    drill14<-read.csv("SLC2014.csv", stringsAsFactors = FALSE)
-    drill15<-read.csv("SLC2015.csv", stringsAsFactors = FALSE)
-    drill16<-read.csv("SLC2016.csv", stringsAsFactors = FALSE)
-    drill17<-read.csv("SLC2017.csv", stringsAsFactors = FALSE)
-    
-    second_el_to_numeric <- function(ls){
-      map(ls, function(x){
-        x[[2]] <- as.numeric(x[[2]])
-        x
-      }) }
-    
-    dsSLC2008 <- second_el_to_numeric(list_parse2(drill08))
-    dsSLC2009 <- second_el_to_numeric(list_parse2(drill09))
-    dsSLC2010 <- second_el_to_numeric(list_parse2(drill10))
-    dsSLC2011 <- second_el_to_numeric(list_parse2(drill11))
-    dsSLC2012 <- second_el_to_numeric(list_parse2(drill12))
-    dsSLC2013 <- second_el_to_numeric(list_parse2(drill13))
-    dsSLC2014 <- second_el_to_numeric(list_parse2(drill14))
-    dsSLC2015 <- second_el_to_numeric(list_parse2(drill15))
-    dsSLC2016 <- second_el_to_numeric(list_parse2(drill16))
-    dsSLC2017 <- second_el_to_numeric(list_parse2(drill17))
-    
-    historical_median_sale <- historical_median_sale %>%
-      hc_drilldown(
-        allowPointDrilldown=TRUE, 
-        series=list(
-        list(
-          id="2008 year",
-          type="column",
-          data= dsSLC2008,
-          name="sale median prices 2008",
-          color='#8bbc21'
-        ),
-        list(
-          id="2009 year",
-          type="column",
-          data= dsSLC2009,
-          name="sale median price 2009",
-          color='#8bbc21'
-        ),
-        list(
-          id="2010 year",
-          type="column",
-          data= dsSLC2010,
-          name="sale median prices 2010",
-          color='#8bbc21'
-        ),
-        list(
-          id="2011 year",
-          type="column",
-          data= dsSLC2011,
-          name="sale median prices 2011",
-          color='#8bbc21'
-        ),
-        list(
-          id="2012 year",
-          type="column",
-          data= dsSLC2012,
-          name="sale median prices 2012",
-          color='#8bbc21'
-        ),
-        list(
-          id="2013 year",
-          type="column",
-          data= dsSLC2013,
-          name="sale median prices 2013",
-          color='#8bbc21'
-        ),
-        list(
-          id="2014 year",
-          type="column",
-          data= dsSLC2014,
-          name="sale median prices 2014",
-          color='#8bbc21'
-        ),
-        list(
-          id="2015 year",
-          type="column",
-          data= dsSLC2015,
-          name="sale median prices 2015",
-          color='#8bbc21'
-        ),
-        list(
-          id="2016 year",
-          type="column",
-          data= dsSLC2016,
-          name="sale median prices 2016",
-          color='#8bbc21'
-        ),
-        list(
-          id="2017 year",
-          type="column",
-          data= dsSLC2017,
-          name="sale median prices 2017",
-          color='#8bbc21'
-        )
-        )
-      ) 
-    
     print(historical_median_sale)
   }
   )
+  # a pie chart for housing stock by owner vs renter ####
   output$plot10<-renderHighchart({ 
     ownerRenter4<-highchart()%>%
       hc_chart(type="pie")%>%
@@ -665,13 +515,13 @@ server <- function(input, output) {
       print(ownerRenter4)
   }
   )
-  
+  # 3 pie charts created for housing by tenure ####
   output$plot11<-renderHighchart({ 
     ownerRenter1<-highchart()%>%
       hc_chart(type="pie") %>%
       hc_title(text = "Salt Lake City: All Units") %>%
       hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
-                                  values =c(28, 23, 49), size=150, dataLabels = list(enabled = FALSE))%>%
+                                  values =allUnitsRatio$ratio, size=150, dataLabels = list(enabled = FALSE))%>%
       hc_tooltip(pointFormat = paste('{point.y}%  of all units'))%>%
       print(ownerRenter1)
   }
@@ -683,22 +533,23 @@ server <- function(input, output) {
       hc_title(text = "Salt Lake City: Owners Units") %>%
       hc_plotOptions(series = list(showInLegend = TRUE)) %>% 
       hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
-                                  values =c(9, 8, 83), size=150, dataLabels = list(enabled = FALSE))%>%
+                                  values =ownersUnitsRatio$ratio, size=150, dataLabels = list(enabled = FALSE))%>%
       hc_tooltip(pointFormat = paste('{point.y}%  of owners'))%>%
       print(ownerRenter2)
   }
   )
+  
   output$plot13<-renderHighchart({ 
     ownerRenter3<-highchart()%>%
       hc_chart(type="pie") %>%
       hc_title(text = "Salt Lake City: Renters Units") %>%
       hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
-                                  values =c(44, 36, 20), size=150, dataLabels = list(enabled = FALSE))%>%
+                                  values =rentersUnitsRatio$ratio, size=150, dataLabels = list(enabled = FALSE))%>%
       hc_tooltip(pointFormat = paste('{point.y}%  of renters'))%>%
       print(ownerRenter3)
   }
   )
-  
+  # create a bar chart to show housing stock age ####
   output$plot14<-renderHighchart({ 
     age<-highchart()%>%
       hc_chart(type="bar")%>%
@@ -707,12 +558,13 @@ server <- function(input, output) {
                               "Built 1960 to 1979", "Built 1940 to 1959", "Built 1939 or earlier")) %>%
       hc_yAxis(labels=list(format= "{value}%")) %>%
       hc_series(list(name ="Salt Lake City", 
-                     data=c(9, 13, 23, 24, 32), dataLabels=list(enabled=TRUE,format= "{point.y}%"))
+                     data=houseAge$percentage, dataLabels=list(enabled=TRUE,format= "{point.y}%"))
                 )
     
     print(age)
   }
   )
+  # create a bar chart to show cost burden of SLC ####
   output$plot15<-renderHighchart({
     cost_burden<-highchart()%>%
       hc_chart(type="bar")%>%
@@ -720,17 +572,16 @@ server <- function(input, output) {
       hc_xAxis(categories = c("Less than 15%", "15% to 29.9%", "30% to 49.9%", "50% and more")) %>%
       hc_yAxis(labels=list(format= "{value}%")) %>%
       hc_series(list(name ="Owners with a mortgage", 
-                     data=c(25, 47, 19, 9), dataLabels=list(enabled=TRUE,format= "{point.y}%")),
+                     data=costBurden$owners_with_a_mortgage, dataLabels=list(enabled=TRUE,format= "{point.y}%")),
                 list(name ="Renters", 
-                     data=c(14, 37, 26, 23), dataLabels=list(enabled=TRUE,format= "{point.y}%")),
+                     data=costBurden$renters, dataLabels=list(enabled=TRUE,format= "{point.y}%")),
                 list(name ="Owners without a mortgage", 
-                     data=c(73, 19, 4, 4), dataLabels=list(enabled=TRUE,format= "{point.y}%"))
+                     data=costBurden$owners_without_a_mortgage, dataLabels=list(enabled=TRUE,format= "{point.y}%"))
       )
     print(cost_burden)
   }
   )
-    
-  ##"how did we get here" output graphs
+  # create a bar chart for city AMI in "how did we get here" page ####
   output$graph1<-renderHighchart({
     AMI_plot<-highchart() %>%
       hc_chart(type="bar") %>%
@@ -740,15 +591,16 @@ server <- function(input, output) {
                               "4 people", "5 people", "6 people",
                               "7 people", "8 people"),
                title = list(text = "Household sizes")) %>%
-      hc_series(list(name="Extremely low income 30% AMI $", data=c(15850, 18100, 20350, 22600, 24450, 26250, 28050, 29850)),
-                list(name="Very low income 50% AMI $", data=c(26400, 30200, 33950, 37700, 40750, 43750, 46750, 49800)),
-                list(name="Moderately low income 60% AMI $", data=c(31680, 36240, 40740, 45240, 48900, 52500, 56100, 59760)),
-                list(name="Low income 80% AMI $", data=c(42250, 48250, 54300, 60300, 65150, 69950, 74800, 79600)),
-                list(name="100% AMI $", data=c(52800, 60400, 67900, 75400, 81500, 87500, 93500, 99600))
+      hc_series(list(name="Extremely low income 30% AMI $", data=incomeLevels$extremelyLowAMI),
+                list(name="Very low income 50% AMI $", data=incomeLevels$veryLow),
+                list(name="Moderately low income 60% AMI $", data=incomeLevels$moderatelyLow),
+                list(name="Low income 80% AMI $", data=incomeLevels$low),
+                list(name="100% AMI $", data=incomeLevels$X100..AMI)
       )%>%
       print(AMI_plot)
   }
   )
+  # create a treemap for income in industries in SLC ####
   output$graph2<-renderHighchart({
   Industry_hc<-highchart(height = 500) %>% 
     hc_add_series_treemap(tm, allowDrillToNode = TRUE,
@@ -760,6 +612,7 @@ server <- function(input, output) {
   print(Industry_hc)
   }
   )
+  # create a column chart for average rents and affordability ####
   output$graph3<-renderHighchart({
     affordability1<-highchart() %>%
       hc_chart(type="column") %>%
@@ -769,14 +622,15 @@ server <- function(input, output) {
 
       hc_yAxis(labels=list(format= "${value}"))%>%
       hc_series(list(name ="Affordable rent", 
-                     data=c(900, 1300), dataLabels=list(enabled=TRUE,format= "${point.y}")),
+                     data=averageRentsVsAffordability$affordable_rent, dataLabels=list(enabled=TRUE,format= "${point.y}")),
                 list(name = "Average rent",
-                     data=c(1370, 1910),dataLabels=list(enabled=TRUE,format= "${point.y}"))
+                     data=averageRentsVsAffordability$average_rent, dataLabels=list(enabled=TRUE,format= "${point.y}"))
 
       ) %>%
       print(affordability1)
   }
   )
+  # create two chart for the comparison between wage increase and home sale and rent increase ####
   output$graph4<-renderHighchart({
     wageVsPrice<-highchart() %>%
     hc_chart(type="column") %>%
@@ -784,7 +638,7 @@ server <- function(input, output) {
       hc_yAxis(title = list(text = "increase in percentage"),
                labels=list(format= "{value}%")) %>%
       hc_xAxis(categories = c("Increase in homeowner wages", "Increase in home sale prices")) %>%
-      hc_series(list(name="increase rate", data=c(8, 33),
+      hc_series(list(name="increase rate", data=wageIncreaseVsHomeSalePrice$percentage,
                      colorByPoint=TRUE)) %>%
       hc_plotOptions(series = list(boderWidth = 0,
                                    dataLabels = list(enabled = TRUE, format="{y}%") )) %>%
@@ -798,13 +652,14 @@ server <- function(input, output) {
       hc_yAxis(title = list(text = "increase in percentage"),
                labels=list(format= "{value}%")) %>%
       hc_xAxis(categories = c("Increase in renter wages", "Increase in rent prices")) %>%
-      hc_series(list(name="increase rate", data=c(4, 26),
+      hc_series(list(name="increase rate", data=wageIncreaseVsRent$percentage,
                      colorByPoint=TRUE)) %>%
       hc_plotOptions(series = list(boderWidth = 0,
                                    dataLabels = list(enabled = TRUE, format="{y}%") )) %>%
       print(wageVsRent)
   }
   )
+  # leaflet ####
   output$home <- renderLeaflet({
     home_map
   })
@@ -822,5 +677,5 @@ server <- function(input, output) {
   
 
 }
-
+# shinyApp ####
 shinyApp(ui, server)
