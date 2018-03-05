@@ -14,6 +14,7 @@ library("viridis")
 source("goals.R")
 
 # read and prepare datasources for visulization ####
+incomeAffordability<-read_xlsx("Data/incomeAffordability.xlsx")
 medianSale<-read.csv("Data/medianSale.csv")
 neighborhoodRent<-read.csv("Data/rentAve.csv")
 historicalVacancy<-read.csv("Data/vacancyHis.csv")
@@ -277,6 +278,18 @@ body <- dashboardBody(
                      and townhomes) needs the income of $65466 to afford. This is around 87% AMI of SLC median income for a household of 4. Yet, our concern is low income households that earn less than 60% AMI of median income."),
                    p("Can low income families afford their homes?"),
                    box(highchartOutput("plot16", height=400), width=NULL),
+                   p("Datasource from HUD and UtahRealEstate.com")
+            )
+          ),
+          br(),br(), br(),
+          # create a box for income affordability chart2 ####
+          fluidRow(
+            column(width = 12,
+                   fluidRow(class="headerText",
+                            h2("80% AMI Affordability vs Median Home Price: Salt Lake City 2017")
+                   ),
+                   p("Can low income families afford their homes?"),
+                   box(highchartOutput("plot17", height=400), width=NULL),
                    p("Datasource from HUD and UtahRealEstate.com")
            )
          )
@@ -663,6 +676,21 @@ server <- function(input, output) {
       hc_add_series(name="60% AMI for various household sizes", data=round(incomeLevels$moderatelyLow, -2), type="column",
                    dataLabels=list(enabled=TRUE,format = "${point.y:,.0f}")
                     ) %>%
+    print(incomeAffordability)
+  }
+  )
+  output$plot17<-renderHighchart({ 
+    incomeAffordability<-highchart()%>%
+      hc_chart(type="bar")%>%
+      hc_title(text="80% AMI Income Affordability vs Median Home Price: Salt Lake City, 2017")%>%
+      hc_xAxis(categories = c("Affordable to own", "Median home price")) %>%
+      hc_yAxis(labels=list(format= "${value}")) %>%
+      hc_plotOptions(pointPadding = 0) %>%
+      hc_series(list(name ="home price", 
+                     data=c(incomeAffordability$Affordability, incomeAffordability$MedianSale), 
+                     colorByPoint=TRUE, dataLabels=list(enabled=TRUE,format= "${point.y}"))
+      )
+    
     print(incomeAffordability)
   }
   )
