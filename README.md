@@ -8,7 +8,7 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * ~~Opportunity map~~
 * Modify CSS to match Brian's font and color guidelines
 * ~Hardcode the shapefile~
-* Use Goals Table (to be sent by Lily) to create Goals page
+* ~Use Goals Table (to be sent by Lily) to create Goals page~
 
 ### Hua
 * Update the housing price data with data that Lily sent
