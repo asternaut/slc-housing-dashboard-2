@@ -11,7 +11,7 @@ library(scales)
 source("tidycensus.R")
 library("treemap")
 library("viridis") 
-
+source("goals.R")
 
 # read and prepare datasources for visulization ####
 neighborhoodRent<-read.csv("Data/rentAve.csv")
@@ -339,21 +339,30 @@ body <- dashboardBody(
               p("In order to respond to Salt Lake City’s changing demographics and the housing needs of its diverse communities, it is critical to begin to look within the City for real and responsive change that will encourage the market to develop the housing and infrastructure needed to accommodate our growing community. This goal focuses on the need to increase the diversity of housing types and opportunities in the city by seeking policy reforms that can enhance the flexibility of the land-use code and create an efficient and predictable development process for community growth. Strategic policy decisions that integrate the transportation system, development related infrastructure, financial institutions, and data, as well as innovative design and construction methods,
                 can break down social and economic segregation, thus building a city for everyone."),
               p("Objective 1: Review and modify land-use and zoning regulations to reflect the affordability needs of a growing, pioneering city"),
+              tableOutput("goal11"),
               p("Objective 2: Remove impediments in City processes to encourage housing development."),
+              tableOutput("goal12"),
               p("Objective 3: Lead in the construction of innovative housing solutions."),
+              tableOutput("goal13"),
               p("Objective 4: Provide residents, community advocates, business leaders, and elected officials with high-quality data to drive decision-making."),
-              
+              tableOutput("goal14"),
                        h3("Goal 2: AFFORDABLE HOUSING: INCREASE HOUSING OPPORTUNITIES AND STABILITY FOR COST-BURDENED HOUSEHOLDS"),
               
                        p("This goal is dedicated to serving and addressing the needs of those most vulnerable in our community. It is driven by a strong belief that housing stability is good for the entire city, adding income to small businesses, creating food stability for children, and allowing residents to enrich their neighborhoods. Salt Lake City needs to pursue a combination of strategies outlined in the objectives below to achieve this goal.
                         There is no singular initiative that will resolve this crisis, 
                          it must be addressed with a range of strategies to best fit the diverse needs of our entire community."),
                        p("Objective 1: Prioritize the development of new affordable housing with an emphasis on households earning 40% AMI and below."),
+                       tableOutput("goal21"),
                        p("Objective 2: Pursue funding for affordable housing opportunities."),
+                       tableOutput("goal22"),
                        p("Objective 3: Stabilize very low-income renters."),
+                       tableOutput("goal23"),
                        p("Objective 4: Secure and preserve long-term affordability."),
+                       tableOutput("goal24"),
                        p("Objective 5: Work with landlords to improve their housing stock and rent to very low-income households earning 40% AMI and below."),
+                       tableOutput("goal25"),
                        p("Objective 6: Increase home ownership opportunities."),
+                       tableOutput("goal26"),
             
                        h3("Goal 3: EQUITABLE & FAIR HOUSING: BUILD A MORE EQUITABLE CITY"),
               
@@ -365,8 +374,11 @@ body <- dashboardBody(
                          strategically investing in neighborhoods that stand the most to gain, and building a city that meets needs of a 
                          diverse population."),
                        p("Objective 1: Eliminate incidences of housing discrimination in Salt Lake City."),
+                       tableOutput("goal31"),
                        p("Objective 2: Align resources and invest in strategic expansion of opportunity throughout all neighborhoods of the city and access to existing areas of opportunity."),
-                       p("Objective 3: Implement life cycle housing principles in neighborhoods throughout the city.")
+                       tableOutput("goal32"),
+                      p("Objective 3: Implement life cycle housing principles in neighborhoods throughout the city."),
+                      tableOutput("goal33")
               ),
               
               
@@ -674,8 +686,23 @@ server <- function(input, output) {
            dollar(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]), 
            ". Therefore, a household with income below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .3), " would be considered cost-burdened. Below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .5), " would be severely rent burdened.")
   })
-  
-  
+# Goal 1  
+ output$goal11 <- renderTable(Goal11)
+ output$goal12 <- renderTable(Goal12)
+ output$goal13 <- renderTable(Goal13)
+ output$goal14 <- renderTable(Goal14)
+ #Goal 2 
+ output$goal21 <- renderTable(Goal21)
+ output$goal22 <- renderTable(Goal22)
+ output$goal23 <- renderTable(Goal23)
+ output$goal24 <- renderTable(Goal24)
+ output$goal25 <- renderTable(Goal25)
+ output$goal26 <- renderTable(Goal26)
+ #Goal 3
+ output$goal31 <- renderTable(Goal31)
+ output$goal32 <- renderTable(Goal32)
+ output$goal33 <- renderTable(Goal33)
+ 
 
 }
 # shinyApp ####

@@ -1,6 +1,14 @@
+@import url("//fonts.googleapis.com/css?family=Roboto");
 @import url("//fonts.googleapis.com/css?family=Roboto+Condensed:400,700");
 
-h1,h2,h3,h4,h6,h5,h7,a{
+h1,h2,h3{
+  font-family: 'Roboto Condensed' ;
+  font-weight: 500;
+  line-height: 1.1;
+  color:#00558B;
+}
+
+h4,h6,h5,h7,a{
   font-family: 'Roboto Condensed' ;
   font-weight: 500;
   line-height: 1.1;
@@ -8,7 +16,7 @@ h1,h2,h3,h4,h6,h5,h7,a{
 }
 
 p{
-  font-family: 'Roboto Condensed' ;
+  font-family: 'Roboto' ;
 }
 body {
   background-color: #ffffff;
@@ -56,9 +64,9 @@ body {
 }
 
 .skin-blue .sidebar-menu>li.active>a, .skin-blue .sidebar-menu>li:hover>a {
-    color: #000;
+    color: #00558B;
     background: #fff;
-    border-left-color: #fff;
+    border-left-color: #00558B;
 }
 
 .welcomeText {
