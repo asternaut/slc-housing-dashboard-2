@@ -14,6 +14,7 @@ library("viridis")
 source("goals.R")
 
 # read and prepare datasources for visulization ####
+medianSale<-read.csv("Data/medianSale.csv")
 neighborhoodRent<-read.csv("Data/rentAve.csv")
 historicalVacancy<-read.csv("Data/vacancyHis.csv")
 incomeMed<-read.csv("Data/incomeMedian.csv")
@@ -41,9 +42,9 @@ tm <- treemap(industryChart, index =c("ami","profession"),
               type = "value", palette = rev(viridis(10)),
               draw = FALSE)
 # SL City historical sale median price csv file: y value in "historical_median_3rdQuarter.csv" is written from "cityWAve"
-cityMedian<-read_xlsx("Data/cityHisMedian.xlsx")
-cityWAve <- sapply(split(cityMedian, cityMedian$year), function(x){weighted.mean(x$medianPrice, x$unitsSold)})
-WAve <-data.frame(keyName=names(cityWAve), value=cityWAve, row.names=NULL)
+#cityMedian<-read_xlsx("Data/cityHisMedian.xlsx")
+#cityWAve <- sapply(split(cityMedian, cityMedian$year), function(x){weighted.mean(x$medianPrice, x$unitsSold)})
+#WAve <-data.frame(keyName=names(cityWAve), value=cityWAve, row.names=NULL)
 
 # design webpage sidebar menuitems ####
 fluidPage(
@@ -223,7 +224,7 @@ body <- dashboardBody(
                      ),
                      p("Like many housing markets across the country, Salt Lake City has experienced substantial increases in home values since early 2012. By the end of 2014, the median sale price of $235,000 exceeded the 2007 peak median sale price of $223,751."),
                      p("Unfortunately, incomes have not risen at the same rate as housing prices."),
-                     p("The graph shows the historical trend of 3rd quarter median sale prices in Salt Lake City from 2003 to 2017."),
+                     p("The graph shows the historical trend of median sale prices in Salt Lake City from 2008 to 2017."),
                      box(highchartOutput("plot9", height=500), width=NULL),
                      p("Datasource from The Salt Lake Tribune")
               )
@@ -500,14 +501,14 @@ server <- function(input, output) {
   # create column chart of median sale price with a line cross that shows median income ####
   output$plot9<-renderHighchart({
     historical_median_sale<-highchart() %>%
-      hc_title(text="Salt Lake City Sale Median Price vs Median Income: 3rd Quarter 2008 - 2017") %>%
+      hc_title(text="Salt Lake City Median Sale Price vs Median Income: 2008 - 2017") %>%
       hc_yAxis(labels=list(format="${value}")) %>%
       hc_xAxis(categories=incomeMed$year, labels=list(align="left")) %>%
       hc_plotOptions(
         line = list(dataLabels = list(enabled = TRUE)),
         column = list(dataLabels = list(enabled = TRUE))
       )%>%
-      hc_add_series(name="SLC weighted average sale median prices", type="column", data=round(WAve$value, -2),
+      hc_add_series(name="median sale prices: all types", data=medianSale$All, type="column",
                     dataLabels=list(enabled=TRUE,format= "${point.y:,.0f}"), colorByPoint=FALSE,
                     color="#d3d3d3") %>%
       hc_add_series(name="SLC median household income", data=round(incomeMed$median, -2), type="line",
