@@ -28,7 +28,7 @@ rentersUnitsRatio<-read.csv("Data/rentersUnits.csv")
 houseAge <- read.csv("Data/houseAge.csv")
 costBurden <- read.csv("Data/costBurden.csv")
 incomeLevels <- read.csv("Data/incomeLevels.csv")
-averageRentsVsAffordability <- read.csv("Data/averageRentsVsAffordability.csv")
+averageRentsVsAffordability <- read_csv("Data/averageRentsVsAffordability.csv")
 wageIncreaseVsHomeSalePrice <- read.csv("Data/wageIncreaseVsHomeSalePrice.csv")
 wageIncreaseVsRent <- read.csv("Data/wageIncreaseVsRent.csv")
 # new housing units
@@ -87,9 +87,10 @@ body <- dashboardBody(
          This site is a critical component that provides data on housing market performance and progress towards fulfilling the objectives of the plan."),
        br(),
        fluidRow(class="footerBox",
-                p(HTML(paste0(
-                  'Daniel Hadley, Hua Jiang, & Suyash Thite | ', a(href = 'https://github.com/Sorenson-Impact/SLC-Housing-Dashboard', 'Code'),'!'))),
                 img(src='si_desb_hand_logo.png',class="getImage"),
+                br(),
+                p(HTML(paste0(
+                  'An open source project by Daniel Hadley, Hua Jiang, & Suyash Thite | ', a(href = 'https://github.com/Sorenson-Impact/SLC-Housing-Dashboard', 'Code'),'!'))),
                 br()
        )
      ),
@@ -153,7 +154,7 @@ body <- dashboardBody(
               column(width=4, box(highchartOutput("plot11", height = 400), width=NULL)),
               column(width=4,box(highchartOutput("plot12", height = 450), width=NULL)),
               column(width=4,box(highchartOutput("plot13", height = 400), width=NULL)),
-              p("Datasource from BBC Housing Market Study 2016")
+              p("Datasource: BBC Housing Market Study 2016")
             ),
             br(),br(), br(),
             # create a box for Affordable ratio in comparison with all multifamily units ####
@@ -165,7 +166,7 @@ body <- dashboardBody(
                 However, while the market rate apartment inventory continues to grow, affordable multi-family units have lost ground, even with the addition of new units.
                 The percentage affordable is much lower as a share of total housing stock as only a small number of single-family homes are long-term affordable."),
               box(highchartOutput("plot1", height = 600), width=NULL),
-              p("Datasource from HAND and ACS 2016")
+              p("Datasource: HAND and ACS 2016")
             ),
             br(),br(), br(),
             # create a box for SLC new residential housing stock ####
@@ -177,7 +178,7 @@ body <- dashboardBody(
                 However, this growth is not keeping pace with demand and increases in housing costs are far outpacing incomes."),
               p("The graph shows the number and type of new residential units coming up in Salt Lake City in 2017."),
               box(highchartOutput("plot3", height = 450), width=NULL),
-              p("Datasource from Ivory Boyer database")
+              p("Datasource: Ivory Boyer database")
             ),
             br(),br(), br(),
             # create a box for yearly construction trend ####
@@ -185,7 +186,7 @@ body <- dashboardBody(
               p("The following chart shows the construction trend within most recent 5 years."),
               br(),
               box(highchartOutput("plot4", height = 400), width=NULL),
-              p("Datasource from Ivory Boyer database and HAND")
+              p("Datasource: Ivory Boyer database and HAND")
             ),
             br(),br(), br(),
             fluidRow(
@@ -233,7 +234,7 @@ body <- dashboardBody(
                      p("The graph below shows Salt Lake City's most recent three-year vacancy rates. 
                        Data shown here is based on rentals with square footages between approximately 800 SF and 1,000 SF. CBRE collects and interprets this data to offer their perspective on the trends of the real estate market."),
                      box(highchartOutput("plot6", height=400), width=NULL),
-                     p("Datasource from CBRE, inc")
+                     p("Datasource: CBRE, inc")
               )
               ),
             br(),br(), br(),
@@ -248,7 +249,7 @@ body <- dashboardBody(
                      p("Unfortunately, incomes have not risen at the same rate as housing prices."),
                      p("The graph shows the historical trend of median sale prices in Salt Lake City from 2008 to 2017."),
                      box(highchartOutput("plot9", height=500), width=NULL),
-                     p("Datasource from UtahRealEstate.com")
+                     p("Datasource: UtahRealEstate.com")
               )
             ),
           br(),br(), br(),
@@ -264,7 +265,7 @@ body <- dashboardBody(
                    in Salt Lake City 22 percent of owners (7,599 households) are cost burdened and 8 percent are severely cost burdened."),
                  p("The graph displays housing costs as a percentage of monthly income for Salt Lake City households."),
                  box(highchartOutput("plot15", height=400), width=NULL),
-                 p("Datasource from 2014 ACS and BBC Research & Consulting")
+                 p("Datasource: 2014 ACS and BBC Research & Consulting")
             )
           ),
           br(),br(), br(),
@@ -278,7 +279,7 @@ body <- dashboardBody(
                      and townhomes) needs the income of $65466 to afford. This is around 87% AMI of SLC median income for a household of 4. Yet, our concern is low income households that earn less than 60% AMI of median income."),
                    p("Can low income families afford their homes?"),
                    box(highchartOutput("plot16", height=400), width=NULL),
-                   p("Datasource from HUD and UtahRealEstate.com")
+                   p("Datasource: HUD and UtahRealEstate.com")
             )
           ),
           br(),br(), br(),
@@ -290,7 +291,7 @@ body <- dashboardBody(
                    ),
                    p("Can low income families afford their homes?"),
                    box(highchartOutput("plot17", height=400), width=NULL),
-                   p("Datasource from HUD and UtahRealEstate.com")
+                   p("Datasource: HUD and UtahRealEstate.com")
            )
          )
     ),
@@ -338,7 +339,7 @@ body <- dashboardBody(
                        less than $20,000 annually and a gap of nearly 7,500 units affordable to those households."), 
                      br(),
                      box(highchartOutput("graph1", height = 600), width=NULL),
-                     p("Datasource from HUD 2017")
+                     p("Datasource: HUD 2017")
                      )
               ),
             br(),br(), br(),
@@ -354,7 +355,7 @@ body <- dashboardBody(
                        The area median income for residents in Salt Lake City is nearly $20,000 less than that of the County as a whole, at $46,711. 
                        In addition, only two of the five largest employment industries in Salt Lake City pay wages high enough to afford the city’s median home price of $271,000."), 
                      br(),
-                     p("Datasource from HUD 2017"),
+                     p("Datasource: HUD 2017"),
                      box(highchartOutput("graph2", height = 600), width=NULL)
                      )
               ),
@@ -376,7 +377,7 @@ body <- dashboardBody(
                        between affordable rent for a four-person household and three-bedroom average rent plus utilities."),
                      br(),
                      box(highchartOutput("graph3", height = 500), width=NULL),
-                     p("Datasource from CBRE 2016"),
+                     p("Datasource: CBRE 2016"),
                      p("In addition to the gap of affordable rentals, another key challenge that Salt Lake City faces in its housing market 
                        is a very high percentage of in-commuters (84% of its workforce) which is in part tied to the lack of residential housing product 
                        that is affordable and appealing to the workforce. This high rate of in-commuting contributes to air quality issues, congestion, 
@@ -392,7 +393,7 @@ body <- dashboardBody(
              p("Home sale prices increased 33% between 2011 and 2014, while homeowner wages increased only 8%. The rent increase of 26% is adding great pressure for renters who have only a 4% wage increase."),
              box(highchartOutput("graph4", height = 400)),
              box(highchartOutput("graph5", height = 400)),
-             p("Datasource from BBC Housing Market Study 2016")
+             p("Datasource: BBC Housing Market Study 2016")
    )
     ),
    # design "goals" page ####
@@ -735,9 +736,9 @@ server <- function(input, output) {
 
       hc_yAxis(labels=list(format= "${value}"))%>%
       hc_series(list(name ="Affordable rent", 
-                     data=averageRentsVsAffordability$affordable_rent, dataLabels=list(enabled=TRUE,format= "${point.y}")),
+                     data=averageRentsVsAffordability$`affordable rent`, dataLabels=list(enabled=TRUE,format= "${point.y}")),
                 list(name = "Average rent",
-                     data=averageRentsVsAffordability$average_rent, dataLabels=list(enabled=TRUE,format= "${point.y}"))
+                     data=averageRentsVsAffordability$`average rent`, dataLabels=list(enabled=TRUE,format= "${point.y}"))
 
       ) %>%
       print(affordability1)
