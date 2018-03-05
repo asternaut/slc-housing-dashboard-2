@@ -15,7 +15,7 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * ~~Use calculator they sent to find affordability measure~~
 * Make chart based on the graph Sean sent
 * ~~Pull text out of dashboard and into the Google Docs~~
-* Replace HTML with text from Google Docs
+* ~~Replace HTML with text from Google Docs~~
 
 ### Daniel
 * ~~Work with Comms to update images~~
