@@ -387,13 +387,17 @@ body <- dashboardBody(
            br(),br(), br(),
            # 2 boxes for wage increases in comparison to home prices increases and rent increases ####
            fluidRow(
-             h2("Wage increases are not keeping pace with housing cost escalation"),
+             column(width=12,
+             fluidRow(class="headerText",
+             h2("Wage increases are not keeping pace with housing cost escalation")
+             ),
              p("In recent years, rent and home price growth has substantially exceeded income growth which has led to increasingly difficult housing decisions and tradeoffs."),
              p("This steep rise in prices has created a market in which most homes for sale are only affordable for those in high-income brackets."),
              p("Home sale prices increased 33% between 2011 and 2014, while homeowner wages increased only 8%. The rent increase of 26% is adding great pressure for renters who have only a 4% wage increase."),
              box(highchartOutput("graph4", height = 400)),
              box(highchartOutput("graph5", height = 400)),
              p("Datasource: BBC Housing Market Study 2016")
+             )
    )
     ),
    # design "goals" page ####
@@ -468,7 +472,7 @@ body <- dashboardBody(
     )
 
 # Put items together into a dashboardPage ####
-ui <- dashboardPage(
+ui <- dashboardPage(title = "Housing and Neighorhood Development",
   dashboardHeader(title = tags$a(href='http://www.slcgov.com/hand',
                                  tags$img(src='handlogo.png', class="logoImage"))),
   sidebar,
