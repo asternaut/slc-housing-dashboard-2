@@ -6,7 +6,7 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 
 ### Suyash
 * ~~Opportunity map~~
-* Modify CSS to match Brian's font and color guidelines
+* ~Modify CSS to match Brian's font and color guidelines~
 * ~Hardcode the shapefile~
 * ~Use Goals Table (to be sent by Lily) to create Goals page~
 * Copy the 84% in-commuters png. Put it in Google Docs & Dashboard
