@@ -24,7 +24,7 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * ~~Take out pie chart~~
 * ~~Add 60% AMI on the home price graph and rename and copy text from Sean~~
 * Pie chart of rent v own
-* check one more time for comma
+* ~~check one more time for comma~~
 
 ### Daniel
 * ~~Work with Comms to update images~~
