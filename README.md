@@ -13,6 +13,8 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * ~Correct text justification for paragraph starting with "Wage increase ..."~
 * ~change title for the tab in Chrome~
 * look into making the goals page into a dropdown html table, or similar
+* Insert screengrab of snapshot 
+* See if you can make the map into HTML so we can stop calling Leaflet
 
 ### Hua
 * ~~Update the housing price data with data that Lily sent~~
@@ -23,8 +25,13 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * ~~Define MSA in graph title~~
 * ~~Take out pie chart~~
 * ~~Add 60% AMI on the home price graph and rename and copy text from Sean~~
-* Pie chart of rent v own
+* ~~ Pie chart of rent v own ~~
 * ~~check one more time for comma~~
+* Delete footer with logos and names
+* Add cost-burdened and severely cost-burdened to calculator
+* Research speeding up shiny
+* Try to remove packages and only add back ones that are neccessary
+
 
 ### Daniel
 * ~~Work with Comms to update images~~
@@ -33,9 +40,9 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * ~~Ask Sean about the way to calculate affordability given AMI~~
 * ~~Add HAND logo to header~~ 
 * ~~Add footer with logos and names~~ 
-* Add footer with logos and names
 * Change the tagline, use “A Thriving City of Opportunity for Everyone”
-* Reach out and explain that they need to add text 
+* ~~ Reach out and explain that they need to add text ~~
+* work with desinger to optimize all the images
 
 
 
