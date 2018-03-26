@@ -13,6 +13,11 @@ library("treemap")
 library("viridis") 
 source("goals.R")
 
+# change the thousand separator in highcharts into "comma"####
+hcoptslang <- getOption("highcharter.lang")
+hcoptslang$thousandsSep <- ","
+options(highcharter.lang = hcoptslang)
+
 # read and prepare datasources for visulization ####
 incomeAffordability<-read_xlsx("Data/incomeAffordability.xlsx")
 medianSale<-read.csv("Data/medianSale.csv")
