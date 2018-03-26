@@ -17,12 +17,12 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 ### Hua
 * ~~Update the housing price data with data that Lily sent~~
 * ~~Use calculator they sent to find affordability measure~~
-* Make chart based on the graph Sean sent
+* ~~Make chart based on the graph Sean sent~~
 * ~~Pull text out of dashboard and into the Google Docs~~
 * ~~Replace HTML with text from Google Docs~~
-* Define MSA in graph title
-* Take out pie chart
-* Add 60% AMI on the home price graph and rename and copy text from Sean
+* ~~Define MSA in graph title~~
+* ~~Take out pie chart~~
+* ~~Add 60% AMI on the home price graph and rename and copy text from Sean~~
 * Pie chart of rent v own
 * check one more time for comma
 
