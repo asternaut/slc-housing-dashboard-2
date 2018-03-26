@@ -160,7 +160,7 @@ body <- dashboardBody(
             # create a box for Affordable ratio in comparison with all multifamily units ####
             fluidRow(
               fluidRow(class="headerText",
-              h2("Salt Lake City's Multi-Family Units: Affordable vs. Market Rate vs. Mixed")
+              h2("Salt Lake City's Multi-Family Units: Affordable vs. Market Rate")
               ),
               p("Salt Lake City has seen a rapidly escalating multifamily market with rents at all-time highs and vacancy rates at historic lows. 
                 However, while the market rate apartment inventory continues to grow, affordable multi-family units have lost ground, even with the addition of new units.
@@ -488,17 +488,18 @@ server <- function(input, output) {
   output$plot1<-renderHighchart({
     multifamily_plot<-highchart() %>%
       hc_title(text = "Affordable Units in Total Multi-Family Units") %>%
-      hc_xAxis(categories = c("Affordable uniits", "Total Multi-family units")) %>%
+      hc_xAxis(categories = c("Affordable units", "Total Multi-family units")) %>%
       hc_yAxis(title = list(text = "Number of Units")) %>%
       hc_plotOptions(series = list(colorByPoint = TRUE),
-                     column = list(dataLabels = list(enabled = TRUE)),
-                     pie = list(colorByPoint = TRUE, center = c('30%', '10%'),
-                                size = 150, dataLabels = list(enabled = TRUE))
+                     column = list(dataLabels = list(enabled = TRUE))
+                     #,
+                     #pie = list(colorByPoint = TRUE, center = c('30%', '10%'),
+                      #          size = 150, dataLabels = list(enabled = TRUE))
       )%>%
-      hc_add_series_labels_values(labels = c("Affordable units percentage", "Other units percentage"), dataLabels = list(enabled = TRUE),
-                                  type="pie", name="Multifamily percentage",
-                                  values =c(subset(multi, `Project Name` == "affordable percentage")$`Affordable Units`, 
-                                            subset(multi,`Project Name` == "affordable percentage")$`Other Multifamily Units`))%>%
+     # hc_add_series_labels_values(labels = c("Affordable units percentage", "Other units percentage"), dataLabels = list(enabled = TRUE),
+      #                            type="pie", name="Multifamily percentage",
+       #                           values =c(subset(multi, `Project Name` == "affordable percentage")$`Affordable Units`, 
+        #                                    subset(multi,`Project Name` == "affordable percentage")$`Other Multifamily Units`))%>%
       hc_add_series(data=c(subset(multi, `Project Name` == "total")$`Affordable Units`, 
                            subset(multi,`Project Name` == "total")$`Multifamily Units Total`), 
                     type="column", name="Multifamily units" ) %>%
@@ -687,13 +688,13 @@ server <- function(input, output) {
   output$plot17<-renderHighchart({ 
     incomeAffordability<-highchart()%>%
       hc_chart(type="bar")%>%
-      hc_title(text="80% AMI Income Affordability vs Median Home Price: Salt Lake City, 2017")%>%
-      hc_xAxis(categories = c("Affordable to own", "Median home price")) %>%
+      hc_title(text="Income Affordability vs Median Home Price: Salt Lake City, 2017")%>%
+      hc_xAxis(categories = c("Affordable to own (60% AMI)","Affordable to own (80% AMI)", "Median home price")) %>%
       hc_yAxis(labels=list(format= "${value}")) %>%
       hc_plotOptions(pointPadding = 0) %>%
       hc_series(list(name ="home price", 
-                     data=c(incomeAffordability$Affordability, incomeAffordability$MedianSale), 
-                     colorByPoint=TRUE, dataLabels=list(enabled=TRUE,format= "${point.y}"))
+                     data=c(incomeAffordability$`60Affordability`, incomeAffordability$`80Affordability`, incomeAffordability$MedianSale), 
+                     colorByPoint=TRUE, dataLabels=list(enabled=TRUE,format= "${point.y:,.0f}"))
       )
     
     print(incomeAffordability)
@@ -703,7 +704,7 @@ server <- function(input, output) {
   output$graph1<-renderHighchart({
     AMI_plot<-highchart() %>%
       hc_chart(type="bar") %>%
-      hc_title(text = "Salt Lake City MSA Income Levels in 2017") %>%
+      hc_title(text = "Salt Lake City Metropolitan Statistical Area Income Levels in 2017") %>%
       hc_yAxis(title = list(text = "Income in dollars")) %>%
       hc_xAxis(categories = c("1 person", "2 people", "3 people", 
                               "4 people", "5 people", "6 people",
