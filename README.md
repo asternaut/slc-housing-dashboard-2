@@ -27,7 +27,7 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * ~~Add 60% AMI on the home price graph and rename and copy text from Sean~~
 * ~~ Pie chart of rent v own ~~
 * ~~check one more time for comma~~
-* Delete footer with logos and names
+* ~~Delete footer with logos and names~~
 * Add cost-burdened and severely cost-burdened to calculator
 * Research speeding up shiny
 * Try to remove packages and only add back ones that are neccessary
