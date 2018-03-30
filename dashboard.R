@@ -90,14 +90,14 @@ body <- dashboardBody(
          to draft a plan to address the root causes of affordability, create long-term solutions for increasing needed housing supply, 
          and expand opportunities throughout the City. The 5 year plan is called Growing SLC and was unanimously adopted by City Council in December 2017. 
          This site is a critical component that provides data on housing market performance and progress towards fulfilling the objectives of the plan."),
-       br(),
-       fluidRow(class="footerBox",
-                img(src='si_desb_hand_logo.png',class="getImage"),
-                br(),
-                p(HTML(paste0(
-                  'An open source project by Daniel Hadley, Hua Jiang, & Suyash Thite | ', a(href = 'https://github.com/Sorenson-Impact/SLC-Housing-Dashboard', 'Code'),'!'))),
-                br()
-       )
+        br(),
+  #       fluidRow(class="footerBox",
+  #               img(src='si_desb_hand_logo.png',class="getImage"),
+  #              br(),
+  #             p(HTML(paste0(
+  #              'An open source project by Daniel Hadley, Hua Jiang, & Suyash Thite | ', a(href = 'https://github.com/Sorenson-Impact/SLC-Housing-Dashboard', 'Code'),'!'))),
+              br()
+  #     )
      ),
     # create dashboard boxes ####
     tabItem(tabName = "dashboard",
@@ -223,7 +223,7 @@ body <- dashboardBody(
                 selectInput("neighborhood_type", "Rent Burden Calculator",
                             neighborhoodRent$neighboarhood)
               ),
-              textOutput('a_out')
+              htmlOutput('a_out')
               )
             ),
             br(),br(), br(),
@@ -793,7 +793,9 @@ server <- function(input, output) {
   })
   
   output$a_out <- renderText({
-    paste0(" HUD defines cost-burdened families as those “who pay more than 30 percent of their income for housing” and “may have difficulty affording necessities such as food, clothing, transportation, and medical care.” Severe rent burden is defined as paying more than 50 percent of one’s income on rent. The median rent in ", as.character(input$neighborhood_type), " is ", 
+    paste0("Cost-burderned household income: ", "<b>", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .3), "</b>", ";",
+          "<br>","Severely cost-burdened income: ", "<b>", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .5), "</b>", ";", 
+          "<br>", "HUD defines cost-burdened families as those “who pay more than 30 percent of their income for housing” and “may have difficulty affording necessities such as food, clothing, transportation, and medical care.” Severe rent burden is defined as paying more than 50 percent of one’s income on rent. The median rent in ", as.character(input$neighborhood_type), " is ", 
            dollar(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]), 
            ". Therefore, a household with income below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .3), " would be considered cost-burdened. Below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .5), " would be severely rent burdened.")
   })
