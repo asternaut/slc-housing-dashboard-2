@@ -45,7 +45,9 @@ permitSinVsMul<- permit17 %>%
 industryChart<-read.csv("Data/industryC.csv")
 tm <- treemap(industryChart, index =c("ami","profession"),
               vSize = "income", vColor = "income",
-              type = "value", palette = rev(viridis(10)),
+              type = "value", palette = c("#315C5F", "#343F44", "#676866", "#FBAA20", "#2EADC5", "#2A3236")
+              #  rev(viridis(10))
+              , colorByPoint = TRUE,
               draw = FALSE)
 # SL City historical sale median price csv file: y value in "historical_median_3rdQuarter.csv" is written from "cityWAve"
 #cityMedian<-read_xlsx("Data/cityHisMedian.xlsx")
@@ -715,11 +717,11 @@ server <- function(input, output) {
                               "4 people", "5 people", "6 people",
                               "7 people", "8 people"),
                title = list(text = "Household sizes")) %>%
-      hc_series(list(name="Extremely low income 30% AMI $", data=incomeLevels$extremelyLowAMI),
-                list(name="Very low income 50% AMI $", data=incomeLevels$veryLow),
-                list(name="Moderately low income 60% AMI $", data=incomeLevels$moderatelyLow),
-                list(name="Low income 80% AMI $", data=incomeLevels$low),
-                list(name="100% AMI $", data=incomeLevels$X100..AMI)
+      hc_series(list(name="Extremely low income 30% AMI $", data=incomeLevels$extremelyLowAMI, color="#FBAA20"),
+                list(name="Very low income 50% AMI $", data=incomeLevels$veryLow, color = "#2EADC5"),
+                list(name="Moderately low income 60% AMI $", data=incomeLevels$moderatelyLow, color = "#36B885"),
+                list(name="Low income 80% AMI $", data=incomeLevels$low, color = "#315C5F"),
+                list(name="100% AMI $", data=incomeLevels$X100..AMI, color = "#2A3236")
       )%>%
       print(AMI_plot)
   }
