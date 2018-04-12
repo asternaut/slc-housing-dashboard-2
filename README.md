@@ -9,7 +9,7 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * ~Modify CSS to match Brian's font and color guidelines~
 * ~Hardcode the shapefile~
 * ~Use Goals Table (to be sent by Lily) to create Goals page~
-* Copy the 84% in-commuters png. Put it in Google Docs & Dashboard
+* ~Copy the 84% in-commuters png. Put it in Google Docs & Dashboard~
 * ~Correct text justification for paragraph starting with "Wage increase ..."~
 * ~change title for the tab in Chrome~
 * look into making the goals page into a dropdown html table, or similar
