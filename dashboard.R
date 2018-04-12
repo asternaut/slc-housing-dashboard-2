@@ -498,15 +498,8 @@ server <- function(input, output) {
       hc_xAxis(categories = c("Affordable units", "Total Multi-family units")) %>%
       hc_yAxis(title = list(text = "Number of Units")) %>%
       hc_plotOptions(series = list(colorByPoint = TRUE),
-                     column = list(dataLabels = list(enabled = TRUE))
-                     #,
-                     #pie = list(colorByPoint = TRUE, center = c('30%', '10%'),
-                      #          size = 150, dataLabels = list(enabled = TRUE))
-      )%>%
-     # hc_add_series_labels_values(labels = c("Affordable units percentage", "Other units percentage"), dataLabels = list(enabled = TRUE),
-      #                            type="pie", name="Multifamily percentage",
-       #                           values =c(subset(multi, `Project Name` == "affordable percentage")$`Affordable Units`, 
-        #                                    subset(multi,`Project Name` == "affordable percentage")$`Other Multifamily Units`))%>%
+                     column = list(dataLabels = list(enabled = TRUE), 
+                                   colors=c("#2EADC5", "#2A3236")))%>%
       hc_add_series(data=c(subset(multi, `Project Name` == "total")$`Affordable Units`, 
                            subset(multi,`Project Name` == "total")$`Multifamily Units Total`), 
                     type="column", name="Multifamily units" ) %>%
@@ -522,12 +515,13 @@ server <- function(input, output) {
       hc_xAxis(categories = c("January-March", "April-June",
                               "July-September", "October-December")) %>%
       hc_plotOptions(column=list(datalabels = list(enabled = FALSE),
-                                 stacking = "normal", enableMouseTracking=TRUE)) %>%
+                                 stacking = "normal", enableMouseTracking=TRUE,
+                                 colors=c("#FBAA20","#2EADC5","#36B885","#2A3236"))) %>%
       
-      hc_series(list(name="Single-Family", data=permit17$`Single-family Units`),
-                list(name="Duplexes and Twin Homes", data=permit17$`Duplexes and Twin Homes`),
-                list(name="Condominiums / Townhomes", data=permit17$`Condominiums / Townhomes`),
-                list(name="Apartments", data=permit17$`Apartments (3 or more units)`)
+      hc_series(list(name="Single-Family", data=permit17$`Single-family Units`, color="#FBAA20"),
+                list(name="Duplexes and Twin Homes", data=permit17$`Duplexes and Twin Homes`, color="#36B885"),
+                list(name="Condominiums / Townhomes", data=permit17$`Condominiums / Townhomes`, color="#2EADC5"),
+                list(name="Apartments", data=permit17$`Apartments (3 or more units)`, color="#2A3236")
       )
     print(permit_all)
   })
@@ -538,12 +532,12 @@ server <- function(input, output) {
       hc_title(text = "Salt Lake City's Yearly Construction Trend: 2013-2017") %>%
       hc_yAxis(title = list(text = "Number of homes")) %>%
       hc_xAxis(categories = constructionTrend$year) %>%
-      hc_series(list(name="Single-family", data=constructionTrend$`single family home numbers`),
-                list(name="Duplexes and twin homes", data=constructionTrend$`duplex and twin home numbers`),
-                list(name="Condominiums / Townhomes", data=constructionTrend$`condominium/townhouse numbers`),
-                list(name="Apartments (3 or 4 units)", data=constructionTrend$`apartment (3 or 4 units) numbers`),
-                list(name="Apartments (1-3 floors)", data=constructionTrend$`apartment (1-3 floor) numbers`),
-                list(name="Apartments (4+ floors)", data=constructionTrend$`apartment (4+ floor) numbers`)
+      hc_series(list(name="Single-family", data=constructionTrend$`single family home numbers`, color="#FBAA20"),
+                list(name="Duplexes and twin homes", data=constructionTrend$`duplex and twin home numbers`, color="#36B885"),
+                list(name="Condominiums / Townhomes", data=constructionTrend$`condominium/townhouse numbers`, color="#2EADC5"),
+                list(name="Apartments (3 or 4 units)", data=constructionTrend$`apartment (3 or 4 units) numbers`, color="#315C5F"),
+                list(name="Apartments (1-3 floors)", data=constructionTrend$`apartment (1-3 floor) numbers`, color="#676866"),
+                list(name="Apartments (4+ floors)", data=constructionTrend$`apartment (4+ floor) numbers`, color="##2A3236")
       )%>%
       print(yearly_construction_trend)  
   })
@@ -555,7 +549,7 @@ server <- function(input, output) {
       hc_yAxis(title = list(text = "Rent in dollars"),
                labels=list(format= "${value}")) %>%
       hc_xAxis(categories=neighborhoodRent$neighboarhood) %>%
-      hc_series(list(name="Average rent",
+      hc_series(list(name="Average rent", color="#2EADC5",
                      data=neighborhoodRent$a_rent)
                 )%>%
       print(rent_plot)
@@ -567,13 +561,13 @@ server <- function(input, output) {
       hc_title(text= "Salt Lake County Historical Vacancy Rate") %>%
       hc_xAxis(categories = c("Salt Lake City", "Downtown")) %>%
       hc_yAxis(labels=list(format= "{value}%"))%>%
-      hc_series(list(name="2014 vacancy rates", type="column",
+      hc_series(list(name="2014 vacancy rates", type="column", color="##2A3236",
                      data=c(subset(historicalVacancy, county=="Salt Lake City")$vacancy2014, 
                             subset(historicalVacancy,county=="Downtown")$vacancy2014)),
-                list(name="2015 vacancy rates", type="column",
+                list(name="2015 vacancy rates", type="column", color="#2EADC5",
                      data=c(subset(historicalVacancy, county=="Salt Lake City")$vacancy2015,
                             subset(historicalVacancy, county=="Downtown")$vacancy2015)),
-                list(name="2016 vacancy rates", type="column",
+                list(name="2016 vacancy rates", type="column", color="#36B885",
                      data=c(subset(historicalVacancy, county=="Salt Lake City")$vacancy2016,
                             subset(historicalVacancy, county=="Downtown")$vacancy2016))
       )%>%
@@ -592,10 +586,10 @@ server <- function(input, output) {
       )%>%
       hc_add_series(name="median sale prices: all types of home", data=medianSale$All, type="column",
                     dataLabels=list(enabled=TRUE,format= "${point.y:,.0f}"), colorByPoint=FALSE,
-                    color="#d3d3d3") %>%
+                    color="#676866") %>%
       hc_add_series(name="median household income", data=round(incomeMed$median, -2), type="line",
                     dataLabels=list(enabled=TRUE, format="${point.y:,.0f}"),
-                    color="red", markerOptions=list(enabled=FALSE,lineWidth=2))
+                    color="#FBAA20", markerOptions=list(enabled=FALSE,lineWidth=2))
     print(historical_median_sale)
   }
   )
@@ -604,7 +598,7 @@ server <- function(input, output) {
     ownerRenter4<-highchart()%>%
       hc_chart(type="pie")%>%
       hc_title(text="Salt Lake City Housing Stock by Owner vs Renter: 2014")%>%
-      hc_plotOptions(series = list(showInLegend = TRUE)) %>% 
+      hc_plotOptions(series = list(showInLegend = TRUE, colors=c("#2EADC5", "#2A3236"))) %>% 
       hc_add_series_labels_values(labels = c("Owner's housing units", "Renter's housing units"), 
                                   values =c(round(100*(34697/81715),2), round(100*(41226/81715),2)), size=200, dataLabels = list(enabled = FALSE))%>%
       hc_tooltip(pointFormat = paste('{point.y}%  of all housing stock'))%>%
@@ -617,7 +611,8 @@ server <- function(input, output) {
       hc_chart(type="pie") %>%
       hc_title(text = "Salt Lake City: All Units") %>%
       hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
-                                  values =allUnitsRatio$ratio, size=150, dataLabels = list(enabled = FALSE))%>%
+                                  values =allUnitsRatio$ratio, size=150, dataLabels = list(enabled = FALSE),
+                                  colors=c("#FBAA20","#2EADC5","#2A3236"))%>%
       hc_tooltip(pointFormat = paste('{point.y}%  of all units'))%>%
       print(ownerRenter1)
   }
@@ -629,7 +624,8 @@ server <- function(input, output) {
       hc_title(text = "Salt Lake City: Owners Units") %>%
       hc_plotOptions(series = list(showInLegend = TRUE)) %>% 
       hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
-                                  values =ownersUnitsRatio$ratio, size=150, dataLabels = list(enabled = FALSE))%>%
+                                  values =ownersUnitsRatio$ratio, size=150, dataLabels = list(enabled = FALSE),
+                                  colors=c("#FBAA20","#2EADC5","#2A3236"))%>%
       hc_tooltip(pointFormat = paste('{point.y}%  of owners'))%>%
       print(ownerRenter2)
   }
@@ -640,7 +636,8 @@ server <- function(input, output) {
       hc_chart(type="pie") %>%
       hc_title(text = "Salt Lake City: Renters Units") %>%
       hc_add_series_labels_values(labels = c("Attached: 10 or more units", "Attached: fewer than 10 units", "Single family detached"), 
-                                  values =rentersUnitsRatio$ratio, size=150, dataLabels = list(enabled = FALSE))%>%
+                                  values =rentersUnitsRatio$ratio, size=150, dataLabels = list(enabled = FALSE),
+                                  colors=c("#FBAA20","#2EADC5","#2A3236"))%>%
       hc_tooltip(pointFormat = paste('{point.y}%  of renters'))%>%
       print(ownerRenter3)
   }
@@ -653,7 +650,7 @@ server <- function(input, output) {
       hc_xAxis(categories = c("Built 2000 or later", "Built 1980 to 1999", 
                               "Built 1960 to 1979", "Built 1940 to 1959", "Built 1939 or earlier")) %>%
       hc_yAxis(labels=list(format= "{value}%")) %>%
-      hc_series(list(name ="Salt Lake City", 
+      hc_series(list(name ="Salt Lake City", colorByPoint=TRUE, colors=c("#FBAA20","#2EADC5","#36B885","#315C5F","#2A3236"),
                      data=houseAge$percentage, dataLabels=list(enabled=TRUE,format= "{point.y}%"))
                 )
     
@@ -667,11 +664,11 @@ server <- function(input, output) {
       hc_title(text="Cost Burden: Salt Lake City")%>%
       hc_xAxis(categories = c("Less than 15%", "15% to 29.9%", "30% to 49.9%", "50% and more")) %>%
       hc_yAxis(labels=list(format= "{value}%")) %>%
-      hc_series(list(name ="Owners with a mortgage", 
+      hc_series(list(name ="Owners with a mortgage", color = "#2EADC5",
                      data=costBurden$owners_with_a_mortgage, dataLabels=list(enabled=TRUE,format= "{point.y}%")),
-                list(name ="Renters", 
+                list(name ="Renters",  color="#FBAA20",
                      data=costBurden$renters, dataLabels=list(enabled=TRUE,format= "{point.y}%")),
-                list(name ="Owners without a mortgage", 
+                list(name ="Owners without a mortgage", color = "#2A3236",
                      data=costBurden$owners_without_a_mortgage, dataLabels=list(enabled=TRUE,format= "{point.y}%"))
       )
     print(cost_burden)
@@ -682,12 +679,12 @@ server <- function(input, output) {
     incomeAffordability<-highchart() %>%
       hc_title(text="Income affordability (60% AMI): Salt Lake City 2017") %>%
       hc_yAxis(labels=list(format="${value}"), plotLines=list(list(label=list(text="income needed to afford median home sale price: $65 500"),
-                                                                   color="red", value=65500, width=2))) %>%
+                                                                   color="#FBAA20", value=65500, width=2))) %>%
       hc_xAxis(categories=c("1 person", "2 people", "3 people", 
                                          "4 people", "5 people", "6 people",
                                          "7 people", "8 people"), labels=list(align="left")) %>%
       hc_add_series(name="60% AMI for various household sizes", data=round(incomeLevels$moderatelyLow, -2), type="column",
-                   dataLabels=list(enabled=TRUE,format = "${point.y:,.0f}")
+                   dataLabels=list(enabled=TRUE,format = "${point.y:,.0f}"), color="#315C5F"
                     ) %>%
     print(incomeAffordability)
   }
@@ -699,7 +696,7 @@ server <- function(input, output) {
       hc_xAxis(categories = c("Affordable to own (60% AMI)","Affordable to own (80% AMI)", "Median home price")) %>%
       hc_yAxis(labels=list(format= "${value}")) %>%
       hc_plotOptions(pointPadding = 0) %>%
-      hc_series(list(name ="home price", 
+      hc_series(list(name ="home price", colors=c("#2EADC5", "#36B885", "#2A3236"), 
                      data=c(incomeAffordability$`60Affordability`, incomeAffordability$`80Affordability`, incomeAffordability$MedianSale), 
                      colorByPoint=TRUE, dataLabels=list(enabled=TRUE,format= "${point.y:,.0f}"))
       )
@@ -747,9 +744,9 @@ server <- function(input, output) {
                               "four-person household and 3Br average rent + utilities")) %>%
 
       hc_yAxis(labels=list(format= "${value}"))%>%
-      hc_series(list(name ="Affordable rent", 
+      hc_series(list(name ="Affordable rent", color = "#2EADC5",
                      data=averageRentsVsAffordability$`affordable rent`, dataLabels=list(enabled=TRUE,format= "${point.y}")),
-                list(name = "Average rent",
+                list(name = "Average rent", color = "#2A3236",
                      data=averageRentsVsAffordability$`average rent`, dataLabels=list(enabled=TRUE,format= "${point.y}"))
 
       ) %>%
@@ -766,7 +763,7 @@ server <- function(input, output) {
       hc_xAxis(categories = c("Increase in homeowner wages", "Increase in home sale prices")) %>%
       hc_series(list(name="increase rate", data=wageIncreaseVsHomeSalePrice$percentage,
                      colorByPoint=TRUE)) %>%
-      hc_plotOptions(series = list(boderWidth = 0,
+      hc_plotOptions(series = list(boderWidth = 0, colors=c("#36B885", "#2A3236"),
                                    dataLabels = list(enabled = TRUE, format="{y}%") )) %>%
       print(wageVsPrice)
   }
@@ -780,7 +777,7 @@ server <- function(input, output) {
       hc_xAxis(categories = c("Increase in renter wages", "Increase in rent prices")) %>%
       hc_series(list(name="increase rate", data=wageIncreaseVsRent$percentage,
                      colorByPoint=TRUE)) %>%
-      hc_plotOptions(series = list(boderWidth = 0,
+      hc_plotOptions(series = list(boderWidth = 0, colors=c("#FBAA20", "#2A3236"),
                                    dataLabels = list(enabled = TRUE, format="{y}%") )) %>%
       print(wageVsRent)
   }
