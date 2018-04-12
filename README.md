@@ -13,10 +13,10 @@ A dashboard of housing data created by the Sorenson Impact Center at the Univers
 * ~Correct text justification for paragraph starting with "Wage increase ..."~
 * ~change title for the tab in Chrome~
 * look into making the goals page into a dropdown html table, or similar
-* Insert screengrab of snapshot 
-* See if you can make the map into HTML so we can stop calling Leaflet
+* ~Insert screengrab of snapshot ~
+* ~See if you can make the map into HTML so we can stop calling Leaflet~
 * Put table into R Data object, if possible, and make the goals page into a kable table
-* Building data, hihghcharts, and the map into the R Data object
+* ~Building data, hihghcharts, and the map into the R Data object
 
 ### Hua
 * ~~Update the housing price data with data that Lily sent~~
