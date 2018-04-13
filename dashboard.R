@@ -111,6 +111,7 @@ body <- dashboardBody(
             br(),br(),
             # insert texts for "growing pains" ####
             fluidRow(
+              column(width = 12,
               fluidRow(class="headerText",
               h1("Growing Pains & Housing Gains: A look at long-term housing affordability")
               ),
@@ -122,9 +123,10 @@ body <- dashboardBody(
               p("Growing SLC includes the objective of providing residents, community advocates, business leaders, and elected officials with high quality data to drive decision-making. This site provides a public-facing set of housing metrics to
                 provide insights into key market characteristics. The following indicators illustrate important data on housing and will track updates on progress over time to drive decisions, understand impact, and help inform solutions to 
                 Salt Lake City’s housing crisis.")
-            ),
+            )),
             # create 2 boxes for SLC housing stock makeup ####
             fluidRow(
+              column(width = 12,
               fluidRow(class="headerText",
               h2("Salt Lake City Housing Stock Makeup: Older and Primarily Single Family")
               ),
@@ -132,10 +134,11 @@ body <- dashboardBody(
               #tableOutput(incomeMed),
               box(highchartOutput("plot10", height = 500)),
               box(highchartOutput("plot14", height = 500))
-            ),
+            )),
             br(),br(), br(),
             # Opportunity chart and texts ####
             fluidRow(
+              column(width = 12,
               fluidRow(class="headerText",
                        h1("Salt Lake City Opportunity Index")
               ),
@@ -148,9 +151,10 @@ body <- dashboardBody(
                         variety of indicators that are important in guiding these investments, including employment rate, 
                          income level, household cost burden, rate of homeownership, and educational attainment."),
               box(opportunity_index_map,width = NULL)
-            ),
+            )),
             # 3 boxes for housing type by tenure charts ####
             fluidRow(
+              column(width = 12,
               fluidRow(class="headerText",
               h2("Salt Lake City Housing Type by Tenure: 2014")
               ),
@@ -162,10 +166,11 @@ body <- dashboardBody(
               column(width=4,box(highchartOutput("plot12", height = 450), width=NULL)),
               column(width=4,box(highchartOutput("plot13", height = 400), width=NULL)),
               p("Datasource: BBC Housing Market Study 2016")
-            ),
+            )),
             br(),br(), br(),
             # create a box for Affordable ratio in comparison with all multifamily units ####
             fluidRow(
+              column(width = 12,
               fluidRow(class="headerText",
               h2("Salt Lake City's Multi-Family Units: Affordable vs. Market Rate")
               ),
@@ -174,10 +179,11 @@ body <- dashboardBody(
                 The percentage affordable is much lower as a share of total housing stock as only a small number of single-family homes are long-term affordable."),
               box(highchartOutput("plot1", height = 600), width=NULL),
               p("Datasource: HAND and ACS 2016")
-            ),
+            )),
             br(),br(), br(),
             # create a box for SLC new residential housing stock ####
             fluidRow(
+              column(width = 12,
               fluidRow(class="headerText",
               h2("Salt Lake City's New Residential Construction")
               ),
@@ -186,24 +192,26 @@ body <- dashboardBody(
               p("The graph shows the number and type of new residential units coming up in Salt Lake City in 2017."),
               box(highchartOutput("plot3", height = 450), width=NULL),
               p("Datasource: Ivory Boyer database")
-            ),
+            )),
             br(),br(), br(),
             # create a box for yearly construction trend ####
             fluidRow(
+              column(width = 12,
               p("The following chart shows the construction trend within most recent 5 years."),
               br(),
               box(highchartOutput("plot4", height = 400), width=NULL),
               p("Datasource: Ivory Boyer database and HAND")
-            ),
+            )),
             br(),br(), br(),
             fluidRow(
+              column(width = 12,
               fluidRow(class="headerText",
                        h2("Salt Lake City's Greatest Housing Needs")
               ),
               p("1. 7,500 affordable rental units to meet the needs of the city’s lowest income renters (those earning $20,000 and less per year)."),
               p("2. Additional residential housing product to entice in-commuters to relocate to the city, encourage current residents—particularly 
                 millennials—to remain in the city and provide more homeownership opportunities for underserved renters.")
-            ),
+            )),
             # average rent chart box and affordability calculator box ####
             fluidRow(
               column(width = 12,
