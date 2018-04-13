@@ -22,11 +22,16 @@ body {
   background-color: #ffffff;
 }
 
-.main-header,.logo {
+.main-header {
+    height: 70px;
+}
+
+.main-header .logo {
   font-family: 'Roboto',"Georgia", Times, "Times New Roman", serif;
   font-weight: bold;
   font-size: 24px;
   background-color: #2A3236;
+  line-height: 1px;
 }
 
 .content-wrapper{
@@ -35,6 +40,7 @@ body {
 
 .skin-blue .main-header .navbar .sidebar-toggle {
     color: #ffffff;
+    font-size: 20px;
 }
 
 .skin-blue .main-header .navbar {
@@ -74,6 +80,10 @@ body {
     top: 15%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.sidebar-menu {
+    margin-top: 5px;
 }
 
 .welcomeBox {
