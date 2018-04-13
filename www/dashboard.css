@@ -26,7 +26,7 @@ body {
   font-family: 'Roboto',"Georgia", Times, "Times New Roman", serif;
   font-weight: bold;
   font-size: 24px;
-  background-color: #ffffff;
+  background-color: #2A3236;
 }
 
 .content-wrapper{
@@ -34,11 +34,11 @@ body {
 }
 
 .skin-blue .main-header .navbar .sidebar-toggle {
-    color: #000;
+    color: #ffffff;
 }
 
 .skin-blue .main-header .navbar {
-    background-color: #ffffff;
+    background-color: #2A3236;
 }
 
 .skin-blue .left-side, .skin-blue .main-sidebar, .skin-blue .wrapper {
@@ -53,19 +53,19 @@ body {
 
 .skin-blue .sidebar-menu>active>a, .skin-blue .sidebar-menu>li:hover>a {
     color: #000;
-    background: #fff;
+    background: #2A3236;
     border-left-color: #fff;
 }
 
 .skin-blue .sidebar-menu>.active>a, .skin-blue .sidebar-menu>li:hover>a {
     color: #000;
-    background: #fff;
+    background: #2A3236;
     border-left-color: #fff;
 }
 
 .skin-blue .sidebar-menu>li.active>a, .skin-blue .sidebar-menu>li:hover>a {
     color: #00558B;
-    background: #fff;
+    background: #2A3236;
     border-left-color: #00558B;
 }
 
