@@ -1,36 +1,8 @@
-library(shiny)
-library(shinydashboard)
-library(tidyverse)
-library(readxl)
-library(highcharter)
-library(leaflet)
-library(dplyr)
-library(data.table)
-library(purrr)
-library(scales)
-source("tidycensus.R")
-library("treemap")
-library("viridis") 
+source("startup.R")
 source("goals.R")
 
-# read and prepare datasources for visulization ####
-incomeAffordability<-read_xlsx("Data/incomeAffordability.xlsx")
-medianSale<-read.csv("Data/medianSale.csv")
-neighborhoodRent<-read.csv("Data/rentAve.csv")
-historicalVacancy<-read.csv("Data/vacancyHis.csv")
-incomeMed<-read.csv("Data/incomeMedian.csv")
-multi<-read_excel("Data/Multifamily.xlsx", sheet = "Multi-Family Listings" )
-constructionTrend<-read_xlsx("Data/yearly_construction_permit_total.xlsx")
-# ownerVsRenter<-read.csv("Data/housingStock_ownerVsRenter.csv")
-allUnitsRatio<-read.csv("Data/allUnits.csv")
-ownersUnitsRatio<-read.csv("Data/ownersUnits.csv")
-rentersUnitsRatio<-read.csv("Data/rentersUnits.csv")
-houseAge <- read.csv("Data/houseAge.csv")
-costBurden <- read.csv("Data/costBurden.csv")
-incomeLevels <- read.csv("Data/incomeLevels.csv")
-averageRentsVsAffordability <- read_csv("Data/averageRentsVsAffordability.csv")
-wageIncreaseVsHomeSalePrice <- read.csv("Data/wageIncreaseVsHomeSalePrice.csv")
-wageIncreaseVsRent <- read.csv("Data/wageIncreaseVsRent.csv")
+
+
 # new housing units
 permit17 <- read_excel("Data/SLC_new_units.xlsx", sheet = "Sheet1")
 permitSinVsMul<- permit17 %>%
@@ -308,19 +280,24 @@ body <- dashboardBody(
                      fluidRow(class="headerText",
                      h1("HOW DID WE GET HERE?")
                      ),
+                     column(width = 6,
                      p("Salt Lake City is experiencing a housing crisis where affordable housing is becoming more scarce. 
                        Challenges in our housing market will have widespread implications for every resident and business."),
                      p("In the face of these challenges, Salt Lake City Housing and Neighborhood Development Division (HAND) 
                        sees the opportunity to find meaningful and lasting solutions that can bring stability to residents by 
                        providing housing that is safe, secure and affordable and provide opportunities for more of our workforce 
-                       to call Salt Lake City home."),
-                     p("The Growing SLC Five Year Plan is a response to these challenges and proposes a fundamental shift to how housing is prioritized in the city. 
-                       This site provides data on the housing market performance and progress towards fulfilling the objectives of the Growing SLC Plan."),
-                     fluidRow(class="headerText",
-                     h2("Snapshot Salt Lake: Summary")
+                       to call Salt Lake City home.")
                      ),
-                     p("Data is the key to understanding how our city is growing and developing, what barriers and challenges exist when solving the affordable housing crisis, and how system design can create a more equitable place to live. This section will focus on the story the data shows about the city’s growth and development and how that affects the residents of the city. ")
-              )
+                     column(width = 6,
+                     p("The Growing SLC Five Year Plan is a response to these challenges and proposes a fundamental shift to how housing is prioritized in the city. 
+                       This site provides data on the housing market performance and progress towards fulfilling the objectives of the Growing SLC Plan.")
+                     )
+                     
+              ),
+              fluidRow(class="headerText",
+                       h2("Snapshot Salt Lake: Summary")
+              ),
+              p("Data is the key to understanding how our city is growing and developing, what barriers and challenges exist when solving the affordable housing crisis, and how system design can create a more equitable place to live. This section will focus on the story the data shows about the city’s growth and development and how that affects the residents of the city. ")
             ),
             br(),br(), br(),
             # create a box for SLC AMI chart ####
@@ -381,7 +358,10 @@ body <- dashboardBody(
                      p("In addition to the gap of affordable rentals, another key challenge that Salt Lake City faces in its housing market 
                        is a very high percentage of in-commuters (84% of its workforce) which is in part tied to the lack of residential housing product 
                        that is affordable and appealing to the workforce. This high rate of in-commuting contributes to air quality issues, congestion, 
-                       and adds a strain on the city’s daytime resources.")
+                       and adds a strain on the city’s daytime resources."),
+                     fluidRow(class="welcomeBox",
+                              img(src='commuters.png',class="center") 
+                     )
                      )
             ),
            br(),br(), br(),
