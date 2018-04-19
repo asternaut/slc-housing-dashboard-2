@@ -85,22 +85,20 @@ body <- dashboardBody(
        
        br(),
        
-       fluidRow(class="headerText",
+       fluidRow(box(width = 6, background = "olive", height = 250,
                 h2("Salt Lake City is experiencing a systemic housing crisis that has implications for every resident and business.")
        ),
-       p("Resolving the crisis will require a community wide effort. Salt Lake City’s Housing and Neighborhood Development Division worked collaboratively 
+       
+       box(width = 6, solidHeader = TRUE,
+            p("Resolving the crisis will require a community wide effort. Salt Lake City’s Housing and Neighborhood Development Division worked collaboratively 
          to draft a plan to address the root causes of affordability, create long-term solutions for increasing needed housing supply, 
          and expand opportunities throughout the City. The 5 year plan is called Growing SLC and was unanimously adopted by City Council in December 2017. 
          This site is a critical component that provides data on housing market performance and progress towards fulfilling the objectives of the plan."),
         br(),
-  #       fluidRow(class="footerBox",
-  #               img(src='si_desb_hand_logo.png',class="getImage"),
-  #              br(),
-  #             p(HTML(paste0(
-  #              'An open source project by Daniel Hadley, Hua Jiang, & Suyash Thite | ', a(href = 'https://github.com/Sorenson-Impact/SLC-Housing-Dashboard', 'Code'),'!'))),
+
               br()
-  #     )
-     ),
+       )
+     )),
     # create dashboard boxes ####
     tabItem(tabName = "dashboard",
             # dashboard header image ####
@@ -111,9 +109,7 @@ body <- dashboardBody(
             br(),br(),
             # insert texts for "growing pains" ####
             fluidRow(
-              column(width = 12,
-              fluidRow(class="headerText",
-              h1("Growing Pains & Housing Gains: A look at long-term housing affordability")
+              fluidRow(class="headerText", h1("Growing Pains & Housing Gains: A look at long-term housing affordability")
               ),
               p("Salt Lake City’s housing market has been experiencing a boom since the end of the Great Recession. However, even with a large increase in construction, vacancy rates are at an all-time low, driving up housing prices across the city.  
                 The growth in population and employment supports a vibrant city in which many want to live and work, but it is increasingly becoming a city out of reach for many of our residents and workers."),
@@ -123,7 +119,7 @@ body <- dashboardBody(
               p("Growing SLC includes the objective of providing residents, community advocates, business leaders, and elected officials with high quality data to drive decision-making. This site provides a public-facing set of housing metrics to
                 provide insights into key market characteristics. The following indicators illustrate important data on housing and will track updates on progress over time to drive decisions, understand impact, and help inform solutions to 
                 Salt Lake City’s housing crisis.")
-            )),
+            ),
             # create 2 boxes for SLC housing stock makeup ####
             fluidRow(
               column(width = 12,
