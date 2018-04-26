@@ -114,3 +114,18 @@ body {
   padding-left: 10px;
   padding-right: 10px;
 }
+
+.boxWelcome {
+  background-color: #36B885;
+  width: 100%;
+  height:100%;
+  margin-right:0;
+  margin-left:0;
+  padding-top:0;
+  padding-bottom:0;
+}
+
+.boxText {
+  color:#FFFFFF;
+  alignment-adjust: central;
+}

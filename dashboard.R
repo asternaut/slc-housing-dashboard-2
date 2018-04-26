@@ -79,17 +79,19 @@ body <- dashboardBody(
     tabItem(
        tabName="welcome",
        
-       fluidRow(class="welcomeBox",
-         img(src='SLC_housing_dashboard.png',class="welcomeImage") 
+ #      fluidRow(class="welcomeBox",
+ #       img(src='SLC_housing_dashboard.png',class="welcomeImage") 
+ #      ),
+       
+ #      br(),
+      fluidRow(box(class = "boxWelcome", width = 12, height = 500,
+              h1(class = "boxText", "Salt Lake City ")
+       )),
+       fluidRow(box(class = "boxWelcome", width = 6, height = 250,
+                h2(class = "boxText", "Salt Lake City is experiencing a systemic housing crisis that has implications for every resident and business.")
        ),
        
-       br(),
-       
-       fluidRow(box(width = 6, background = "olive", height = 250,
-                h2("Salt Lake City is experiencing a systemic housing crisis that has implications for every resident and business.")
-       ),
-       
-       box(width = 6, solidHeader = TRUE,
+       box(width = 6, solidHeader = FALSE,
             p("Resolving the crisis will require a community wide effort. Salt Lake City’s Housing and Neighborhood Development Division worked collaboratively 
          to draft a plan to address the root causes of affordability, create long-term solutions for increasing needed housing supply, 
          and expand opportunities throughout the City. The 5 year plan is called Growing SLC and was unanimously adopted by City Council in December 2017. 
@@ -102,11 +104,14 @@ body <- dashboardBody(
     # create dashboard boxes ####
     tabItem(tabName = "dashboard",
             # dashboard header image ####
-            fluidRow(class="getBox",
-                     img(src='dashboard.png',class="getImage") 
-            ),
+#           fluidRow(class="getBox",
+#                    img(src='dashboard.png',class="getImage") 
+#            ),
             
-            br(),br(),
+#            br(),br(),
+           fluidRow(box(class = "boxWelcome", width = 12, height = 500,
+             h1(class = "boxText", "Salt Lake City ")
+            )),
             # insert texts for "growing pains" ####
             fluidRow(
               fluidRow(class="headerText", h1("Growing Pains & Housing Gains: A look at long-term housing affordability")
@@ -309,10 +314,13 @@ body <- dashboardBody(
     # design "how did we get here" page boxes ####
     tabItem(tabName = "how",
           # get header for "how" webpage ####  
-          fluidRow(class="getBox",
-                     img(src='how.png',class="getImage") 
-            ),
-            br(),br(),
+#          fluidRow(class="getBox",
+#                     img(src='how.png',class="getImage") 
+#            ),
+#            br(),br(),
+         fluidRow(box(class = "boxWelcome", width = 12, height = 500,
+             h1(class = "boxText", "Salt Lake City ")
+          )),
           # insert introductory texts and snapshot ####  
           fluidRow(
               column(width=12,
@@ -414,9 +422,12 @@ body <- dashboardBody(
    # design "goals" page ####
     tabItem(tabName = "goals",
             
-            fluidRow(class="getBox",
-                     img(src='goals.png',class="getImage") 
-            ),
+#            fluidRow(class="getBox",
+#                     img(src='goals.png',class="getImage") 
+#            ),
+           fluidRow(box(class = "boxWelcome", width = 12, height = 500,
+             h1(class = "boxText", "Salt Lake City ")
+            )),
             fluidRow(
               column(width=10,
              
