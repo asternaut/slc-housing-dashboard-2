@@ -22,6 +22,10 @@ body {
   background-color: #ffffff;
 }
 
+.objective{
+  font-weight:bold;
+}
+
 .main-header {
     height: 70px;
 }

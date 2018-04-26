@@ -402,7 +402,7 @@ body <- dashboardBody(
              
                 h3("Goal 1: INCREASE HOUSING OPTIONS: REFORM CITY PRACTICES TO PROMOTE A RESPONSIVE, AFFORDABLE, HIGH-OPPORUNITY HOUSING MARKET"),
              
-              p("In order to respond to Salt Lake City’s changing demographics and the housing needs of its diverse communities, it is critical to begin to look within the City for real and responsive change that will encourage the market to develop the housing and infrastructure needed to accommodate our growing community. This goal focuses on the need to increase the diversity of housing types and opportunities in the city by seeking policy reforms that can enhance the flexibility of the land-use code and create an efficient and predictable development process for community growth. Strategic policy decisions that integrate the transportation system, development related infrastructure, financial institutions, and data, as well as innovative design and construction methods,
+              p(class="objective","In order to respond to Salt Lake City’s changing demographics and the housing needs of its diverse communities, it is critical to begin to look within the City for real and responsive change that will encourage the market to develop the housing and infrastructure needed to accommodate our growing community. This goal focuses on the need to increase the diversity of housing types and opportunities in the city by seeking policy reforms that can enhance the flexibility of the land-use code and create an efficient and predictable development process for community growth. Strategic policy decisions that integrate the transportation system, development related infrastructure, financial institutions, and data, as well as innovative design and construction methods,
                 can break down social and economic segregation, thus building a city for everyone."),
               p("Objective 1: Review and modify land-use and zoning regulations to reflect the affordability needs of a growing, pioneering city"),
               tableOutput("goal11"),
@@ -783,21 +783,112 @@ server <- function(input, output) {
            ". Therefore, a household with income below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .3), " would be considered cost-burdened. Below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .5), " would be severely rent burdened.")
   })
 # Goal 1  
- output$goal11 <- renderTable(Goal11)
- output$goal12 <- renderTable(Goal12)
- output$goal13 <- renderTable(Goal13)
- output$goal14 <- renderTable(Goal14)
+ output$goal11 <- function() {
+   Goal11 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center") %>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+   }
+ output$goal12 <- function() {
+   Goal12 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal13 <-function() {
+   Goal13 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal14 <- function() {
+   Goal14 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
  #Goal 2 
- output$goal21 <- renderTable(Goal21)
- output$goal22 <- renderTable(Goal22)
- output$goal23 <- renderTable(Goal23)
- output$goal24 <- renderTable(Goal24)
- output$goal25 <- renderTable(Goal25)
- output$goal26 <- renderTable(Goal26)
+ output$goal21 <- function() {
+   Goal21 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal22 <- function() {
+   Goal22 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em") %>%
+    column_spec(1, width = "10em") %>%
+    column_spec(3, width = "30em") 
+ }
+ output$goal23 <- function() {
+   Goal23 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal24 <- function() {
+   Goal24 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal25 <- function() {
+   Goal25 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal26 <- function() {
+   Goal26 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
  #Goal 3
- output$goal31 <- renderTable(Goal31)
- output$goal32 <- renderTable(Goal32)
- output$goal33 <- renderTable(Goal33)
+ output$goal31 <- function() {
+   Goal31 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal32 <- function() {
+   Goal32 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal33 <- function() {
+   Goal33 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
  
 
 }
