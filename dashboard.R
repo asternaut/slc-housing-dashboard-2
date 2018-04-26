@@ -86,6 +86,7 @@ body <- dashboardBody(
             )),
             # insert texts for "growing pains" ####
             fluidRow(
+              column(width = 12,
               fluidRow(class="headerText", h1("Growing Pains & Housing Gains: A look at long-term housing affordability")
               ),
               p("Salt Lake City’s housing market has been experiencing a boom since the end of the Great Recession. However, even with a large increase in construction, vacancy rates are at an all-time low, driving up housing prices across the city.  
@@ -96,7 +97,7 @@ body <- dashboardBody(
               p("Growing SLC includes the objective of providing residents, community advocates, business leaders, and elected officials with high quality data to drive decision-making. This site provides a public-facing set of housing metrics to
                 provide insights into key market characteristics. The following indicators illustrate important data on housing and will track updates on progress over time to drive decisions, understand impact, and help inform solutions to 
                 Salt Lake City’s housing crisis.")
-            ),
+            )),
             # create 2 boxes for SLC housing stock makeup ####
             fluidRow(
               column(width = 12,
