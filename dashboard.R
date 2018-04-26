@@ -1,41 +1,13 @@
-library(shiny)
-library(shinydashboard)
-library(tidyverse)
-library(readxl)
-library(highcharter)
-library(leaflet)
-library(dplyr)
-library(data.table)
-library(purrr)
-library(scales)
-source("tidycensus.R")
-library("treemap")
-library("viridis") 
+source("startup.R")
 source("goals.R")
+
 
 # change the thousand separator in highcharts into "comma"####
 hcoptslang <- getOption("highcharter.lang")
 hcoptslang$thousandsSep <- ","
 options(highcharter.lang = hcoptslang)
 
-# read and prepare datasources for visulization ####
-incomeAffordability<-read_xlsx("Data/incomeAffordability.xlsx")
-medianSale<-read.csv("Data/medianSale.csv")
-neighborhoodRent<-read.csv("Data/rentAve.csv")
-historicalVacancy<-read.csv("Data/vacancyHis.csv")
-incomeMed<-read.csv("Data/incomeMedian.csv")
-multi<-read_excel("Data/Multifamily.xlsx", sheet = "Multi-Family Listings" )
-constructionTrend<-read_xlsx("Data/yearly_construction_permit_total.xlsx")
-# ownerVsRenter<-read.csv("Data/housingStock_ownerVsRenter.csv")
-allUnitsRatio<-read.csv("Data/allUnits.csv")
-ownersUnitsRatio<-read.csv("Data/ownersUnits.csv")
-rentersUnitsRatio<-read.csv("Data/rentersUnits.csv")
-houseAge <- read.csv("Data/houseAge.csv")
-costBurden <- read.csv("Data/costBurden.csv")
-incomeLevels <- read.csv("Data/incomeLevels.csv")
-averageRentsVsAffordability <- read_csv("Data/averageRentsVsAffordability.csv")
-wageIncreaseVsHomeSalePrice <- read.csv("Data/wageIncreaseVsHomeSalePrice.csv")
-wageIncreaseVsRent <- read.csv("Data/wageIncreaseVsRent.csv")
+
 # new housing units
 permit17 <- read_excel("Data/SLC_new_units.xlsx", sheet = "Sheet1")
 permitSinVsMul<- permit17 %>%
@@ -327,19 +299,24 @@ body <- dashboardBody(
                      fluidRow(class="headerText",
                      h1("HOW DID WE GET HERE?")
                      ),
+                     column(width = 6,
                      p("Salt Lake City is experiencing a housing crisis where affordable housing is becoming more scarce. 
                        Challenges in our housing market will have widespread implications for every resident and business."),
                      p("In the face of these challenges, Salt Lake City Housing and Neighborhood Development Division (HAND) 
                        sees the opportunity to find meaningful and lasting solutions that can bring stability to residents by 
                        providing housing that is safe, secure and affordable and provide opportunities for more of our workforce 
-                       to call Salt Lake City home."),
-                     p("The Growing SLC Five Year Plan is a response to these challenges and proposes a fundamental shift to how housing is prioritized in the city. 
-                       This site provides data on the housing market performance and progress towards fulfilling the objectives of the Growing SLC Plan."),
-                     fluidRow(class="headerText",
-                     h2("Snapshot Salt Lake: Summary")
+                       to call Salt Lake City home.")
                      ),
-                     p("Data is the key to understanding how our city is growing and developing, what barriers and challenges exist when solving the affordable housing crisis, and how system design can create a more equitable place to live. This section will focus on the story the data shows about the city’s growth and development and how that affects the residents of the city. ")
-              )
+                     column(width = 6,
+                     p("The Growing SLC Five Year Plan is a response to these challenges and proposes a fundamental shift to how housing is prioritized in the city. 
+                       This site provides data on the housing market performance and progress towards fulfilling the objectives of the Growing SLC Plan.")
+                     )
+                     
+              ),
+              fluidRow(class="headerText",
+                       h2("Snapshot Salt Lake: Summary")
+              ),
+              p("Data is the key to understanding how our city is growing and developing, what barriers and challenges exist when solving the affordable housing crisis, and how system design can create a more equitable place to live. This section will focus on the story the data shows about the city’s growth and development and how that affects the residents of the city. ")
             ),
             br(),br(), br(),
             # create a box for SLC AMI chart ####
@@ -400,7 +377,10 @@ body <- dashboardBody(
                      p("In addition to the gap of affordable rentals, another key challenge that Salt Lake City faces in its housing market 
                        is a very high percentage of in-commuters (84% of its workforce) which is in part tied to the lack of residential housing product 
                        that is affordable and appealing to the workforce. This high rate of in-commuting contributes to air quality issues, congestion, 
-                       and adds a strain on the city’s daytime resources.")
+                       and adds a strain on the city’s daytime resources."),
+                     fluidRow(class="welcomeBox",
+                              img(src='commuters.png',class="center") 
+                     )
                      )
             ),
            br(),br(), br(),
@@ -433,7 +413,7 @@ body <- dashboardBody(
              
                 h3("Goal 1: INCREASE HOUSING OPTIONS: REFORM CITY PRACTICES TO PROMOTE A RESPONSIVE, AFFORDABLE, HIGH-OPPORUNITY HOUSING MARKET"),
              
-              p("In order to respond to Salt Lake City’s changing demographics and the housing needs of its diverse communities, it is critical to begin to look within the City for real and responsive change that will encourage the market to develop the housing and infrastructure needed to accommodate our growing community. This goal focuses on the need to increase the diversity of housing types and opportunities in the city by seeking policy reforms that can enhance the flexibility of the land-use code and create an efficient and predictable development process for community growth. Strategic policy decisions that integrate the transportation system, development related infrastructure, financial institutions, and data, as well as innovative design and construction methods,
+              p(class="objective","In order to respond to Salt Lake City’s changing demographics and the housing needs of its diverse communities, it is critical to begin to look within the City for real and responsive change that will encourage the market to develop the housing and infrastructure needed to accommodate our growing community. This goal focuses on the need to increase the diversity of housing types and opportunities in the city by seeking policy reforms that can enhance the flexibility of the land-use code and create an efficient and predictable development process for community growth. Strategic policy decisions that integrate the transportation system, development related infrastructure, financial institutions, and data, as well as innovative design and construction methods,
                 can break down social and economic segregation, thus building a city for everyone."),
               p("Objective 1: Review and modify land-use and zoning regulations to reflect the affordability needs of a growing, pioneering city"),
               tableOutput("goal11"),
@@ -814,21 +794,112 @@ server <- function(input, output) {
            ". Therefore, a household with income below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .3), " would be considered cost-burdened. Below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .5), " would be severely rent burdened.")
   })
 # Goal 1  
- output$goal11 <- renderTable(Goal11)
- output$goal12 <- renderTable(Goal12)
- output$goal13 <- renderTable(Goal13)
- output$goal14 <- renderTable(Goal14)
+ output$goal11 <- function() {
+   Goal11 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center") %>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+   }
+ output$goal12 <- function() {
+   Goal12 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal13 <-function() {
+   Goal13 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal14 <- function() {
+   Goal14 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
  #Goal 2 
- output$goal21 <- renderTable(Goal21)
- output$goal22 <- renderTable(Goal22)
- output$goal23 <- renderTable(Goal23)
- output$goal24 <- renderTable(Goal24)
- output$goal25 <- renderTable(Goal25)
- output$goal26 <- renderTable(Goal26)
+ output$goal21 <- function() {
+   Goal21 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal22 <- function() {
+   Goal22 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em") %>%
+    column_spec(1, width = "10em") %>%
+    column_spec(3, width = "30em") 
+ }
+ output$goal23 <- function() {
+   Goal23 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal24 <- function() {
+   Goal24 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal25 <- function() {
+   Goal25 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal26 <- function() {
+   Goal26 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
  #Goal 3
- output$goal31 <- renderTable(Goal31)
- output$goal32 <- renderTable(Goal32)
- output$goal33 <- renderTable(Goal33)
+ output$goal31 <- function() {
+   Goal31 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal32 <- function() {
+   Goal32 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
+ output$goal33 <- function() {
+   Goal33 %>%
+     knitr::kable("html") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center")%>%
+     column_spec(2, width = "50em")%>%
+     column_spec(1, width = "10em") %>%
+     column_spec(3, width = "30em") 
+ }
  
 
 }

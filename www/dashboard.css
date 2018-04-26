@@ -22,6 +22,10 @@ body {
   background-color: #ffffff;
 }
 
+.objective{
+  font-weight:bold;
+}
+
 .main-header {
     height: 70px;
 }
@@ -115,6 +119,7 @@ body {
   padding-right: 10px;
 }
 
+
 .boxWelcome {
   background-color: #36B885;
   width: 100%;
@@ -128,4 +133,10 @@ body {
 .boxText {
   color:#FFFFFF;
   alignment-adjust: central;
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
