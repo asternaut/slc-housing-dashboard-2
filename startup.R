@@ -11,7 +11,8 @@ library(scales)
 source("tidycensus.R")
 library("treemap")
 library("viridis") 
-
+library(knitr)
+library(kableExtra)
 # read and prepare datasources for visulization ####
 incomeAffordability<-read_xlsx("Data/incomeAffordability.xlsx")
 medianSale<-read.csv("Data/medianSale.csv")
