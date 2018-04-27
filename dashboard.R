@@ -56,12 +56,12 @@ body <- dashboardBody(
  #      ),
        
  #      br(),
-      fluidRow(box(class = "welcomeHeader", width = 12, height = 300,
+      fluidRow(box(class = "welcomeHeader", width = 12, height = 375,
               h1(class = "boxText", class = "headerText", "SALT LAKE CITY "),
               h2(class = "boxText", "A THRIVING CITY OF OPPORTUNITY"),
               h2(class = "boxText", "FOR EVERYONE")
        )),
-       fluidRow(box(class = "boxWelcome", width = 6, height = 250,
+       fluidRow(box(class = "boxWelcome", width = 6, height = 300,
                 h2(class = "boxText", "Salt Lake City is experiencing a systemic housing crisis that has implications for every resident and business.")
        ),
        
