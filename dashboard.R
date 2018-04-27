@@ -56,8 +56,10 @@ body <- dashboardBody(
  #      ),
        
  #      br(),
-      fluidRow(box(class = "boxWelcome", width = 12, height = 500,
-              h1(class = "boxText", "Salt Lake City ")
+      fluidRow(box(class = "welcomeHeader", width = 12, height = 300,
+              h1(class = "boxText", class = "headerText", "SALT LAKE CITY "),
+              h2(class = "boxText", "A THRIVING CITY OF OPPORTUNITY"),
+              h2(class = "boxText", "FOR EVERYONE")
        )),
        fluidRow(box(class = "boxWelcome", width = 6, height = 250,
                 h2(class = "boxText", "Salt Lake City is experiencing a systemic housing crisis that has implications for every resident and business.")
@@ -81,14 +83,17 @@ body <- dashboardBody(
 #            ),
             
 #            br(),br(),
-           fluidRow(box(class = "boxWelcome", width = 12, height = 500,
-             h1(class = "boxText", "Salt Lake City ")
+           fluidRow(box(class = "dashboardHeader", width = 12, height = 300,
+                        h1(class = "boxText", class = "headerText", "DASHBOARD "),
+                        h2(class = "boxText", "GROWING PAINS & HOUSING GAINS:"),
+                        h2(class = "boxText", "A LOOK AT LONG-TERM HOUSING FOR EVERYONE")
             )),
             # insert texts for "growing pains" ####
             fluidRow(
               column(width = 12,
-              fluidRow(class="headerText", h1("Growing Pains & Housing Gains: A look at long-term housing affordability")
-              ),
+              #fluidRow
+              #(class="headerText", h1("Growing Pains & Housing Gains: A look at long-term housing affordability")
+              #),
               p("Salt Lake City’s housing market has been experiencing a boom since the end of the Great Recession. However, even with a large increase in construction, vacancy rates are at an all-time low, driving up housing prices across the city.  
                 The growth in population and employment supports a vibrant city in which many want to live and work, but it is increasingly becoming a city out of reach for many of our residents and workers."),
               p("The Growing SLC Housing Plan, unanimously adopted by the City Council in December 2017, aims to address the root causes of housing affordability, increase the much-needed housing supply, and expand opportunities for residents throughout the City."),
@@ -291,35 +296,61 @@ body <- dashboardBody(
 #                     img(src='how.png',class="getImage") 
 #            ),
 #            br(),br(),
-         fluidRow(box(class = "boxWelcome", width = 12, height = 500,
-             h1(class = "boxText", "Salt Lake City ")
+         fluidRow(box(class = "howHeader", width = 12, height = 300,
+                      h1(class = "boxText", class = "headerText", "HOW DID WE GET HERE? "),
+                      h4(class = "boxText", "Salt Lake City is experiencing a housing crisis where affordable housing"),
+                      h4(class = "boxText", "is becoming more scarce. Challenges in our housing market will have"),
+                      h4(class = "boxText", "widespread implications for every resident and business.")
           )),
           # insert introductory texts and snapshot ####  
-          fluidRow(
-              column(width=12,
-                     fluidRow(class="headerText",
-                     h1("HOW DID WE GET HERE?")
-                     ),
-                     column(width = 6,
-                     p("Salt Lake City is experiencing a housing crisis where affordable housing is becoming more scarce. 
-                       Challenges in our housing market will have widespread implications for every resident and business."),
-                     p("In the face of these challenges, Salt Lake City Housing and Neighborhood Development Division (HAND) 
-                       sees the opportunity to find meaningful and lasting solutions that can bring stability to residents by 
-                       providing housing that is safe, secure and affordable and provide opportunities for more of our workforce 
-                       to call Salt Lake City home.")
-                     ),
-                     column(width = 6,
-                     p("The Growing SLC Five Year Plan is a response to these challenges and proposes a fundamental shift to how housing is prioritized in the city. 
+  #        fluidRow(
+  #column(
+ #               width=12,
+  #                   fluidRow(class="headerText",
+   #                  h1("HOW DID WE GET HERE?")
+    #                 ),
+   #                  column(width = 6,
+            fluidRow(box( width = 6, height = 300,
+                          p("In the face of these challenges, Salt Lake City Housing and Neighborhood Development Division (HAND) 
+                           sees the opportunity to find meaningful and lasting solutions that can bring stability to residents by 
+                           providing housing that is safe, secure and affordable and provide opportunities for more of our workforce 
+                           to call Salt Lake City home."),
+                          p("The Growing SLC Five Year Plan is a response to these challenges and proposes a fundamental shift to how housing is prioritized in the city. 
                        This site provides data on the housing market performance and progress towards fulfilling the objectives of the Growing SLC Plan.")
-                     )
+                            ),
+                            
+                            box(width = 6, height = 300,
+                                 h2("Snapshot Salt Lake: Summary", class = "howTitle"),
+                                p("Data is the key to understanding how our city is growing and developing, what barriers and challenges exist when solving the affordable housing crisis, 
+                                  and how system design can create a more equitable place to live. This section will focus on the story the data shows about the city’s growth and development 
+                                  and how that affects the residents of the city. ")
+ #                               p("Resolving the crisis will require a community wide effort. Salt Lake City’s Housing and Neighborhood Development Division worked collaboratively 
+  #       to draft a plan to address the root causes of affordability, create long-term solutions for increasing needed housing supply, 
+   #      and expand opportunities throughout the City. The 5 year plan is called Growing SLC and was unanimously adopted by City Council in December 2017. 
+    #     This site is a critical component that provides data on housing market performance and progress towards fulfilling the objectives of the plan."),
+                    #            br(),
+                                
+                     #           br()
+                            )
+                            ),
+#                     p("In the face of these challenges, Salt Lake City Housing and Neighborhood Development Division (HAND) 
+ #                      sees the opportunity to find meaningful and lasting solutions that can bring stability to residents by 
+  #                     providing housing that is safe, secure and affordable and provide opportunities for more of our workforce 
+   #                    to call Salt Lake City home."),
+    #                 ),
+   #                  column(width = 6,
+    #                 p("The Growing SLC Five Year Plan is a response to these challenges and proposes a fundamental shift to how housing is prioritized in the city. 
+     #                  This site provides data on the housing market performance and progress towards fulfilling the objectives of the Growing SLC Plan.")
+      #                ),
                      
-              ),
-              fluidRow(class="headerText",
-                       h2("Snapshot Salt Lake: Summary")
-              ),
-              p("Data is the key to understanding how our city is growing and developing, what barriers and challenges exist when solving the affordable housing crisis, and how system design can create a more equitable place to live. This section will focus on the story the data shows about the city’s growth and development and how that affects the residents of the city. ")
-            ),
-            br(),br(), br(),
+  #            ),
+#column(width = 6,
+ #             fluidRow(class="headerText",
+  #                     h2("Snapshot Salt Lake: Summary")
+   #           ),
+    #          p("Data is the key to understanding how our city is growing and developing, what barriers and challenges exist when solving the affordable housing crisis, and how system design can create a more equitable place to live. This section will focus on the story the data shows about the city’s growth and development and how that affects the residents of the city. ")
+     #       ))),
+            br(),br(), 
             # create a box for SLC AMI chart ####
             fluidRow(
               column(width=12,
@@ -406,8 +437,8 @@ body <- dashboardBody(
 #            fluidRow(class="getBox",
 #                     img(src='goals.png',class="getImage") 
 #            ),
-           fluidRow(box(class = "boxWelcome", width = 12, height = 500,
-             h1(class = "boxText", "Salt Lake City ")
+           fluidRow(box(class = "boxWelcome", width = 12, height = 300,
+             h1(class = "headText1", "Salt Lake City ")
             )),
             fluidRow(
               column(width=10,
