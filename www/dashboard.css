@@ -226,3 +226,16 @@ body {
   padding-top:0;
   padding-bottom:0;
 }
+
+.goalsTitle {
+  color: #36B885;
+  font-weight: bold;
+  text-align:left;
+  padding:20px;
+  text-transform: uppercase
+}
+
+.styleAttribute {
+margin-left: 40px;
+margin-right: 30px;
+}
