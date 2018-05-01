@@ -409,19 +409,19 @@ body <- dashboardBody(
             fluidRow(
               column(width=10,
              
-                h3("Goal 1: INCREASE HOUSING OPTIONS: REFORM CITY PRACTICES TO PROMOTE A RESPONSIVE, AFFORDABLE, HIGH-OPPORUNITY HOUSING MARKET"),
+                h3("Goal 1: INCREASE HOUSING OPTIONS: REFORM CITY PRACTICES TO PROMOTE A RESPONSIVE, AFFORDABLE, HIGH-OPPORUNITY HOUSING MARKET", class = "goalsTitle"),
              
               p(class="objective","In order to respond to Salt Lake City’s changing demographics and the housing needs of its diverse communities, it is critical to begin to look within the City for real and responsive change that will encourage the market to develop the housing and infrastructure needed to accommodate our growing community. This goal focuses on the need to increase the diversity of housing types and opportunities in the city by seeking policy reforms that can enhance the flexibility of the land-use code and create an efficient and predictable development process for community growth. Strategic policy decisions that integrate the transportation system, development related infrastructure, financial institutions, and data, as well as innovative design and construction methods,
                 can break down social and economic segregation, thus building a city for everyone."),
               p("Objective 1: Review and modify land-use and zoning regulations to reflect the affordability needs of a growing, pioneering city"),
-              tableOutput("goal11"),
+              tableOutput("goal11"),  class = "styleAttribute",
               p("Objective 2: Remove impediments in City processes to encourage housing development."),
               tableOutput("goal12"),
               p("Objective 3: Lead in the construction of innovative housing solutions."),
               tableOutput("goal13"),
               p("Objective 4: Provide residents, community advocates, business leaders, and elected officials with high-quality data to drive decision-making."),
               tableOutput("goal14"),
-                       h3("Goal 2: AFFORDABLE HOUSING: INCREASE HOUSING OPPORTUNITIES AND STABILITY FOR COST-BURDENED HOUSEHOLDS"),
+                       h3("Goal 2: AFFORDABLE HOUSING: INCREASE HOUSING OPPORTUNITIES AND STABILITY FOR COST-BURDENED HOUSEHOLDS", class = "goalsTitle"),
               
                        p("This goal is dedicated to serving and addressing the needs of those most vulnerable in our community. It is driven by a strong belief that housing stability is good for the entire city, adding income to small businesses, creating food stability for children, and allowing residents to enrich their neighborhoods. Salt Lake City needs to pursue a combination of strategies outlined in the objectives below to achieve this goal.
                         There is no singular initiative that will resolve this crisis, 
@@ -439,7 +439,7 @@ body <- dashboardBody(
                        p("Objective 6: Increase home ownership opportunities."),
                        tableOutput("goal26"),
             
-                       h3("Goal 3: EQUITABLE & FAIR HOUSING: BUILD A MORE EQUITABLE CITY"),
+                       h3("Goal 3: EQUITABLE & FAIR HOUSING: BUILD A MORE EQUITABLE CITY", class = "goalsTitle"),
               
                        p("Equity is not only about eliminating discrimination, 
                          it is also about increasing access to opportunity. 
@@ -738,9 +738,9 @@ server <- function(input, output) {
 
       hc_yAxis(labels=list(format= "${value}"))%>%
       hc_series(list(name ="Affordable rent", color = "#2EADC5",
-                     data=averageRentsVsAffordability$`affordable rent`, dataLabels=list(enabled=TRUE,format= "${point.y}")),
+                     data=averageRentsVsAffordability$`affordable_rent`, dataLabels=list(enabled=TRUE,format= "${point.y}")),
                 list(name = "Average rent", color = "#2A3236",
-                     data=averageRentsVsAffordability$`average rent`, dataLabels=list(enabled=TRUE,format= "${point.y}"))
+                     data=averageRentsVsAffordability$`average_rent`, dataLabels=list(enabled=TRUE,format= "${point.y}"))
 
       ) %>%
       print(affordability1)
@@ -795,7 +795,7 @@ server <- function(input, output) {
  output$goal11 <- function() {
    Goal11 %>%
      knitr::kable("html") %>%
-     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"),full_width=T,position = "center") %>%
+     kable_styling(bootstrap_options = c("striped", "hover", "condensed", "responsive"), full_width=T,position = "center") %>%
      column_spec(2, width = "50em")%>%
      column_spec(1, width = "10em") %>%
      column_spec(3, width = "30em") 
