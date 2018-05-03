@@ -265,11 +265,12 @@ body <- dashboardBody(
           fluidRow(
             column(width = 12,
                    fluidRow(
-                            h2("Income affordability (60% AMI): Salt Lake City 2017", class = "dashboardTitle")
+                            h2("INCOME NEEDED TO AFFORD MEDIAN HOME PRICES IN 2017", class = "dashboardTitle")
                    ),
-                   p("Based on the calculation of income needed to afford the current median home price in Salt Lake City in 2017, the median price of all types (that includes single family, condominiums, twin homes, 
-                     and townhomes) needs the income of $65466 to afford. This is around 87% AMI of SLC median income for a household of 4. Yet, our concern is low income households that earn less than 60% AMI of median income."),
-                   p("Can low income families afford their homes?"),
+                   p("In order to afford the median home price in Salt Lake City in 2017 (includes all types, single family, condominiums, 
+                     twin homes, and townhomes), a household needs to make roughly $65,000 annually. This is around 87% AMI of SLC median 
+                     income for a household of 4. With home price increases rapidly outpacing income increases, more and more Salt Lake City 
+                     households are getting priced out of homeownership."),
                    box(highchartOutput("plot16", height=400), width=NULL),
                    p("Datasource: HUD and UtahRealEstate.com")
             )
@@ -278,10 +279,10 @@ body <- dashboardBody(
           # create a box for income affordability chart2 ####
           fluidRow(
             column(width = 12,
-                   fluidRow(
-                            h2("80% AMI Affordability vs Median Home Price: Salt Lake City 2017", class = "dashboardTitle")
-                   ),
-                   p("Can low income families afford their homes?"),
+    #               fluidRow(
+     #                       h2("80% AMI Affordability vs Median Home Price: Salt Lake City 2017", class = "dashboardTitle")
+      #             ),
+       #            p("Can low income families afford their homes?"),
                    box(highchartOutput("plot17", height=400), width=NULL),
                    p("Datasource: HUD and UtahRealEstate.com")
            )
