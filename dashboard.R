@@ -592,9 +592,9 @@ server <- function(input, output) {
       hc_chart(type="pie")%>%
       hc_title(text="Salt Lake City Housing Stock by Owner vs Renter: 2014")%>%
       hc_plotOptions(series = list(showInLegend = TRUE, colors=c("#2EADC5", "#2A3236"))) %>% 
-      hc_add_series_labels_values(labels = c("Owner's housing units", "Renter's housing units"), 
-                                  values =c(round(100*(34697/81715),2), round(100*(41226/81715),2)), size=200, dataLabels = list(enabled = FALSE))%>%
-      hc_tooltip(pointFormat = paste('{point.y}%  of all housing stock'))%>%
+      hc_add_series_labels_values(labels = c("Owners", "Renters"), 
+                                  values =c(34691, 41232), size=200, dataLabels = list(enabled = FALSE))%>%
+      hc_tooltip(pointFormat = paste('{point.y}  of all housing stock'))%>%
       print(ownerRenter4)
   }
   )
