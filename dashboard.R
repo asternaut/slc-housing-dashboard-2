@@ -655,8 +655,8 @@ server <- function(input, output) {
     cost_burden<-highchart()%>%
       hc_chart(type="bar")%>%
       hc_title(text="Cost Burden: Salt Lake City")%>%
-      hc_xAxis(categories = c("Less than 15%", "15% to 29.9%", "30% to 49.9%", "50% and more")) %>%
-      hc_yAxis(labels=list(format= "{value}%")) %>%
+      hc_xAxis(title = list(text = "Percent of Income Spent on Housing"), categories = c("Less than 15%", "15% to 29.9%", "30% to 49.9%", "50% and more")) %>%
+      hc_yAxis(title = list(text = "Proportion of Renters/Owners"), labels=list(format= "{value}%")) %>%
       hc_series(list(name ="Owners with a mortgage", color = "#2EADC5",
                      data=costBurden$owners_with_a_mortgage, dataLabels=list(enabled=TRUE,format= "{point.y}%")),
                 list(name ="Renters",  color="#FBAA20",
