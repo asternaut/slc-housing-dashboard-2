@@ -51,11 +51,6 @@ body <- dashboardBody(
     tabItem(
        tabName="welcome",
        
- #      fluidRow(class="welcomeBox",
- #       img(src='SLC_housing_dashboard.png',class="welcomeImage") 
- #      ),
-       
- #      br(),
       fluidRow(box(class = "welcomeHeader", width = 12, height = 300,
               h1(class = "boxText", class = "headerText", "SALT LAKE CITY "),
               h2(class = "boxText", "A THRIVING CITY OF OPPORTUNITY"),
@@ -77,12 +72,7 @@ body <- dashboardBody(
      )),
     # create dashboard boxes ####
     tabItem(tabName = "dashboard",
-            # dashboard header image ####
-#           fluidRow(class="getBox",
-#                    img(src='dashboard.png',class="getImage") 
-#            ),
-            
-#            br(),br(),
+
            fluidRow(box(class = "dashboardHeader", width = 12, height = 300,
                         h1(class = "boxText", class = "headerText", "DASHBOARD "),
                         h2(class = "boxText", "GROWING PAINS & HOUSING GAINS:"),
@@ -106,9 +96,7 @@ body <- dashboardBody(
               fluidRow(h2("Salt Lake City Housing Stock Makeup:", class = "dashboardTitle"),
                        h2("Older and Primarily Single Family", class = "dashboardTitle")
               ),
-              p("A majority of Salt Lake City’s housing stock was built before 1940, indicating greater chances that dilapidation, blight, and unsafe conditions may exist. About half of the housing is single-family detached, which consumes large lots and is generally unaffordable for many low-income households. The other half consists primarily of apartments, duplexes, and condos. "),
-              #tableOutput(incomeMed),
-              box(highchartOutput("plot10", height = 500)),
+              p("A majority of Salt Lake City’s housing stock was built before 1940, indicating greater chances that dilapidation, blight, and unsafe conditions may exist. About half of the housing is single-family detached, which consumes large lots and is generally unaffordable for many low-income households. The other half consists primarily of apartments, duplexes, and condos. "),              box(highchartOutput("plot10", height = 500)),
               box(highchartOutput("plot14", height = 500))
             )),
             br(),br(), br(),
@@ -278,10 +266,6 @@ body <- dashboardBody(
           # create a box for income affordability chart2 ####
           fluidRow(
             column(width = 12,
-    #               fluidRow(
-     #                       h2("80% AMI Affordability vs Median Home Price: Salt Lake City 2017", class = "dashboardTitle")
-      #             ),
-       #            p("Can low income families afford their homes?"),
                    box(highchartOutput("plot17", height=400), width=NULL),
                    p("Datasource: HUD and UtahRealEstate.com")
            )
@@ -290,10 +274,6 @@ body <- dashboardBody(
     # design "how did we get here" page boxes ####
     tabItem(tabName = "how",
           # get header for "how" webpage ####  
-#          fluidRow(class="getBox",
-#                     img(src='how.png',class="getImage") 
-#            ),
-#            br(),br(),
          fluidRow(box(class = "howHeader", width = 12, height = 300,
                       h1(class = "boxText", class = "headerText", "HOW DID WE GET HERE? "),
                       h4(class = "boxText", "Salt Lake City is experiencing a housing crisis where affordable housing"),
@@ -399,10 +379,6 @@ body <- dashboardBody(
     ),
    # design "goals" page ####
     tabItem(tabName = "goals",
-            
-#            fluidRow(class="getBox",
-#                     img(src='goals.png',class="getImage") 
-#            ),
            fluidRow(box(class = "goalsHeader", width = 12, height = 300,
                         h1(class = "boxText", class = "headerText", "GOALS OF GROWING"),
                         h1(class = "boxText", class = "headerText", "SALT LAKE CITY")
