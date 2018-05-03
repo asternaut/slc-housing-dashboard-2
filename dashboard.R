@@ -312,6 +312,7 @@ body <- dashboardBody(
                             ),
                     box(width = 6, height = 300,
                         h2("Snapshot Salt Lake: Summary", class = "howTitle"),
+                        p("View a snapshot", a("here.", target="_blank", href="Growing_SLC_Snapshot.pdf")),
                         p("Data is the key to understanding how our city is growing and developing, what barriers and challenges exist when solving the affordable housing crisis, 
                             and how system design can create a more equitable place to live. This section will focus on the story the data shows about the city’s growth and development 
                             and how that affects the residents of the city. ")
