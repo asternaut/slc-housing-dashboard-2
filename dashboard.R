@@ -134,8 +134,8 @@ body <- dashboardBody(
               fluidRow(
               h2("Salt Lake City Housing Type by Tenure: 2014", class = "dashboardTitle")
               ),
-              p("About 50.45% of Salt Lake City households are renters and 42.46% owners. The percentage of renters has ___ over time. 
-               As can be seen below, the stock of rental housing is mainly multifamily, while the stock of ownership housing is mainly single family. 
+              p("About 51% of Salt Lake City households are renters and 49% owners. The percentage of renters has grown slightly over time from 50% in 2010.
+               As can be seen below, the stock of rental housing is more than 50% multifamily, while the stock of owner-occupied housing is 83% single family. 
                The vast majority of rental units (80%) has only two bedrooms, which makes finding affordable housing difficult for families."),
               p("This graph shows the type of housing units by type, attached (more than 10 units), attached (fewer than 10 units) and single family detached."),
               column(width=4, box(highchartOutput("plot11", height = 400), width=NULL)),
@@ -198,8 +198,7 @@ body <- dashboardBody(
                      p("Many previously “affordable” units throughout the city are currently being leased at higher rental rates due to market demand. 
                        In the fastest growing areas of the city, such as Downtown and Sugarhouse, affordable units are being sold and converted to housing for residents with higher incomes."),
                      p("In Salt Lake City, nearly one half of the renters are cost burdened, and nearly one quarter are extremely cost-burdened (spend more than 50% of their income on rent)."),
-                     p("The graph below shows average rent by neighborhood. The data comes from Rent Jungle, which uses X methodology to estimate local rents. 
-                       As can be seen only X% of these neighborhoods average rents would be affordable to a low income household (80% AMI and below).")
+                     p("The graph below shows average rent by neighborhood. The data comes from Rent Jungle, which pulls listings from over 12,000 property management and owner websites on a nightly basis.")
               )
             ),
             fluidRow(
@@ -307,8 +306,8 @@ body <- dashboardBody(
                            sees the opportunity to find meaningful and lasting solutions that can bring stability to residents by 
                            providing housing that is safe, secure and affordable and provide opportunities for more of our workforce 
                            to call Salt Lake City home."),
-                      p("The Growing SLC Five Year Plan is a response to these challenges and proposes a fundamental shift to how housing is prioritized in the city. 
-                       This site provides data on the housing market performance and progress towards fulfilling the objectives of the Growing SLC Plan.")
+                      p("The  Growing SLC Five Year Housing Plan (Growing SLC)  is a response to these challenges and proposes a fundamental shift to how housing is prioritized in the city. 
+                       This site provides data on the housing market performance and progress towards fulfilling the objectives of the Growing SLC.")
                             ),
                     box(width = 6, height = 300,
                         h2("Snapshot Salt Lake: Summary", class = "howTitle"),
