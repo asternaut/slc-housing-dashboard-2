@@ -68,7 +68,7 @@ body <- dashboardBody(
        box(width = 6, solidHeader = FALSE,
             p("Resolving the crisis will require a community wide effort. Salt Lake City’s Housing and Neighborhood Development Division worked collaboratively 
          to draft a plan to address the root causes of affordability, create long-term solutions for increasing needed housing supply, 
-         and expand opportunities throughout the City. The 5 year plan is called Growing SLC and was unanimously adopted by City Council in December 2017. 
+         and expand opportunities throughout the City.", a("The 5 year plan is called Growing SLC (link here)", target="_blank", href="http://www.slcdocs.com/hand/Growing_SLC_Final_Attachments.pdf"), "and was unanimously adopted by City Council in December 2017. 
          This site is a critical component that provides data on housing market performance and progress towards fulfilling the objectives of the plan."),
         br(),
 
