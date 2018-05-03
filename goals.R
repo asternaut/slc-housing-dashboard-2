@@ -2,7 +2,7 @@ Goals<-read.csv("Data/Goals/Goals Tracker.csv")
 
 #Objective1
 
-Goal11<-read.csv("Data/Goals/Goal1Objective1.csv") %>% mutate(case_when(is.na(Progress) ~ ""))
+Goal11<-read.csv("Data/Goals/Goal1Objective1.csv") %>% mutate(Progress = case_when(is.na(Progress) ~ " ", TRUE ~ as.character(Progress)))
 Goal12 <-read.csv("Data/Goals/Goal1Objective2.csv")
 Goal13 <-read.csv("Data/Goals/Goal1Objective3.csv")
 Goal14 <-read.csv("Data/Goals/Goal1Objective4.csv")
