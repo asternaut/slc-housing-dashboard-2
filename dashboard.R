@@ -461,7 +461,7 @@ body <- dashboardBody(
               
               withTags({
                 div(class="header", checked=NA,
-                    p("Want to check out the plan?" , a("Click Here",target="_blank",href="Growing SLC.pdf"))
+                    p("Want to check out the plan?" , a("Click Here",target="_blank",href="http://www.slcdocs.com/hand/Growing_SLC_Final_Attachments.pdf"))
                     
                 )
               })
