@@ -591,11 +591,11 @@ server <- function(input, output) {
   output$plot10<-renderHighchart({ 
     ownerRenter4<-highchart()%>%
       hc_chart(type="pie")%>%
-      hc_title(text="Salt Lake City Housing Stock by Owner vs Renter: 2014")%>%
+      hc_title(text="Salt Lake City Housing by Owner vs Renter: 2014")%>%
       hc_plotOptions(series = list(showInLegend = TRUE, colors=c("#2EADC5", "#2A3236"))) %>% 
       hc_add_series_labels_values(labels = c("Owners", "Renters"), 
                                   values =c(34691, 41232), size=200, dataLabels = list(enabled = FALSE))%>%
-      hc_tooltip(pointFormat = paste('{point.y}  of all housing stock'))%>%
+      hc_tooltip(pointFormat = paste('{point.y} households'))%>%
       print(ownerRenter4)
   }
   )
