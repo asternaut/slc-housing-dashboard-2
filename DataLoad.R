@@ -16,7 +16,7 @@ library(kableExtra)
 
 
 
-incomeAffordability <- readRDS("Data/rds/incomeAffordability.rds")
+
 medianSale <- readRDS("Data/rds/medianSale.rds")
 neighborhoodRent <- readRDS("Data/rds/neighborhoodRent.rds")
 historicalVacancy <- readRDS("Data/rds/historicalVacancy.rds")
