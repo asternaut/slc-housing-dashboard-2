@@ -661,6 +661,7 @@ server <- function(input, output) {
     print(incomeAffordability)
   }
   )
+  incomeAffordability <- readRDS("Data/rds/incomeAffordability.rds")
   output$plot17<-renderHighchart({ 
     incomeAffordability<-highchart()%>%
       hc_chart(type="bar")%>%
