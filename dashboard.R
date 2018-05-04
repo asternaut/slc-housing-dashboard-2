@@ -1,5 +1,19 @@
 # source("startup.R")
-source("DataLoad.R")
+library(shiny)
+library(shinydashboard)
+library(tidyverse)
+library(readxl)
+library(highcharter)
+library(leaflet)
+library(dplyr)
+library(data.table)
+library(purrr)
+library(scales)
+source("tidycensus.R")
+library("treemap")
+library("viridis") 
+library(knitr)
+library(kableExtra)
 source("goals.R")
 
 
@@ -460,10 +474,8 @@ ui <- dashboardPage(title = "Housing and Neighorhood Development",
 
 # Server ####
 server <- function(input, output) {
-  project<- 200
-  company<-120
-  house<-3000
   # create a bar chart and a column chart in combination to show affordable units in multifamily units ####
+  multi <- readRDS("Data/rds/multi.rds")
   output$plot1<-renderHighchart({
     multifamily_plot<-highchart() %>%
       hc_title(text = "Affordable Units in Total Multi-Family Units") %>%
@@ -514,6 +526,7 @@ server <- function(input, output) {
       print(yearly_construction_trend)  
   })
   # create a bar chart for rent by neighborhood ####
+  neighborhoodRent <- readRDS("Data/rds/neighborhoodRent.rds")
   output$plot5<-renderHighchart({
     rent_plot<-highchart() %>%
       hc_chart(type="bar") %>%
@@ -528,6 +541,7 @@ server <- function(input, output) {
   }
   )
   # create a column chart for vacancy rate ####
+  historicalVacancy <- readRDS("Data/rds/historicalVacancy.rds")
   output$plot6<-renderHighchart({
     historical_vacancy<-highchart() %>%
       hc_title(text= "Salt Lake County Historical Vacancy Rate") %>%
@@ -547,6 +561,8 @@ server <- function(input, output) {
   }
   )
   # create column chart of median sale price with a line cross that shows median income ####
+  incomeMed <- readRDS("Data/rds/incomeMed.rds")
+  medianSale <- readRDS("Data/rds/medianSale.rds")
   output$plot9<-renderHighchart({
     historical_median_sale<-highchart() %>%
       hc_title(text="Salt Lake City Median Sale Price vs Median Income: 2008 - 2017") %>%
@@ -578,6 +594,7 @@ server <- function(input, output) {
   }
   )
   # 3 pie charts created for housing by tenure ####
+  allUnitsRatio <- readRDS("Data/rds/allUnitsRatio.rds")
   output$plot11<-renderHighchart({ 
     ownerRenter1<-highchart()%>%
       hc_chart(type="pie") %>%
@@ -590,6 +607,7 @@ server <- function(input, output) {
   }
   )
   
+  ownersUnitsRatio <- readRDS("Data/rds/ownersUnitsRatio.rds")
   output$plot12<-renderHighchart({ 
     ownerRenter2<-highchart()%>%
       hc_chart(type="pie") %>%
@@ -602,7 +620,7 @@ server <- function(input, output) {
       print(ownerRenter2)
   }
   )
-  
+  rentersUnitsRatio <- readRDS("Data/rds/rentersUnitsRatio.rds")
   output$plot13<-renderHighchart({ 
     ownerRenter3<-highchart()%>%
       hc_chart(type="pie") %>%
@@ -615,6 +633,7 @@ server <- function(input, output) {
   }
   )
   # create a bar chart to show housing stock age ####
+  houseAge <- readRDS("Data/rds/houseAge.rds")
   output$plot14<-renderHighchart({ 
     age<-highchart()%>%
       hc_chart(type="bar")%>%
@@ -630,6 +649,7 @@ server <- function(input, output) {
   }
   )
   # create a bar chart to show cost burden of SLC ####
+  costBurden <- readRDS("Data/rds/costBurden.rds")
   output$plot15<-renderHighchart({
     cost_burden<-highchart()%>%
       hc_chart(type="bar")%>%
@@ -647,6 +667,7 @@ server <- function(input, output) {
   }
   )
   # create column chart of 60% AMI with a line cross that shows income needed to afford median sale price ####
+  incomeLevels <- readRDS("Data/rds/incomeLevels.rds")
   output$plot16<-renderHighchart({
     incomeAffordability<-highchart() %>%
       hc_title(text="Income affordability (60% AMI): Salt Lake City 2017") %>%
@@ -709,6 +730,7 @@ server <- function(input, output) {
   }
   )
   # create a column chart for average rents and affordability ####
+  averageRentsVsAffordability <- readRDS("Data/rds/averageRentsVsAffordability.rds")
   output$graph3<-renderHighchart({
     affordability1<-highchart() %>%
       hc_chart(type="column") %>%
@@ -727,6 +749,7 @@ server <- function(input, output) {
   }
   )
   # create two chart for the comparison between wage increase and home sale and rent increase ####
+  wageIncreaseVsHomeSalePrice <- readRDS("Data/rds/wageIncreaseVsHomeSalePrice.rds")
   output$graph4<-renderHighchart({
     wageVsPrice<-highchart() %>%
     hc_chart(type="column") %>%
@@ -741,6 +764,7 @@ server <- function(input, output) {
       print(wageVsPrice)
   }
   )
+  wageIncreaseVsRent <- readRDS("Data/rds/wageIncreaseVsRent.rds")
   output$graph5<-renderHighchart({
     wageVsRent<-highchart() %>%
       hc_chart(type="column") %>%
