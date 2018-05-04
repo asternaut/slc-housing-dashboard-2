@@ -23,7 +23,7 @@ hcoptslang <- getOption("highcharter.lang")
 hcoptslang$thousandsSep <- ","
 options(highcharter.lang = hcoptslang)
 
-
+neighborhoodRent <- readRDS("Data/rds/neighborhoodRent.rds")
 # new housing units
 permit17 <- read_excel("Data/SLC_new_units.xlsx", sheet = "Sheet1")
 permitSinVsMul<- permit17 %>%
@@ -510,6 +510,7 @@ server <- function(input, output) {
     print(permit_all)
   })
   # create a column chart for yearly constructioin trend ####
+  constructionTrend <- readRDS("Data/rds/constructionTrend.rds")
   output$plot4<-renderHighchart({
     yearly_construction_trend<-highchart() %>%
     hc_chart(type="column") %>%
@@ -526,7 +527,7 @@ server <- function(input, output) {
       print(yearly_construction_trend)  
   })
   # create a bar chart for rent by neighborhood ####
-  neighborhoodRent <- readRDS("Data/rds/neighborhoodRent.rds")
+ # neighborhoodRent <- readRDS("Data/rds/neighborhoodRent.rds")
   output$plot5<-renderHighchart({
     rent_plot<-highchart() %>%
       hc_chart(type="bar") %>%
