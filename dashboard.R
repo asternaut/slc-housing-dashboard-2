@@ -1,6 +1,7 @@
-source("startup.R")
+# source("startup.R")
 source("DataLoad.R")
 source("goals.R")
+
 
 
 # change the thousand separator in highcharts into "comma"####
