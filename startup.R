@@ -19,7 +19,7 @@ multi<-read_excel("Data/Multifamily.xlsx", sheet = "Multi-Family Listings" )
 saveRDS(multi, "Data/rds/multi.rds")
 
 constructionTrend<-read_xlsx("Data/yearly_construction_permit_total.xlsx")
-saveRDS(incomeMed, "Data/rds/constructionTrend.rds")
+saveRDS(constructionTrend, "Data/rds/constructionTrend.rds")
 
 
 # ownerVsRenter<-read.csv("Data/housingStock_ownerVsRenter.csv")
