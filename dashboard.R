@@ -1,5 +1,5 @@
 source("startup.R")
-source("DataLoad.r")
+source("DataLoad.R")
 source("goals.R")
 
 

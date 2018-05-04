@@ -78,9 +78,9 @@ body {
 }
 
 .skin-blue .sidebar-menu>li.active>a, .skin-blue .sidebar-menu>li:hover>a {
-    color: #00558B;
+    color: #fff;
     background: #2A3236;
-    border-left-color: #00558B;
+    border-left-color: #fff;
 }
 
 .welcomeText {
