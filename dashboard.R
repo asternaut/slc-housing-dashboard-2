@@ -70,7 +70,7 @@ body <- dashboardBody(
     tabItem(
        tabName="welcome",
        
-      fluidRow(box(class = "welcomeHeader", width = 12, height = 300,
+      fluidRow(box(class = "welcomeHeader", width = 12,
               h1(class = "boxText", class = "headerText", "SALT LAKE CITY "),
               h2(class = "boxText", "A THRIVING CITY OF OPPORTUNITY"),
               h2(class = "boxText", "FOR EVERYONE")
@@ -92,7 +92,7 @@ body <- dashboardBody(
     # create dashboard boxes ####
     tabItem(tabName = "dashboard",
 
-           fluidRow(box(class = "dashboardHeader", width = 12, height = 300,
+           fluidRow(box(class = "dashboardHeader", width = 12,
                         h1(class = "boxText", class = "headerText", "DASHBOARD "),
                         h2(class = "boxText", "GROWING PAINS & HOUSING GAINS:"),
                         h2(class = "boxText", "A LOOK AT LONG-TERM HOUSING FOR EVERYONE")
@@ -293,14 +293,14 @@ body <- dashboardBody(
     # design "how did we get here" page boxes ####
     tabItem(tabName = "how",
           # get header for "how" webpage ####  
-         fluidRow(box(class = "howHeader", width = 12, height = 300,
+         fluidRow(box(class = "howHeader", width = 12,
                       h1(class = "boxText", class = "headerText", "HOW DID WE GET HERE? "),
                       h4(class = "boxText", "Salt Lake City is experiencing a housing crisis where affordable housing"),
                       h4(class = "boxText", "is becoming more scarce. Challenges in our housing market will have"),
                       h4(class = "boxText", "widespread implications for every resident and business.")
           )),
           # insert introductory texts and snapshot ####  
-          fluidRow(box( width = 6, height = 300,
+          fluidRow(box( width = 6, 
                       p("In the face of these challenges, Salt Lake City Housing and Neighborhood Development Division (HAND) 
                            sees the opportunity to find meaningful and lasting solutions that can bring stability to residents by 
                            providing housing that is safe, secure and affordable and provide opportunities for more of our workforce 
@@ -308,7 +308,7 @@ body <- dashboardBody(
                       p("The  Growing SLC Five Year Housing Plan (Growing SLC)  is a response to these challenges and proposes a fundamental shift to how housing is prioritized in the city. 
                        This site provides data on the housing market performance and progress towards fulfilling the objectives of the Growing SLC.")
                             ),
-                    box(width = 6, height = 300,
+                    box(width = 6, 
                         h2("Snapshot Salt Lake: Summary", class = "howTitle"),
                         p("View a snapshot", a("here.", target="_blank", href="Growing_SLC_Snapshot.pdf")),
                         p("Data is the key to understanding how our city is growing and developing, what barriers and challenges exist when solving the affordable housing crisis, 
@@ -398,7 +398,7 @@ body <- dashboardBody(
     ),
    # design "goals" page ####
     tabItem(tabName = "goals",
-           fluidRow(box(class = "goalsHeader", width = 12, height = 300,
+           fluidRow(box(class = "goalsHeader", width = 12,
                         h1(class = "boxText", class = "headerText", "GOALS OF GROWING"),
                         h1(class = "boxText", class = "headerText", "SALT LAKE CITY")
             )),
