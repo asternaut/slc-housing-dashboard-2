@@ -16,6 +16,9 @@ library(kableExtra)
 source("goals.R")
 load("./Data/rds/opportunity_index_map.rds")
 
+opportunity_index_map$dependencies[[1]]$src$file <- normalizePath(paste0(.libPaths()[1], "/leaflet/htmlwidgets/lib/leaflet-providers"))
+opportunity_index_map$dependencies[[2]]$src$file <- normalizePath(paste0(.libPaths()[1], "/leaflet/htmlwidgets/plugins/leaflet-providers-plugin"))
+
 
 
 # change the thousand separator in highcharts into "comma"####
