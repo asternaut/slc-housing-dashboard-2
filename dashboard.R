@@ -9,12 +9,12 @@ library(dplyr)
 library(data.table)
 library(purrr)
 library(scales)
-source("tidycensus.R")
 library("treemap")
 library("viridis") 
 library(knitr)
 library(kableExtra)
 source("goals.R")
+load("./Data/rds/opportunity_index_map.rds")
 
 
 
