@@ -402,13 +402,17 @@ body <- dashboardBody(
    # design "goals" page ####
     tabItem(tabName = "goals",
            fluidRow(box(class = "goalsHeader", width = 12,
+                        br(),
+                        br(),
                         h1(class = "boxText", class = "headerText", "GOALS OF GROWING"),
-                        h1(class = "boxText", class = "headerText", "SALT LAKE CITY")
+                        h1(class = "boxText", class = "headerText", "SALT LAKE CITY"),
+                        br(),
+                        br()
             )),
             fluidRow(
               column(width=10,
              
-                h3("Goal 1: INCREASE HOUSING OPTIONS: REFORM CITY PRACTICES TO PROMOTE A RESPONSIVE, AFFORDABLE, HIGH-OPPORUNITY HOUSING MARKET", class = "goalsTitle"),
+                h2("Goal 1: INCREASE HOUSING OPTIONS: REFORM CITY PRACTICES TO PROMOTE A RESPONSIVE, AFFORDABLE, HIGH-OPPORUNITY HOUSING MARKET", class = "goalsTitle"),
              
               p("In order to respond to Salt Lake City’s changing demographics and the housing needs of its diverse communities, it is critical to begin to look within the City for real and responsive change that will encourage the market to develop the housing and infrastructure needed to accommodate our growing community. This goal focuses on the need to increase the diversity of housing types and opportunities in the city by seeking policy reforms that can enhance the flexibility of the land-use code and create an efficient and predictable development process for community growth. Strategic policy decisions that integrate the transportation system, development related infrastructure, financial institutions, and data, as well as innovative design and construction methods,
                 can break down social and economic segregation, thus building a city for everyone."),
@@ -420,7 +424,7 @@ body <- dashboardBody(
               tableOutput("goal13"),
               p(class = "objective", "Objective 4: Provide residents, community advocates, business leaders, and elected officials with high-quality data to drive decision-making."),
               tableOutput("goal14"),
-                       h3("Goal 2: AFFORDABLE HOUSING: INCREASE HOUSING OPPORTUNITIES AND STABILITY FOR COST-BURDENED HOUSEHOLDS", class = "goalsTitle"),
+                       h2("Goal 2: AFFORDABLE HOUSING: INCREASE HOUSING OPPORTUNITIES AND STABILITY FOR COST-BURDENED HOUSEHOLDS", class = "goalsTitle"),
               
                        p("This goal is dedicated to serving and addressing the needs of those most vulnerable in our community. It is driven by a strong belief that housing stability is good for the entire city, adding income to small businesses, creating food stability for children, and allowing residents to enrich their neighborhoods. Salt Lake City needs to pursue a combination of strategies outlined in the objectives below to achieve this goal.
                         There is no singular initiative that will resolve this crisis, 
@@ -438,7 +442,7 @@ body <- dashboardBody(
                        p(class = "objective", "Objective 6: Increase home ownership opportunities."),
                        tableOutput("goal26"),
             
-                       h3("Goal 3: EQUITABLE & FAIR HOUSING: BUILD A MORE EQUITABLE CITY", class = "goalsTitle"),
+                       h2("Goal 3: EQUITABLE & FAIR HOUSING: BUILD A MORE EQUITABLE CITY", class = "goalsTitle"),
               
                        p("Equity is not only about eliminating discrimination, 
                          it is also about increasing access to opportunity. 
@@ -453,16 +457,16 @@ body <- dashboardBody(
                        tableOutput("goal32"),
                       p(class = "objective", "Objective 3: Implement life cycle housing principles in neighborhoods throughout the city."),
                       tableOutput("goal33")
-              ),
+              )
+#              ,
               
               
-              
-              withTags({
-                div(class="header", checked=NA,
-                    p("Want to check out the plan?" , a("Click Here",target="_blank",href="http://www.slcdocs.com/hand/Growing_SLC_Final_Attachments.pdf"))
+#              withTags({
+ #               div(class="header", checked=NA,
+  #                p("Want to check out the plan?" , a("Click Here",target="_blank",href="http://www.slcdocs.com/hand/Growing_SLC_Final_Attachments.pdf"))
                     
-                )
-              })
+   #             )
+    #          })
               )
             )
             
@@ -528,7 +532,7 @@ server <- function(input, output) {
                 list(name="Condominiums / Townhomes", data=constructionTrend$`condominium/townhouse numbers`, color="#2EADC5"),
                 list(name="Apartments (3 or 4 units)", data=constructionTrend$`apartment (3 or 4 units) numbers`, color="#315C5F"),
                 list(name="Apartments (1-3 floors)", data=constructionTrend$`apartment (1-3 floor) numbers`, color="#676866"),
-                list(name="Apartments (4+ floors)", data=constructionTrend$`apartment (4+ floor) numbers`, color="##2A3236")
+                list(name="Apartments (4+ floors)", data=constructionTrend$`apartment (4+ floor) numbers`, color="#2A3236")
       )%>%
       print(yearly_construction_trend)  
   })
@@ -554,7 +558,7 @@ server <- function(input, output) {
       hc_title(text= "Salt Lake County Historical Vacancy Rate") %>%
       hc_xAxis(categories = c("Salt Lake City", "Downtown")) %>%
       hc_yAxis(labels=list(format= "{value}%"))%>%
-      hc_series(list(name="2014 vacancy rates", type="column", color="##2A3236",
+      hc_series(list(name="2014 vacancy rates", type="column", color="#2A3236",
                      data=c(subset(historicalVacancy, county=="Salt Lake City")$vacancy2014, 
                             subset(historicalVacancy,county=="Downtown")$vacancy2014)),
                 list(name="2015 vacancy rates", type="column", color="#2EADC5",
