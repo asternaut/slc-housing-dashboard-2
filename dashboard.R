@@ -1,17 +1,11 @@
-# source("startup.R")
 library(shiny)
 library(shinydashboard)
-library(tidyverse)
-library(readxl)
 library(highcharter)
 library(leaflet)
 library(dplyr)
-library(data.table)
-library(purrr)
 library(scales)
 library("treemap")
 library("viridis") 
-library(knitr)
 library(kableExtra)
 source("goals.R")
 load("./Data/rds/opportunity_index_map.rds")
@@ -28,22 +22,6 @@ options(highcharter.lang = hcoptslang)
 
 neighborhoodRent <- readRDS("Data/rds/neighborhoodRent.rds")
 # new housing units
-permit17 <- read_excel("Data/SLC_new_units.xlsx", sheet = "Sheet1")
-permitSinVsMul<- permit17 %>%
-  select(`Duplexes and Twin Homes`, `Condominiums / Townhomes`, `Apartments (3 or more units)`) %>%
-  mutate(multifamily=`Duplexes and Twin Homes`+`Condominiums / Townhomes`+`Apartments (3 or more units)`)
-# industry ami and median income in "How"
-industryChart<-read.csv("Data/industryC.csv")
-tm <- treemap(industryChart, index =c("ami","profession"),
-              vSize = "income", vColor = "income",
-              type = "value", palette = c("#315C5F", "#343F44", "#676866", "#FBAA20", "#2EADC5", "#2A3236")
-              #  rev(viridis(10))
-              , colorByPoint = TRUE,
-              draw = FALSE)
-# SL City historical sale median price csv file: y value in "historical_median_3rdQuarter.csv" is written from "cityWAve"
-#cityMedian<-read_xlsx("Data/cityHisMedian.xlsx")
-#cityWAve <- sapply(split(cityMedian, cityMedian$year), function(x){weighted.mean(x$medianPrice, x$unitsSold)})
-#WAve <-data.frame(keyName=names(cityWAve), value=cityWAve, row.names=NULL)
 
 # design webpage sidebar menuitems ####
 fluidPage(
@@ -501,6 +479,12 @@ server <- function(input, output) {
       print(multifamily_plot)
   })
   # create a column chart for new residential units ####
+  library(readxl)
+  permit17 <- read_excel("Data/SLC_new_units.xlsx", sheet = "Sheet1")
+  permitSinVsMul<- permit17 %>%
+    select(`Duplexes and Twin Homes`, `Condominiums / Townhomes`, `Apartments (3 or more units)`) %>%
+    mutate(multifamily=`Duplexes and Twin Homes`+`Condominiums / Townhomes`+`Apartments (3 or more units)`)
+  
   output$plot3<-renderHighchart({
     permit_all<-highchart() %>%
       hc_chart(type="column") %>%
@@ -729,6 +713,16 @@ server <- function(input, output) {
   }
   )
   # create a treemap for income in industries in SLC ####
+  
+  # industry ami and median income in "How"
+  industryChart<-read.csv("Data/industryC.csv")
+  tm <- treemap(industryChart, index =c("ami","profession"),
+                vSize = "income", vColor = "income",
+                type = "value", palette = c("#315C5F", "#343F44", "#676866", "#FBAA20", "#2EADC5", "#2A3236")
+                #  rev(viridis(10))
+                , colorByPoint = TRUE,
+                draw = FALSE)
+  
   output$graph2<-renderHighchart({
   Industry_hc<-highchart(height = 500) %>% 
     hc_add_series_treemap(tm, allowDrillToNode = TRUE,

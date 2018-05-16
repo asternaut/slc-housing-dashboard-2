@@ -1,3 +1,5 @@
+library(tidyr)
+
 Goals<-read.csv("Data/Goals/Goals Tracker.csv")
 
 #Objective1
