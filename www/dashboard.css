@@ -51,8 +51,13 @@ body {
     font-size: 20px;
 }
 
+.skin-blue .main-header .navbar .sidebar-toggle:hover {
+    background-color: #36B885;
+}
+
 .skin-blue .main-header .navbar {
     background-color: #2A3236;
+    margin-top: 5px;
 }
 
 .skin-blue .left-side, .skin-blue .main-sidebar, .skin-blue .wrapper {
@@ -63,6 +68,10 @@ body {
     background-color: #2A3236;
     color: #000;
     border-bottom: 0 solid transparent;
+}
+
+.skin-blue .main-header .logo:hover {
+    background-color: #2A3236;
 }
 
 .skin-blue .sidebar-menu>active>a, .skin-blue .sidebar-menu>li:hover > a {
@@ -91,7 +100,7 @@ body {
 }
 
 .sidebar-menu {
-    margin-top: 5px;
+    margin-top: 20px;
 }
 
 .welcomeBox {
