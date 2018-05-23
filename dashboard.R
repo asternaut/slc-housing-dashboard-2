@@ -10,20 +10,19 @@ library(kableExtra)
 source("goals.R")
 load("./Data/rds/opportunity_index_map.rds")
 
+# opportunity map path####
 opportunity_index_map$dependencies[[1]]$src$file <- normalizePath(paste0(.libPaths()[1], "/leaflet/htmlwidgets/lib/leaflet-providers"))
 opportunity_index_map$dependencies[[2]]$src$file <- normalizePath(paste0(.libPaths()[1], "/leaflet/htmlwidgets/plugins/leaflet-providers-plugin"))
-
-
 
 # change the thousand separator in highcharts into "comma"####
 hcoptslang <- getOption("highcharter.lang")
 hcoptslang$thousandsSep <- ","
 options(highcharter.lang = hcoptslang)
 
+# neighborhood rent rds file upload here####
 neighborhoodRent <- readRDS("Data/rds/neighborhoodRent.rds")
-# new housing units
 
-# design webpage sidebar menuitems ####
+# design webpage sidebar menu items ####
 fluidPage(
 sidebar <- dashboardSidebar(
   sidebarMenu(
@@ -32,9 +31,9 @@ sidebar <- dashboardSidebar(
     menuItem("Dashboard", tabName = "dashboard", icon = icon("dashboard")),
     menuItem("Goals of Growing SLC", tabName = "goals", icon = icon("road")),
     br()
-    
   )
 ),
+
 # welcome page design ####
 body <- dashboardBody( 
   # Dashboard favicon and title
@@ -70,15 +69,14 @@ body <- dashboardBody(
      ),
     
     
-    # create dashboard boxes ####
+# design dashboard page ####
+    # dashboard header and intro text####
     tabItem(tabName = "dashboard",
-
            fluidRow(box(class = "dashboardHeader", width = 12,
                         h1(class = "boxText", class = "headerText", "DASHBOARD "),
                         h2(class = "boxText", "GROWING PAINS & HOUSING GAINS:"),
                         h2(class = "boxText", "A LOOK AT LONG-TERM HOUSING FOR EVERYONE")
             )),
-            # insert texts for "growing pains" ####
             fluidRow(
               column(width = 12,
               p("Salt Lake City’s housing market has been experiencing a boom since the end of the Great Recession. However, even with a large increase in construction, vacancy rates are at an all-time low, driving up housing prices across the city.  
@@ -201,7 +199,6 @@ body <- dashboardBody(
               )
             ),
             br(),br(), br(),
-
             # create a box for historical vacancy rates ####
             fluidRow(
               column(width = 12,
@@ -248,7 +245,7 @@ body <- dashboardBody(
             )
           ),
           br(),br(), br(),
-          # create a box for income affordability chart ####
+          # create 2 boxes for income affordability charts ####
           fluidRow(
             column(width = 12,
                    fluidRow(
@@ -263,7 +260,6 @@ body <- dashboardBody(
             )
           ),
           br(),br(), br(),
-          # create a box for income affordability chart2 ####
           fluidRow(
             column(width = 12,
                    box(highchartOutput("plot17", height=400), width=NULL),
@@ -374,11 +370,11 @@ body <- dashboardBody(
              box(highchartOutput("graph4", height = 400)),
              box(highchartOutput("graph5", height = 400)),
              p("Datasource: BBC Housing Market Study 2016")
-             )
-   )
-    ),
+             ))
+       ),
    # design "goals" page ####
     tabItem(tabName = "goals",
+            # goals page header####
            fluidRow(box(class = "goalsHeader", width = 12,
                         br(),
                         br(),
@@ -389,65 +385,61 @@ body <- dashboardBody(
             )),
             fluidRow(
               column(width=10,
-             
+                # goal 1 texts, objectives texts and tables"####     
                 h2("Goal 1: INCREASE HOUSING OPTIONS: REFORM CITY PRACTICES TO PROMOTE A RESPONSIVE, AFFORDABLE, HIGH-OPPORUNITY HOUSING MARKET", class = "goalsTitle"),
-             
-              p("In order to respond to Salt Lake City’s changing demographics and the housing needs of its diverse communities, it is critical to begin to look within the City for real and responsive change that will encourage the market to develop the housing and infrastructure needed to accommodate our growing community. This goal focuses on the need to increase the diversity of housing types and opportunities in the city by seeking policy reforms that can enhance the flexibility of the land-use code and create an efficient and predictable development process for community growth. Strategic policy decisions that integrate the transportation system, development related infrastructure, financial institutions, and data, as well as innovative design and construction methods,
-                can break down social and economic segregation, thus building a city for everyone."),
-              p(class = "objective", "Objective 1: Review and modify land-use and zoning regulations to reflect the affordability needs of a growing, pioneering city"),
-              tableOutput("goal11"),  class = "styleAttribute",
-              p(class = "objective", "Objective 2: Remove impediments in City processes to encourage housing development."),
-              tableOutput("goal12"),
-              p(class = "objective", "Objective 3: Lead in the construction of innovative housing solutions."),
-              tableOutput("goal13"),
-              p(class = "objective", "Objective 4: Provide residents, community advocates, business leaders, and elected officials with high-quality data to drive decision-making."),
-              tableOutput("goal14"),
-                       h2("Goal 2: AFFORDABLE HOUSING: INCREASE HOUSING OPPORTUNITIES AND STABILITY FOR COST-BURDENED HOUSEHOLDS", class = "goalsTitle"),
-              
-                       p("This goal is dedicated to serving and addressing the needs of those most vulnerable in our community. It is driven by a strong belief that housing stability is good for the entire city, adding income to small businesses, creating food stability for children, and allowing residents to enrich their neighborhoods. Salt Lake City needs to pursue a combination of strategies outlined in the objectives below to achieve this goal.
-                        There is no singular initiative that will resolve this crisis, 
-                         it must be addressed with a range of strategies to best fit the diverse needs of our entire community."),
-                       p(class = "objective", "Objective 1: Prioritize the development of new affordable housing with an emphasis on households earning 40% AMI and below."),
-                       tableOutput("goal21"),
-                       p(class = "objective", "Objective 2: Pursue funding for affordable housing opportunities."),
-                       tableOutput("goal22"),
-                       p(class = "objective", "Objective 3: Stabilize very low-income renters."),
-                       tableOutput("goal23"),
-                       p(class = "objective", "Objective 4: Secure and preserve long-term affordability."),
-                       tableOutput("goal24"),
-                       p(class = "objective", "Objective 5: Work with landlords to improve their housing stock and rent to very low-income households earning 40% AMI and below."),
-                       tableOutput("goal25"),
-                       p(class = "objective", "Objective 6: Increase home ownership opportunities."),
-                       tableOutput("goal26"),
-            
-                       h2("Goal 3: EQUITABLE & FAIR HOUSING: BUILD A MORE EQUITABLE CITY", class = "goalsTitle"),
-              
-                       p("Equity is not only about eliminating discrimination, 
-                         it is also about increasing access to opportunity. 
-                         One of the guiding principles of Plan Salt Lake is to create an equitable city by ensuring 
-                         “access to all city amenities for all citizens while treating everyone equitably with fairness, 
-                         justice, and respect.” The City will accomplish this by working to eliminate housing discrimination, 
-                         strategically investing in neighborhoods that stand the most to gain, and building a city that meets needs of a 
-                         diverse population."),
-                       p(class = "objective", "Objective 1: Eliminate incidences of housing discrimination in Salt Lake City."),
+                p("In order to respond to Salt Lake City’s changing demographics and the housing needs of its diverse communities, 
+                  it is critical to begin to look within the City for real and responsive change that will encourage the market to 
+                  develop the housing and infrastructure needed to accommodate our growing community. This goal focuses on the need 
+                  to increase the diversity of housing types and opportunities in the city by seeking policy reforms that can 
+                  enhance the flexibility of the land-use code and create an efficient and predictable development process for community growth. 
+                  Strategic policy decisions that integrate the transportation system, development related infrastructure, financial institutions, 
+                  and data, as well as innovative design and construction methods, can break down social and economic segregation, thus building a city for everyone."),
+                  p(class = "objective", "Objective 1: Review and modify land-use and zoning regulations to reflect the affordability needs of a growing, pioneering city"),
+                    tableOutput("goal11"),  class = "styleAttribute",
+                  p(class = "objective", "Objective 2: Remove impediments in City processes to encourage housing development."),
+                    tableOutput("goal12"),
+                  p(class = "objective", "Objective 3: Lead in the construction of innovative housing solutions."),
+                    tableOutput("goal13"),
+                  p(class = "objective", "Objective 4: Provide residents, community advocates, business leaders, and elected officials with high-quality data to drive decision-making."),
+                    tableOutput("goal14"),
+                 # goal 2 texts, objectives texts and tables"####
+                 h2("Goal 2: AFFORDABLE HOUSING: INCREASE HOUSING OPPORTUNITIES AND STABILITY FOR COST-BURDENED HOUSEHOLDS", class = "goalsTitle"),
+                 p("This goal is dedicated to serving and addressing the needs of those most vulnerable in our community. 
+                    It is driven by a strong belief that housing stability is good for the entire city, adding income to 
+                    small businesses, creating food stability for children, and allowing residents to enrich their neighborhoods. 
+                    Salt Lake City needs to pursue a combination of strategies outlined in the objectives below to achieve this goal.
+                    There is no singular initiative that will resolve this crisis, it must be addressed with a range of strategies 
+                    to best fit the diverse needs of our entire community."),
+                    p(class = "objective", "Objective 1: Prioritize the development of new affordable housing with an emphasis on households earning 40% AMI and below."),
+                      tableOutput("goal21"),
+                    p(class = "objective", "Objective 2: Pursue funding for affordable housing opportunities."),
+                      tableOutput("goal22"),
+                    p(class = "objective", "Objective 3: Stabilize very low-income renters."),
+                      tableOutput("goal23"),
+                    p(class = "objective", "Objective 4: Secure and preserve long-term affordability."),
+                      tableOutput("goal24"),
+                    p(class = "objective", "Objective 5: Work with landlords to improve their housing stock and rent to very low-income households earning 40% AMI and below."),
+                      tableOutput("goal25"),
+                    p(class = "objective", "Objective 6: Increase home ownership opportunities."),
+                      tableOutput("goal26"),
+                  # goal 3 texts, objectives texts and tables"####
+                  h2("Goal 3: EQUITABLE & FAIR HOUSING: BUILD A MORE EQUITABLE CITY", class = "goalsTitle"),
+                  p("Equity is not only about eliminating discrimination, it is also about 
+                     increasing access to opportunity. One of the guiding principles of 
+                     Plan Salt Lake is to create an equitable city by ensuring 
+                     “access to all city amenities for all citizens while treating everyone equitably 
+                     with fairness, justice, and respect.” The City will accomplish this by working to 
+                     eliminate housing discrimination, strategically investing in neighborhoods that 
+                     stand the most to gain, and building a city that meets needs of a diverse population."),
+                     p(class = "objective", "Objective 1: Eliminate incidences of housing discrimination in Salt Lake City."),
                        tableOutput("goal31"),
-                       p(class = "objective", "Objective 2: Align resources and invest in strategic expansion of opportunity throughout all neighborhoods of the city and access to existing areas of opportunity."),
+                     p(class = "objective", "Objective 2: Align resources and invest in strategic expansion of opportunity throughout all neighborhoods of the city and access to existing areas of opportunity."),
                        tableOutput("goal32"),
-                      p(class = "objective", "Objective 3: Implement life cycle housing principles in neighborhoods throughout the city."),
-                      tableOutput("goal33")
+                     p(class = "objective", "Objective 3: Implement life cycle housing principles in neighborhoods throughout the city."),
+                       tableOutput("goal33")
               )
-#              ,
-              
-              
-#              withTags({
- #               div(class="header", checked=NA,
-  #                p("Want to check out the plan?" , a("Click Here",target="_blank",href="http://www.slcdocs.com/hand/Growing_SLC_Final_Attachments.pdf"))
-                    
-   #             )
-    #          })
               )
             )
-            
     )
     )
     )
@@ -475,7 +467,6 @@ server <- function(input, output) {
       hc_add_series(data=c(subset(multi, `Project Name` == "total")$`Affordable Units`, 
                            subset(multi,`Project Name` == "total")$`Multifamily Units Total`), 
                     type="column", name="Multifamily units" ) %>%
-      
       print(multifamily_plot)
   })
   # create a column chart for new residential units ####
@@ -521,7 +512,6 @@ server <- function(input, output) {
       print(yearly_construction_trend)  
   })
   # create a bar chart for rent by neighborhood ####
- # neighborhoodRent <- readRDS("Data/rds/neighborhoodRent.rds")
   output$plot5<-renderHighchart({
     rent_plot<-highchart() %>%
       hc_chart(type="bar") %>%
@@ -615,6 +605,7 @@ server <- function(input, output) {
       print(ownerRenter2)
   }
   )
+  
   rentersUnitsRatio <- readRDS("Data/rds/rentersUnitsRatio.rds")
   output$plot13<-renderHighchart({ 
     ownerRenter3<-highchart()%>%
@@ -639,7 +630,6 @@ server <- function(input, output) {
       hc_series(list(name ="Salt Lake City", colorByPoint=TRUE, colors=c("#FBAA20","#2EADC5","#36B885","#315C5F","#2A3236"),
                      data=houseAge$percentage, dataLabels=list(enabled=TRUE,format= "{point.y}%"))
                 )
-    
     print(age)
   }
   )
@@ -800,7 +790,7 @@ server <- function(input, output) {
            dollar(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]), 
            ". Therefore, a household with income below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .3), " would be considered cost-burdened. Below ", dollar(as.numeric(neighborhoodRent$a_rent[which(neighborhoodRent$neighboarhood==input$neighborhood_type)]) * 12 / .5), " would be severely rent burdened.")
   })
-# Goal 1  
+# Goal 1 #### 
  output$goal11 <- function() {
    Goal11 %>%
      knitr::kable("html") %>%
@@ -833,7 +823,7 @@ server <- function(input, output) {
      column_spec(1, width = "10em") %>%
      column_spec(3, width = "30em") 
  }
- #Goal 2 
+ #Goal 2 #### 
  output$goal21 <- function() {
    Goal21 %>%
      knitr::kable("html") %>%
@@ -882,7 +872,7 @@ server <- function(input, output) {
      column_spec(1, width = "10em") %>%
      column_spec(3, width = "30em") 
  }
- #Goal 3
+ #Goal 3 #### 
  output$goal31 <- function() {
    Goal31 %>%
      knitr::kable("html") %>%
