@@ -111,7 +111,7 @@ body <- dashboardBody(
                         investments to help expand the opportunities throughout the city."),
                         p("This map displays a 
                         variety of indicators that are important in guiding these investments, including employment rate, 
-                         income level, household cost burden, rate of homeownership, and educational attainment."),
+                         income level, household cost burden, rate of homeownership, and educational attainment. 2 represents low areas of opportunity, and 8 represents high areas of opportunity."),
               box(opportunity_index_map,width = NULL)
             )),
             # 3 boxes for housing type by tenure charts ####
